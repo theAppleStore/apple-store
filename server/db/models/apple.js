@@ -6,6 +6,9 @@ const Apple = db.define('apple', {
     type: Sequelize.STRING,
     allowNull: false
   },
+  image: {
+    type: Sequelize.STRING,
+  },
   price: {
     type: Sequelize.INTEGER
   },
