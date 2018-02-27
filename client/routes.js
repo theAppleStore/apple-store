@@ -20,7 +20,11 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
+        <Route path="/signup" component={Signup}
+         />
+         {/* green and red apple routes (names can be changed when merge)*/}
+         <Route path="/greenApples" component={GreenApples} />
+         <Route path="/redApples" component={RedApple} />
         {
           isLoggedIn &&
             <Switch>
