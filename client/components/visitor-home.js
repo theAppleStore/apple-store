@@ -21,10 +21,10 @@ export const VisitorHome = props => {
       </div>
 
       <div className="categories">
-        <NavLink className="category-product" to="/greenApples">
+        <NavLink className="category-product" to="/apples">
           <img src="/images/category-greenApple.png" />
         </NavLink>
-        <NavLink className="category-product" to="/redApples">
+        <NavLink className="category-product" to="/apples">
           <img src="/images/category-redApple.png" />
         </NavLink>
       </div>

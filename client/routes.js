@@ -4,10 +4,12 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, VisitorHome} from './components'
 import {me} from './store'
+import AllApples from './components/allapples'
 
 /**
  * COMPONENT
  */
+
 class Routes extends Component {
   componentDidMount () {
     this.props.loadInitialData()
@@ -20,13 +22,9 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup}
-         />
-          {/* homepage for visitor*/}
-         <Route path="/" component={VisitorHome} />
-         {/* green and red apple routes (names can be changed when merge)*/}
-         <Route path="/greenApples"  />
-         <Route path="/redApples"  />
+        <Route path="/signup" component={Signup} />
+        <Route path= "/apples" component={AllApples}/>
+        <Route path= "/" component={VisitorHome}/>
         {
           isLoggedIn &&
             <Switch>
