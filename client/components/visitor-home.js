@@ -7,7 +7,6 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { Navbar } from './navbar';
 
 /**
  * COMPONENT
@@ -17,7 +16,6 @@ export const VisitorHome = props => {
 
   return (
     <div>
-      <Navbar />
       <div className="banner-welcome">
         <h1>Welcome!</h1>
       </div>
@@ -33,6 +31,8 @@ export const VisitorHome = props => {
     </div>
   );
 };
+
+
 
 /**
  * CONTAINER

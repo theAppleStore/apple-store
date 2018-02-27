@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome} from './components'
+import {Login, Signup, UserHome, VisitorHome} from './components'
 import {me} from './store'
 
 /**
@@ -22,9 +22,11 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup}
          />
+          {/* homepage for visitor*/}
+         <Route path="/" component={VisitorHome} />
          {/* green and red apple routes (names can be changed when merge)*/}
-         <Route path="/greenApples" component={GreenApples} />
-         <Route path="/redApples" component={RedApple} />
+         <Route path="/greenApples"  />
+         <Route path="/redApples"  />
         {
           isLoggedIn &&
             <Switch>
