@@ -4,13 +4,24 @@ const db = require('../db')
 
 const User = db.define('user', {
   firstName: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: 'Steve'
   },
   lastName: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: 'Jobs'
   },
   isAdmin: {
-    type: Sequelize.BOOLEAN
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
+  shipping: {
+    type: Sequelize.STRING
+  },
+  phone: {
+    type: Sequelize.STRING
   },
   email: {
     type: Sequelize.STRING,
