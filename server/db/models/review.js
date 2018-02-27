@@ -9,7 +9,7 @@ const Review = db.define('review', {
   subjectField: {
     type: Sequelize.STRING,
     // defaultValue: function(){
-    //   return this.getDataValue('text').slice(0,25) + '...'
+    //   return Review.getDataValue('text').slice(0,25) + '...'
     // }
   }
 })
