@@ -223,9 +223,9 @@ function buildingOrders(){
     return Promise.all(orders.map(order => Order.create(order)));
 }
 
-// function buildingLineItems(){
-//     return Promise.all(lineItems.map(item => LineItem.create(item)));
-// }
+function buildingLineItems(){
+    return Promise.all(lineItems.map(item => LineItem.create(item)));
+}
 
 function buildingReviews(){
     return Promise.all(reviews.map(review => Review.create(review)));
@@ -235,7 +235,7 @@ function seed(){
     return buildingUsers()
     .then(() => buildingApples())
     .then(() => buildingOrders())
-    // .then(() => buildingLineItems())
+    .then(() => buildingLineItems())
     .then(() => buildingReviews());
 }
 

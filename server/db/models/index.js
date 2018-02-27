@@ -37,5 +37,6 @@ module.exports = {
   User, 
   Apple,
   Order,
-  Review
+  Review,
+  LineItem
 }
