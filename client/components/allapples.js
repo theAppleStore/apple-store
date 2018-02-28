@@ -13,11 +13,11 @@ class AllApples extends React.Component {
     this.props.mountApples();
   }
   render () {
-    console.log(this.props);
+    console.log('ALLAPPLES',this.props.apples);
     return (
       <div>
         <h1>All Apples</h1>
-         
+
         <ul className = 'apple-list'>
         {this.props.apples.map(apple => (
            <ul key={apple.id}>
