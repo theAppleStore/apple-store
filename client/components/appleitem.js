@@ -16,4 +16,4 @@ export default class AppleItem extends React.Component {
                 <button>{apple.name}</button>
            </div>
         )}
-        }
+    }
