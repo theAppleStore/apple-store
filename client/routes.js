@@ -9,6 +9,7 @@ import SingleUser from './components/single-user'
 import SingleOrder from './components/single-order'
 import AllUsers from './components/all-users'
 import VisitorHome from './components/visitor-home'
+import AllOrders from './components/all-orders'
 
 /**
  * COMPONENT
@@ -33,7 +34,9 @@ class Routes extends Component {
         <Route path="/greenapples" component={AllApples} />
         <Route path="/redapples" component={AllApples} />
         <Route path="/users/:id" component={SingleUser} />
+        <Route exact path="/orders" component={AllOrders} />
         <Route path="/orders/:id" component={SingleOrder} />
+      
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
