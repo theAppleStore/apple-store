@@ -9,6 +9,20 @@ import store, {fetchUser} from '../store'
 class EditProfile extends Component {
   constructor(props){
     super(props)
+    const {user} = props
+    this.state = {
+      // firstNameInput: user.firstName,
+      // lastNameInput: user.lastName,
+      // emailInput: user.email,
+      // shippingInput: user.shipping,
+      // phoneInput: user.phone, 
+      firstNameInput: '',
+      lastNameInput: '',
+      emailInput: '',
+      shippingInput: '',
+      phoneInput: '',
+    }
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount(){
@@ -16,14 +30,54 @@ class EditProfile extends Component {
     this.props.fetchUser(id)
   }
 
+  handleChange(event){
+    const form = event.target.parentNode
+    this.setState({
+      firstNameInput: form.firstName.value,
+      lastNameInput: form.lastName.value,
+      emailInput: form.email.value,
+      shippingInput: form.shipping.value,
+      phoneInput: form.phone.value, 
+    })
+  }
+
   render(){
     const {user} = this.props
+    const {firstNameInput, lastNameInput, emailInput, shippingInput, phoneInput} = this.state
     return (
       <div>
         <h2> Edit Profile </h2>
-        {user.firstName}
         <form>
-
+          <h3> First Name: </h3>
+          <input 
+            value={firstNameInput}
+            name="firstName"
+            onChange={this.handleChange}
+          />
+          <h3> Last Name: </h3>
+          <input
+            value={lastNameInput}
+            name="lastName"
+            onChange={this.handleChange}            
+          />
+          <h3> Email: </h3>
+          <input
+            value={emailInput}
+            name="email"
+            onChange={this.handleChange}
+          />
+          <h3> Shipping Address: </h3>
+          <input
+            value={shippingInput}
+            name="shipping"
+            onChange={this.handleChange}
+          />
+          <h3> Phone Number: </h3>
+          <input
+            value={phoneInput}
+            name="phone"
+            onChange={this.handleChange}
+          />
         </form>
       </div>
     )
