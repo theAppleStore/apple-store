@@ -4,55 +4,38 @@ import history from '../history'
 /**
  * ACTION TYPES
  */
-const FIND_ORDER = 'FIND_ORDER';
-const UPDATE_ORDER = 'UPDATE_ORDER';
+const FIND_ALL = 'FIND_ALL';
 
 /**
  * INITIAL STATE
  */
-const order = {}
+const orders = []
 
 /**
  * ACTION CREATORS
  */
-const findOrder = foundOrder => ({ type: FIND_ORDER, foundOrder })
-const updateOrder = order => ({type: UPDATE_ORDER, order})
+const findAllOrders = found => ({ type: FIND_ALL, found })
 
 /**
  * THUNK CREATORS
  */
 
-export const fetchOrder = (id) =>
+export const fetchAllOrders = () =>
   dispatch =>
-    axios.get(`/api/orders/${id}`)
-      .then(res => 
-        dispatch(findOrder(res.data)))
+    axios.get(`/api/orders`)
+      .then(res => {
+        dispatch(findAllOrders(res.data))
+      })
       .catch(err => console.log(err))
-
-export function editOrder(id, changedOrder){
-    return function thunk(dispatch){
-        return axios.put(`/api/orders/${id}`, changedOrder)
-        .then(res => {
-            console.log(res.data)
-            return res.data
-        })
-        .then(order => {
-            dispatch(updateOrder(order));
-        })
-        .catch(err => console.log(err))
-    }
-}
 
 
 /**
  * REDUCER
  */
-export default function (state = order, action) {
+export default function (state = orders, action) {
   switch (action.type) {
-    case FIND_ORDER:
-      return action.foundOrder
-    case UPDATE_ORDER:
-        return action.order
+    case FIND_ALL:
+      return action.found
     default:
       return state
   }

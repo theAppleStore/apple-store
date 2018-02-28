@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome} from './components'
+import {Login, Signup, UserHome, VisitorHome} from './components'
 import {me} from './store'
 import AllApples from './components/allapples'
 import SingleUser from './components/single-user'
@@ -10,6 +10,8 @@ import SingleOrder from './components/single-order'
 import AllUsers from './components/all-users'
 import VisitorHome from './components/visitor-home'
 import EditProfile from './components/edit-user'
+import AllOrders from './components/all-orders'
+import SingleApple from "./components/singleapple";
 
 /**
  * COMPONENT
@@ -27,15 +29,17 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/" component={VisitorHome} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/signup" component={Signup} />
-        <Route exact path= "/apples" component={AllApples}/>
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
+        <Route path="/apples/:id" component = {SingleApple}/>
+        <Route path= "/apples" component={AllApples}/>
         <Route exact path="/users" component={AllUsers} />
-        <Route path="/greenapples" component={AllApples} />
-        <Route path="/redapples" component={AllApples} />
-        <Route path="/users/:id/edit" component={EditProfile} />
+        <Route path = "/users/:id/edit" component = { EditProfile } />
         <Route path="/users/:id" component={SingleUser} />
+        <Route exact path="/orders" component={AllOrders} />
         <Route path="/orders/:id" component={SingleOrder} />
+        <Route path="/apples/:category" component={AllApples} />
+      
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
