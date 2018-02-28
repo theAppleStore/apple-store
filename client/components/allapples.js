@@ -10,7 +10,7 @@ class AllApples extends React.Component {
     this.renderApples = this.renderApples.bind(this);
   }
   componentDidMount() {
-    console.log("HI");
+    console.log(this.props.path)
     this.props.mountApples();
   }
 
@@ -51,8 +51,8 @@ const mapStateToProps = function(state, ownProps) {
 
 const mapDispatchToProps = function(dispatch) {
   return {
-    mountApples: function() {
-      dispatch(fetchApples());
+    mountApples: function(category) {
+      dispatch(fetchApples(category));
     }
   };
 };
