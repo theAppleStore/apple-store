@@ -15,15 +15,9 @@ class AllApples extends React.Component {
   }
 
   renderApples(category) {
-let filteredList;
-    if (category === 'all') {
-      console.log('RENDER ALL')
-      filteredList = this.props.apples
-    }
-    filteredList = this.props.apples.filter(
+    let filteredList = this.props.apples.filter(
       apple => apple.category === category
     );
-    console.log('filteredLIst', filteredList)
     return (
       <div>
         <h1>{category} Apples</h1>
@@ -38,16 +32,20 @@ let filteredList;
     );
   }
   render() {
-    console.log("ALLAPPLES", this.props);
-    return <div>{this.props.currentCategory && this.renderApples(this.props.currentCategory)}</div>;
+    return (
+      <div>
+        {this.props.path === "/greenapples"
+          ? this.renderApples("green")
+          : this.renderApples("red")}
+      </div>
+    );
   }
 }
 
-const mapStateToProps = function(state) {
-  console.log(state);
+const mapStateToProps = function(state, ownProps) {
   return {
     apples: state.apples,
-    currentCategory: state.currentCategory
+    path: ownProps.match.url
   };
 };
 

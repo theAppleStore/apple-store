@@ -12,55 +12,55 @@ import store, { fetchApples, setCurrentCategory } from "../store";
 /**
  * COMPONENT
  */
-class VisitorHome extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
+export function VisitorHome() {
+  // constructor(props) {
+  //   super(props);
+  //   this.handleClick = this.handleClick.bind(this);
+  // }
 
-  handleClick(evt) {
-    this.props.setCategory(evt.target.name);
-  }
+  // handleClick(evt) {
+  //   this.props.setCategory(evt.target.name);
+  // }
 
-  render() {
+  // render() {
 
     return (
-      <div>
+<div>
         <div className="banner-welcome">
           <h1>Welcome!</h1>
         </div>
 
         <div className="categories">
-          <div onClick={this.handleClick} className="category-green">
-            <NavLink className="category-product" to="/apples">
+
+            <NavLink className="category-product" to="/greenapples">
               <img name="green" src="/images/category-greenApple.png" />
             </NavLink>
-          </div>
 
-          <div onClick={this.handleClick} className="category-red">
-            <NavLink className="category-product" to="/apples">
+
+
+            <NavLink className="category-product" to="/redapples">
               <img name="red" src="/images/category-redApple.png" />
             </NavLink>
-          </div>
+
         </div>
-      </div>
+</div>
     );
-  }
+  // }
 }
 
 /**
  * CONTAINER
  */
 
-const mapDispatchToProps = function(dispatch) {
-  return {
-    setCategory: function(category) {
-      dispatch(setCurrentCategory(category));
-    }
-  };
-};
+// const mapDispatchToProps = function(dispatch) {
+//   return {
+//     setCategory: function(category) {
+//       dispatch(setCurrentCategory(category));
+//     }
+//   };
+// };
 
-export default connect(null, mapDispatchToProps)(VisitorHome);
+export default connect(null, null)(VisitorHome);
 
 /**
  * PROP TYPES
