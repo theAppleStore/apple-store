@@ -9,8 +9,8 @@ class AllApples extends React.Component {
     super(props);
     this.renderApples = this.renderApples.bind(this);
   }
+  
   componentDidMount() {
-    console.log(this.props.path)
     this.props.mountApples();
   }
 

@@ -24,7 +24,7 @@ export function fetchApples(category){
     return function thunk(dispatch){
         let path = '/api/apples';
         if(category){
-            path = `/api/apples/${category}`
+            path = `/api/apples/type/${category}`
         }
         return axios.get(path)
         .then(res => res.data)
