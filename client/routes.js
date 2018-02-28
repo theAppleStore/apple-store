@@ -6,6 +6,7 @@ import {Login, Signup, UserHome} from './components'
 import {me} from './store'
 import AllApples from './components/allapples'
 import SingleUser from './components/single-user'
+import SingleOrder from './components/single-order'
 import AllUsers from './components/all-users'
 import VisitorHome from './components/visitor-home'
 
@@ -32,6 +33,7 @@ class Routes extends Component {
         <Route path="/greenapples" component={AllApples} />
         <Route path="/redapples" component={AllApples} />
         <Route path="/users/:id" component={SingleUser} />
+        <Route path="/orders/:id" component={SingleOrder} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
