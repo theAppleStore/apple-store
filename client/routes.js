@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome} from './components'
+import {Login, Signup, UserHome, VisitorHome} from './components'
 import {me} from './store'
 import AllApples from './components/allapples'
 import SingleUser from './components/single-user'
@@ -10,6 +10,7 @@ import SingleOrder from './components/single-order'
 import AllUsers from './components/all-users'
 import VisitorHome from './components/visitor-home'
 import AllOrders from './components/all-orders'
+import SingleApple from "./components/singleapple";
 
 /**
  * COMPONENT
@@ -29,6 +30,7 @@ class Routes extends Component {
         <Route exact path="/" component={VisitorHome} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="/apples/:id" component = {SingleApple}/>
         <Route path= "/apples" component={AllApples}/>
         <Route exact path="/users" component={AllUsers} />
         <Route path="/users/:id" component={SingleUser} />

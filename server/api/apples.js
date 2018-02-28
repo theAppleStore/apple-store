@@ -10,7 +10,14 @@ router.get("/", function(req, res, next){
     .catch(next);
  });
 
- router.get('/:category', (req, res, next) => {
+ router.get('/:id', function (req,res,next){
+    Apples.findById(req.params.id)
+    .then(Apples => res.json(Apples))
+    .catch(next);
+});
+
+
+ router.get('/type/:category', (req, res, next) => {
      Apples.findAll({where: {
          category: req.params.category
      }})
