@@ -18,7 +18,7 @@ export function getApples(apples) {
    }
 }
 
-//thunk 
+//thunk
 
 export function fetchApples(){
     return function thunk(dispatch){
