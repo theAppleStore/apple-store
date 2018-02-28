@@ -29,13 +29,13 @@ class Routes extends Component {
         <Route exact path="/" component={VisitorHome} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="/apples/type/:category" component={AllApples} />
         <Route path="/apples/:id" component = {SingleApple}/>
         <Route path= "/apples" component={AllApples}/>
         <Route exact path="/users" component={AllUsers} />
         <Route path="/users/:id" component={SingleUser} />
         <Route exact path="/orders" component={AllOrders} />
         <Route path="/orders/:id" component={SingleOrder} />
-        <Route path="/apples/type/:category" component={AllApples} />
       
         {isLoggedIn && (
           <Switch>
