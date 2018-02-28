@@ -10,7 +10,6 @@ class AllApples extends React.Component {
     this.renderApples = this.renderApples.bind(this);
   }
   componentDidMount() {
-    console.log("HI");
     this.props.mountApples();
   }
 
