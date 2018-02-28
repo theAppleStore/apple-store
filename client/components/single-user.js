@@ -56,12 +56,7 @@ class SingleUser extends Component {
 /**
  * CONTAINER
  */
-const mapState = (state) => {
-  return {
-    user: state.userProfile
-  }
-}
-
+const mapState = ({userProfile}) => ({user: userProfile})
 const mapProps = {fetchUser}
 
 export default connect(mapState, mapProps)(SingleUser)
@@ -70,5 +65,6 @@ export default connect(mapState, mapProps)(SingleUser)
  * PROP TYPES
  */
 SingleUser.propTypes = {
-  user: PropTypes.object
+  user: PropTypes.object,
+  fetchUser: PropTypes.func
 }

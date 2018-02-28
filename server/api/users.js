@@ -22,3 +22,17 @@ router.get('/:userId', (req, res, next) => {
     .then(user => res.json(user))
     .catch(next)
 })
+
+router.put('/:userId', (req, res, next) => {
+  const {userId} = req.params
+  User.update(req.body, {
+    where: {
+      id: userId
+    },
+    returning: true
+  })
+    .spread((updatedCount, [updatedUser]) => {
+      res.json(updatedUser)
+    })
+    .catch(next)
+})

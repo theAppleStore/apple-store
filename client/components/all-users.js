@@ -26,7 +26,6 @@ class AllUsers extends Component {
   }
   
   render(){
-    // const {users} = this.props
     const users = this.props.users.filter(user => 
       user.firstName.match(this.state.inputValue)
     )
@@ -58,10 +57,7 @@ class AllUsers extends Component {
 }
 
 /* CONTAINER */
-const mapState = (state) => {
-  console.log(state)
-  return {users: state.users}
-}
+const mapState = ({users}) => ({users})
 const mapProps = {fetchUsers}
 
 export default connect(mapState, mapProps)(AllUsers)

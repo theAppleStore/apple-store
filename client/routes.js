@@ -8,6 +8,7 @@ import AllApples from './components/allapples'
 import SingleUser from './components/single-user'
 import AllUsers from './components/all-users'
 import VisitorHome from './components/visitor-home'
+import EditProfile from './components/edit-user'
 
 /**
  * COMPONENT
@@ -25,12 +26,13 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/" component={VisitorHome} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        <Route path= "/apples" component={AllApples}/>
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Signup} />
+        <Route exact path= "/apples" component={AllApples}/>
         <Route exact path="/users" component={AllUsers} />
         <Route path="/greenapples" component={AllApples} />
         <Route path="/redapples" component={AllApples} />
+        <Route path="/users/:id/edit" component={EditProfile} />
         <Route path="/users/:id" component={SingleUser} />
         {isLoggedIn && (
           <Switch>
