@@ -1,11 +1,13 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter, Route, Switch } from "react-router-dom";
-import PropTypes from "prop-types";
-import { Login, Signup, UserHome, VisitorHome } from "./components";
-import { me } from "./store";
-import AllApples from "./components/allapples";
-import SingleUser from "./components/single-user";
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {withRouter, Route, Switch} from 'react-router-dom'
+import PropTypes from 'prop-types'
+import {Login, Signup, UserHome} from './components'
+import {me} from './store'
+import AllApples from './components/allapples'
+import SingleUser from './components/single-user'
+import AllUsers from './components/all-users'
+import VisitorHome from './components/visitor-home'
 
 /**
  * COMPONENT
@@ -22,11 +24,13 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route exact path="/" component={VisitorHome} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path= "/apples" component={AllApples}/>
+        <Route exact path="/users" component={AllUsers} />
         <Route path="/greenapples" component={AllApples} />
         <Route path="/redapples" component={AllApples} />
-        <Route path="/" component={VisitorHome} />
         <Route path="/users/:id" component={SingleUser} />
         {isLoggedIn && (
           <Switch>
