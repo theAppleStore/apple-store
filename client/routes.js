@@ -6,6 +6,7 @@ import { Login, Signup, UserHome, VisitorHome } from "./components";
 import { me } from "./store";
 import AllApples from "./components/allapples";
 import SingleUser from "./components/single-user";
+import SingleApple from "./components/singleapple";
 
 /**
  * COMPONENT
@@ -26,6 +27,7 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         <Route path="/greenapples" component={AllApples} />
         <Route path="/redapples" component={AllApples} />
+        <Route path="/apple/:id" component = {SingleApple}/>
         <Route path="/" component={VisitorHome} />
         <Route path="/users/:id" component={SingleUser} />
         {isLoggedIn && (

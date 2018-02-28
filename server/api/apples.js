@@ -10,3 +10,11 @@ router.get("/", function(req, res, next){
     })
     .catch(next);
  });
+
+ router.get('/:id', function (req,res,next){
+    Apples.findById(req.params.id)
+    .then(Apples => res.json(Apples))
+    .catch(next);
+});
+
+
