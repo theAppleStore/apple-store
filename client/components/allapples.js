@@ -1,47 +1,30 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import store, { fetchApples, fetchByCategory } from "../store";
+import store, { fetchApples } from "../store";
 import AppleItem from "./appleitem";
 
 class AllApples extends React.Component {
   constructor(props) {
     super(props);
-    // this.renderApples = this.renderApples.bind(this);
   }
 
   componentDidMount() {
-    console.log(this.props.match.params.category)
-    this.props.mountApples(this.props.match.params.category);
+    this.props.fetchApples(this.props.match.params.category);
   }
 
-  // renderApples(category) {
-  //   let filteredList = this.props.apples.filter(
-  //     apple => apple.category === category
-  //   );
-  //   return (
-  //     <div>
-  //       <h1>{category} Apples</h1>
-  //       <ul className="apple-list">
-  //         {filteredList.map(apple => (
-  //           <ul key={apple.id}>
-  //             <AppleItem apple={apple} />
-  //           </ul>
-  //         ))}
-  //       </ul>
-  //     </div>
-  //   );
-  // }
-
   render() {
-    // let redOrGreen = this.props.apples.filter(
-    //   apple => apple.category === category
-    // );
+    const apples = this.props.apples;
+    const category = this.props.match.params.category;
+    console.log(category)
     return (
       <div>
+        {category ? <h1>{`${category[0].toUpperCase() + category.slice(1)} Apples`}</h1> : <h1>All Apples</h1>}
         <ul>
-          {this.props.apples.map(apple => {
-            <li key={apple.id}><AppleItem apple={apple} /></li>
+          {apples && apples.map(apple => {
+            return(
+              <li key={apple.id}><AppleItem apple={apple} /></li>
+            )
           })}
         </ul>
       </div>
@@ -49,24 +32,13 @@ class AllApples extends React.Component {
   }
 }
 
-const mapStateToProps = function(state, ownProps) {
+const mapStateToProps = function(state) {
   return {
     apples: state.apples,
   };
 };
 
-const mapDispatchToProps = function(dispatch) {
-  return {
-    mountApples: function(category) {
-      dispatch(fetchApples(category));
-    }, 
-    // mountByCategory: function(category) {
-    //   dispatch(fetchByCategory(category))
-    // }
-  };
-};
+const mapDispatch = {fetchApples}
 
-const AllApplesContainer = connect(mapStateToProps, mapDispatchToProps)(
-  AllApples
-);
+const AllApplesContainer = connect(mapStateToProps, mapDispatch)(AllApples);
 export default AllApplesContainer;
