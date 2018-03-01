@@ -12,23 +12,38 @@ import store from "../store";
  * COMPONENT
  */
 export function VisitorHome() {
-  return (
-    <div>
-      <div className="banner-welcome">
-        <h1>Welcome!</h1>
-      </div>
+  // constructor(props) {
+  //   super(props);
+  //   this.handleClick = this.handleClick.bind(this);
+  // }
 
-      <div className="categories">
-        <NavLink className="category-product" to="/greenapples">
-          <img name="green" src="/images/category-greenApple.png" />
-        </NavLink>
+  // handleClick(evt) {
+  //   this.props.setCategory(evt.target.name);
+  // }
 
-        <NavLink className="category-product" to="/redapples">
-          <img name="red" src="/images/category-redApple.png" />
-        </NavLink>
+  // render() {
+
+    return (
+      <div>
+          <div className="banner-welcome">
+            <h1>Welcome!</h1>
+          </div>
+
+          <div className="categories">
+
+              <NavLink className="category-product" to="/apples/type/green">
+                <img name="green" src="/images/category-greenApple.png" />
+              </NavLink>
+
+
+
+              <NavLink className="category-product" to="/apples/type/red">
+                <img name="red" src="/images/category-redApple.png" />
+              </NavLink>
+
+          </div>
       </div>
-    </div>
-  );
+    );
   // }
 }
 

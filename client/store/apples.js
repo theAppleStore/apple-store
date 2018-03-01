@@ -20,14 +20,16 @@ export function getApples(apples) {
 
 //thunk
 
-export function fetchApples(){
+export function fetchApples(category){
     return function thunk(dispatch){
-        return axios.get('/api/apples')
+        let path = '/api/apples';
+        if(category){
+            path = `/api/apples/type/${category}`
+        }
+        return axios.get(path)
         .then(res => res.data)
-        .then(apples => {
-            console.log("HERE" + apples)
-            dispatch(getApples(apples))
-        })
+        .then(apples => dispatch(getApples(apples)))
+        .catch(err => console.log(err))
     }
 }
 

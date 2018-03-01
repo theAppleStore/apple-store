@@ -7,56 +7,38 @@ import AppleItem from "./appleitem";
 class AllApples extends React.Component {
   constructor(props) {
     super(props);
-    this.renderApples = this.renderApples.bind(this);
-  }
-  componentDidMount() {
-    this.props.mountApples();
   }
 
-  renderApples(category) {
-    let filteredList = this.props.apples.filter(
-      apple => apple.category === category
-    );
-    return (
-      <div>
-        <h1>{category} Apples</h1>
-        <ul className="apple-list">
-          {filteredList.map(apple => (
-            <ul key={apple.id}>
-              <AppleItem apple={apple} />
-            </ul>
-          ))}
-        </ul>
-      </div>
-    );
+  componentDidMount() {
+    this.props.fetchApples(this.props.match.params.category);
   }
+
   render() {
+    const apples = this.props.apples;
+    const category = this.props.match.params.category;
+    console.log(category)
     return (
       <div>
-        {this.props.path === "/greenapples"
-          ? this.renderApples("green")
-          : this.renderApples("red")}
+        {category ? <h1>{`${category[0].toUpperCase() + category.slice(1)} Apples`}</h1> : <h1>All Apples</h1>}
+        <ul>
+          {apples && apples.map(apple => {
+            return(
+              <li key={apple.id}><AppleItem apple={apple} /></li>
+            )
+          })}
+        </ul>
       </div>
     );
   }
 }
 
-const mapStateToProps = function(state, ownProps) {
+const mapStateToProps = function(state) {
   return {
     apples: state.apples,
-    path: ownProps.match.url
   };
 };
 
-const mapDispatchToProps = function(dispatch) {
-  return {
-    mountApples: function() {
-      dispatch(fetchApples());
-    }
-  };
-};
+const mapDispatch = {fetchApples}
 
-const AllApplesContainer = connect(mapStateToProps, mapDispatchToProps)(
-  AllApples
-);
+const AllApplesContainer = connect(mapStateToProps, mapDispatch)(AllApples);
 export default AllApplesContainer;
