@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import { VisitorHome } from './visitor-home';
+import VisitorHome from './visitor-home';
 /**
  * COMPONENT
  */
-export const UserHome = (props) => {
+const UserHome = (props) => {
   const {email} = props
 
   return (

@@ -1,18 +1,18 @@
 import React from "react";
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { UserHome } from "./user-home";
+import UserHome from "./user-home";
 
 /**
  * COMPONENT
  */
-const AdminHome = props => {
-  console.log('ADMIN HOME')
+export const AdminHome = props => {
+  console.log("ADMIN HOME");
   return (
     <div>
       <h1>ADMIN HOME!!!</h1>
-<UserHome />
+      <UserHome />
       <div className="add-category">
         <NavLink className="to-edit-category" to="/edit/category">
           <button>Add a category</button>
@@ -25,8 +25,8 @@ const AdminHome = props => {
 /**
  * CONTAINER
  */
-const mapState = null;
-export default connect(mapState)(AdminHome);
+// const mapState = null;
+// export default connect(mapState)(AdminHome);
 
 /**
  * PROP TYPES
