@@ -97,12 +97,16 @@ class EditProfile extends Component {
             name="phone"
             onChange={this.handleChange}
           />
-          <h3> User Privileges: 
-          <select onChange={this.handleSelect} name="isAdmin">
-            <option> Regular </option>
-            <option> Admin </option>
-          </select>
-          </h3>
+          {
+            authenticatedUser.isAdmin 
+            ? <h3> User Privileges: 
+              <select onChange={this.handleSelect} name="isAdmin">
+                <option> Regular </option>
+                <option> Admin </option>
+              </select>
+            </h3>
+            : null
+          }
           <button> Submit </button>
         </form>
       </div>

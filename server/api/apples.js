@@ -1,27 +1,25 @@
 const express = require("express");
 const router = express.Router();
-const Apples = require('../db/models/apple.js');
+const Apple = require('../db/models/apple.js');
 
 router.get("/", function(req, res, next){
-    Apples.findAll()
-    .then(function(allApples){
-     res.json(allApples);
-    })
+    Apple.findAll()
+    .then(allApples => res.json(allApples))
     .catch(next);
  });
 
  router.get('/:id', function (req,res,next){
-    Apples.findById(req.params.id)
-    .then(Apples => res.json(Apples))
+    Apple.findById(req.params.id)
+    .then(apple => res.json(apple))
     .catch(next);
 });
 
 
  router.get('/type/:category', (req, res, next) => {
-     Apples.findAll({where: {
+     Apple.findAll({where: {
          category: req.params.category
      }})
-     .then(apples => res.send(apples))
+     .then(apples => res.json(apples))
      .catch(next)
  })
 
