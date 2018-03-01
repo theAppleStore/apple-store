@@ -23,4 +23,6 @@ router.get("/", function(req, res, next){
      .catch(next)
  })
 
+ //posting new apple in the database
+
  module.exports = router;

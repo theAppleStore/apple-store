@@ -11,7 +11,8 @@ import AllUsers from "./components/all-users";
 import EditProfile from "./components/edit-user";
 import AllOrders from "./components/all-orders";
 import SingleApple from "./components/singleapple";
-import { AdminHome } from './components/admin-home';
+import { AdminHome } from "./components/admin-home";
+import { AddApple } from "./components/add-apple";
 /**
  *  COMPONENT
  */
@@ -33,13 +34,12 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         <Route path="/apples/type/:category" component={AllApples} />
         <Route path="/apples/:id" component={SingleApple} />
-        <Route path="/apples" component={AllApples} />
+        <Route exact path="/apples" component={AllApples} />
         <Route exact path="/users" component={AllUsers} />
         <Route path="/users/:id/edit" component={EditProfile} />
         <Route path="/users/:id" component={SingleUser} />
         <Route exact path="/orders" component={AllOrders} />
         <Route path="/orders/:userId" component={AllOrders} />
-
         {isLoggedIn &&
           !isAdmin && (
             <Switch>
@@ -52,6 +52,7 @@ class Routes extends Component {
           isAdmin && (
             <Switch>
               {/* Routes placed here are only available for Admin*/}
+              <Route exact path="/apples-edit" component={AddApple} />
               <Route path="/:userId" component={AdminHome} />
             </Switch>
           )}
