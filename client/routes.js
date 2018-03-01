@@ -13,7 +13,7 @@ import AllOrders from "./components/all-orders";
 import SingleApple from "./components/singleapple";
 import { AdminHome } from './components/admin-home';
 /**
- * COMPONENT
+ *  COMPONENT
  */
 
 class Routes extends Component {
