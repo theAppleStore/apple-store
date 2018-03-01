@@ -14,19 +14,34 @@ class AllApples extends React.Component {
   }
 
   render() {
-    const apples = this.props.apples;
+    const { apples, isAdmin } = this.props;
     const category = this.props.match.params.category;
-    console.log(category)
+    console.log(category);
     return (
       <div>
-        {category ? <h1>{`${category[0].toUpperCase() + category.slice(1)} Apples`}</h1> : <h1>All Apples</h1>}
-        <ul>
-          {apples && apples.map(apple => {
-            return(
-              <li key={apple.id}><AppleItem apple={apple} /></li>
-            )
-          })}
-        </ul>
+        {isAdmin && (
+          <div className="add-apple">
+            <button>Add Apple</button>
+          </div>
+        )}
+
+        <div className="apple-list">
+          {category ? (
+            <h1>{`${category[0].toUpperCase() + category.slice(1)} Apples`}</h1>
+          ) : (
+            <h1>All Apples</h1>
+          )}
+          <ul>
+            {apples &&
+              apples.map(apple => {
+                return (
+                  <li key={apple.id}>
+                    <AppleItem apple={apple} />
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
       </div>
     );
   }
@@ -35,10 +50,11 @@ class AllApples extends React.Component {
 const mapStateToProps = function(state) {
   return {
     apples: state.apples,
+    isAdmin: !!state.user.isAdmin
   };
 };
 
-const mapDispatch = {fetchApples}
+const mapDispatch = { fetchApples };
 
 const AllApplesContainer = connect(mapStateToProps, mapDispatch)(AllApples);
 export default AllApplesContainer;
