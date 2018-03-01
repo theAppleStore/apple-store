@@ -1,17 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import UserHome from "./user-home";
 import { NavLink } from "react-router-dom";
+import { UserHome } from "./user-home";
 
 /**
  * COMPONENT
  */
 const AdminHome = props => {
+  console.log('ADMIN HOME')
   return (
     <div>
       <h1>ADMIN HOME!!!</h1>
-      <UserHome />
+<UserHome />
       <div className="add-category">
         <NavLink className="to-edit-category" to="/edit/category">
           <button>Add a category</button>
@@ -30,6 +31,3 @@ export default connect(mapState)(AdminHome);
 /**
  * PROP TYPES
  */
-UserHome.propTypes = {
-  email: PropTypes.string
-};

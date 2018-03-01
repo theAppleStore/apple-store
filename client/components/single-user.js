@@ -11,6 +11,8 @@ import store, {fetchUser} from '../store'
 class SingleUser extends Component {
   constructor(props) {
     super(props)
+    this.renderAuthorizedUser.bind(this)
+    this.renderUnauthorizedUser.bind(this)
   }
 
   componentDidMount() {
@@ -19,7 +21,27 @@ class SingleUser extends Component {
   }
 
   render() {
-    const { user } = this.props
+    const {authorizedUser, user} = this.props
+    const loggedIn = Object.keys(authorizedUser).length
+    const profile = authorizedUser.isAdmin ? user : authorizedUser
+    return (
+      <div>
+      {
+        loggedIn 
+        ? this.renderAuthorizedUser(profile)
+        : this.renderUnauthorizedUser()
+      }
+      </div>
+    )
+  }
+
+  renderUnauthorizedUser(){
+    return (
+      <h2> Unathorized access </h2>
+    )
+  }
+
+  renderAuthorizedUser(user){
     return (
       <div>
         <h3>{user.firstName} {user.lastName}</h3>
@@ -30,24 +52,23 @@ class SingleUser extends Component {
 
         <h3> Orders: </h3>
         {
-          user.orders && user.orders.length === 0 
-          ? <h4> You have no past orders </h4>
-          : null
+          user.orders && user.orders.length === 0
+            ? <h4> You have no past orders </h4>
+            : null
         }
-        { user.orders &&
+        {user.orders &&
           user.orders.map(order => {
             return (
               <div key={order.id}>
-                <NavLink to={`/orders/${order.id}`}> 
-                  <div> Order #{order.id} </div> 
+                <NavLink to={`/orders/${order.id}`}>
+                  <div> Order #{order.id} </div>
                 </NavLink>
                 <div> Status: {order.status} </div>
                 <br></br>
-              </div> 
+              </div>
             )
           })
         }
-        
       </div>
     )
   }
@@ -56,7 +77,7 @@ class SingleUser extends Component {
 /**
  * CONTAINER
  */
-const mapState = ({userProfile}) => ({user: userProfile})
+const mapState = ({userProfile, user}) => ({user: userProfile, authorizedUser: user})
 const mapProps = {fetchUser}
 
 export default connect(mapState, mapProps)(SingleUser)

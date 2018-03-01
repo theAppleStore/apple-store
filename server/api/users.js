@@ -33,7 +33,7 @@ router.put('/:userId', (req, res, next) => {
     },
     returning: true
   })
-    .spread((updatedCount, [updatedUser]) => {
+    .then(([_, [updatedUser]]) => {
       res.json(updatedUser)
     })
     .catch(next)

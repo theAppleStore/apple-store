@@ -10,7 +10,7 @@ import SingleOrder from './components/single-order'
 import AllUsers from './components/all-users'
 import EditProfile from './components/edit-user'
 import AllOrders from './components/all-orders'
-import SingleApple from "./components/singleapple";
+import SingleApple from "./components/singleapple"
 
 
 /**
@@ -23,7 +23,7 @@ class Routes extends Component {
   }
 
   render() {
-    const { isLoggedIn, isAdmin } = this.props;
+    const { isLoggedIn, isAdmin, user } = this.props;
 
     return (
       <Switch>
@@ -38,20 +38,20 @@ class Routes extends Component {
         <Route path = "/users/:id/edit" component = { EditProfile } />
         <Route path="/users/:id" component={SingleUser} />
         <Route exact path="/orders" component={AllOrders} />
-        <Route path="/orders/:id" component={SingleOrder} />
+        <Route path="/orders/:userId" component={AllOrders} />
 
 
         {isLoggedIn && !isAdmin && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/" component={UserHome} />
+            <Route path="/:userId" component={UserHome} />
           </Switch>
         )}
 
         {isLoggedIn && isAdmin && (
           <Switch>
             {/* Routes placed here are only available for Admin*/}
-            <Route path="/" component={AdminHome} />
+            <Route path="/:userId" component={AdminHome} />
           </Switch>
         )}
 
@@ -71,7 +71,8 @@ const mapState = state => {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
     isLoggedIn: !!state.user.id,
-    isAdmin: !!state.user.isAdmin
+    isAdmin: !!state.user.isAdmin,
+userId: state.user.id
   };
 };
 
