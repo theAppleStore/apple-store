@@ -25,25 +25,25 @@ export function VisitorHome() {
   // render() {
 
     return (
-<div>
+      <div>
         <div className="banner-welcome">
           <h1>Welcome!</h1>
         </div>
 
         <div className="categories">
 
-            <NavLink className="category-product" to="/greenapples">
+            <NavLink className="category-product" to="/apples/green">
               <img name="green" src="/images/category-greenApple.png" />
             </NavLink>
 
 
 
-            <NavLink className="category-product" to="/redapples">
+            <NavLink className="category-product" to="/apples/red">
               <img name="red" src="/images/category-redApple.png" />
             </NavLink>
 
         </div>
-</div>
+      </div>
     );
   // }
 }
