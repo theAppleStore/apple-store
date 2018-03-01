@@ -8,33 +8,23 @@ import { NavLink } from "react-router-dom";
  * COMPONENT
  */
 const AdminHome = props => {
-  const { email } = props;
-
-  console.log('AdminHome rendering')
   return (
-
     <div>
-<h1>ADMIN HOME!!!</h1>
-<UserHome />
-<div className="add-category">
-  <NavLink className="to-edit-category" to="/editcategory">
-    <button>Add a category</button>
-  </NavLink>
-</div>
-</div>
-
+      <h1>ADMIN HOME!!!</h1>
+      <UserHome />
+      <div className="add-category">
+        <NavLink className="to-edit-category" to="/edit/category">
+          <button>Add a category</button>
+        </NavLink>
+      </div>
+    </div>
   );
 };
 
 /**
  * CONTAINER
  */
-const mapState = state => {
-  return {
-    email: state.user.email
-  };
-};
-
+const mapState = null;
 export default connect(mapState)(AdminHome);
 
 /**
@@ -43,5 +33,3 @@ export default connect(mapState)(AdminHome);
 UserHome.propTypes = {
   email: PropTypes.string
 };
-
-
