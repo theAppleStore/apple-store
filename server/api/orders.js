@@ -8,13 +8,23 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
-router.get('/:id', (req, res, next) => {
-    Order.findById(req.params.id, {include: [{model: Apple}]})
-    .then(order => {
-        res.send(order)
+router.get('/:userId', (req, res, next) => {
+    Order.findAll({
+        where: {
+            userId: req.params.userId
+        }
     })
+    .then(orders => res.json(orders))
     .catch(next)
 })
+
+// router.get('/:id', (req, res, next) => {
+//     Order.findById(req.params.id, {include: [{model: Apple}]})
+//     .then(order => {
+//         res.send(order)
+//     })
+//     .catch(next)
+// })
 
 router.put('/:id', (req, res, next) => {
     Order.findById(req.params.id)

@@ -32,10 +32,7 @@ export const fetchOrder = (id) =>
 export function editOrder(id, changedOrder){
     return function thunk(dispatch){
         return axios.put(`/api/orders/${id}`, changedOrder)
-        .then(res => {
-            console.log(res.data)
-            return res.data
-        })
+        .then(res => res.data)
         .then(order => {
             dispatch(updateOrder(order));
         })
