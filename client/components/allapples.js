@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import store, { fetchApples } from "../store";
 import AppleItem from "./appleitem";
+import { NavLink } from "react-router-dom";
 
 class AllApples extends React.Component {
   constructor(props) {
@@ -20,9 +21,9 @@ class AllApples extends React.Component {
     return (
       <div>
         {isAdmin && (
-          <div className="add-apple">
+          <NavLink className="add-apple" to="/apples/edit">
             <button>Add Apple</button>
-          </div>
+          </NavLink>
         )}
 
         <div className="apple-list">
@@ -58,3 +59,8 @@ const mapDispatch = { fetchApples };
 
 const AllApplesContainer = connect(mapStateToProps, mapDispatch)(AllApples);
 export default AllApplesContainer;
+
+AllApples.propTypes = {
+  apples: PropTypes.object,
+  isAdmin: PropTypes.boolean
+}
