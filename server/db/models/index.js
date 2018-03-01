@@ -21,7 +21,7 @@ const LineItem = require('./lineItem')
 
 
 User.hasMany(Order)
-User.hasMany(Review)
+User.hasMany(Review)   //can do User.getreviewId //Also do Review.belongsTo(User)
 
 Apple.hasMany(Review)
 
@@ -34,7 +34,7 @@ Review.belongsTo(User)
 
 
 module.exports = {
-  User, 
+  User,
   Apple,
   Order,
   Review,

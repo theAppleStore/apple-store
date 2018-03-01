@@ -8,7 +8,6 @@ import AllApples from './components/allapples'
 import SingleUser from './components/single-user'
 import SingleOrder from './components/single-order'
 import AllUsers from './components/all-users'
-import VisitorHome from './components/visitor-home'
 import AllOrders from './components/all-orders'
 import SingleApple from "./components/singleapple";
 
@@ -37,7 +36,7 @@ class Routes extends Component {
         <Route exact path="/orders" component={AllOrders} />
         <Route path="/orders/:id" component={SingleOrder} />
         <Route path="/apples/:category" component={AllApples} />
-      
+
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
