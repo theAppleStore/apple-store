@@ -4,9 +4,10 @@ const {Order, Apple} = require('../db/models');
 
 router.get('/', (req, res, next) => {
     Order.findAll()
-    .then(result => res.send(result))
+    .then(orders => res.json(orders))
     .catch(next)
 })
+
 
 router.get('/:userId', (req, res, next) => {
     Order.findAll({
@@ -29,7 +30,7 @@ router.get('/:userId', (req, res, next) => {
 router.put('/:id', (req, res, next) => {
     Order.findById(req.params.id)
     .then(foundOrder => foundOrder.update(req.body))
-    .then(updated => res.send(updated))
+    .then(updated => res.json(updated))
     .catch(next)
 })
 
