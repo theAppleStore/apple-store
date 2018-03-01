@@ -10,7 +10,7 @@ import SingleOrder from './components/single-order'
 import AllUsers from './components/all-users'
 import EditProfile from './components/edit-user'
 import AllOrders from './components/all-orders'
-import SingleApple from "./components/singleapple";
+import SingleApple from "./components/singleapple"
 
 /**
  * COMPONENT
@@ -37,7 +37,7 @@ class Routes extends Component {
         <Route path = "/users/:id/edit" component = { EditProfile } />
         <Route path="/users/:id" component={SingleUser} />
         <Route exact path="/orders" component={AllOrders} />
-        <Route path="/orders/:id" component={SingleOrder} />
+        <Route path="/orders/:userId" component={AllOrders} />
 
         {isLoggedIn && (
           <Switch>
