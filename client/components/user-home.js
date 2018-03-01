@@ -28,7 +28,7 @@ export const mapState = (state) => {
 }
 
 
-export default connect(mapState, mapDispatch)(UserHome)
+export default connect(mapState, null)(UserHome)
 
 /**
  * PROP TYPES

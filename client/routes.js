@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, VisitorHome} from './components'
+import {Login, Signup, UserHome, VisitorHome, AdminHome} from './components'
 import {me} from './store'
 import AllApples from './components/allapples'
 import SingleUser from './components/single-user'
@@ -11,6 +11,7 @@ import AllUsers from './components/all-users'
 import EditProfile from './components/edit-user'
 import AllOrders from './components/all-orders'
 import SingleApple from "./components/singleapple";
+
 
 /**
  * COMPONENT
@@ -39,17 +40,18 @@ class Routes extends Component {
         <Route exact path="/orders" component={AllOrders} />
         <Route path="/orders/:id" component={SingleOrder} />
 
-        {isLoggedIn && (
+
+        {isLoggedIn && !isAdmin && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/" component={UserHome} />
           </Switch>
         )}
 
-        {isAdmin && (
+        {isLoggedIn && isAdmin && (
           <Switch>
             {/* Routes placed here are only available for Admin*/}
-            <Route path="/adminhome" component={AdminHome} />
+            <Route path="/" component={AdminHome} />
           </Switch>
         )}
 
@@ -64,6 +66,7 @@ class Routes extends Component {
  * CONTAINER
  */
 const mapState = state => {
+  console.log('routes isAdmin State', state)
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
