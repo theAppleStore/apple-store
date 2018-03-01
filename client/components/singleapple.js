@@ -1,49 +1,44 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import store, { fetchApples } from "../store";
+import store, { fetchAppleById } from "../store";
 import AppleItem from "./appleitem";
 
 //not yet set up 
 //import Reviews from "./reviews"
 
-export default class SingleApple extends React.Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.renderApples = this.renderApples.bind(this);
-    //   }
-    //   componentDidMount() {
-    //     this.props.mountApples();
-    //   }
-    render() {
-    //     console.log(this.props.apple.name);
-    //     const currentApple = this.props.apple
-    // }
-    return (
-        <div>
-             {/* <h1>{currentApple.name}</h1>
-             <ul>
-                 <li>{currentApple.price}</li>
-                <li>{currentApple.description}</li>
-                 {}
-                 <button>Buy</button>
-             </ul> */}
-        </div>
-    )
+class SingleApple extends React.Component{
+    constructor(props) {
+        super(props);
+      }
+    componentDidMount() {
+      this.props.fetchAppleById(this.props.match.params.id);
+      }
+      render(){
+        const apple = this.props.match.params.id
+        console.log(apple)
+        return (
+            <div>
+                <h1>I am rendering, on item {apple}</h1>
+                <img src = {apple.image} />
+            
+            </div>
 
+        )
+    }
 }
 
-// const mapStateToProps = function(state, ownProps) {
-//     return {
-//       apples: state.apples,
-//       path: ownProps.match.url
-//     };
-//   };
+const mapStateToProps = function(state) {
+    console.log("i am in map state", state.apple)
+    return {
+      apple: state.apple,
+    };
+  };
+
+const mapDispatch = {fetchAppleById}
   
-//   const mapDispatchToProps = function(dispatch) {
-//     return {
-//       mountApples: function() {
-//         dispatch(fetchApples());
-//       }
-//     };
- };
+const SingleApplesContainer = connect(mapStateToProps, mapDispatch)(SingleApple);
+export default SingleApplesContainer;
+
+// export default SingleApple;
+
