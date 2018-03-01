@@ -29,11 +29,13 @@ export const fetchUser = (id) =>
         dispatch(findUser(res.data)))
       .catch(err => console.log(err))
 
-export const updateUser = (user) =>
+export const updateUser = (id, user, history) =>
   dispatch =>
-    axios.put(`/api/users/${id}`)
-      .then(res =>
-        dispatch(update(res.data)))
+    axios.put(`/api/users/${id}`, user)
+      .then(res => {
+        dispatch(update(res.data))
+        history.push(`/users/${id}`)
+      })
       .catch(err => console.log(err))
 
 /**

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 
-import store, {fetchUser} from '../store'
+import store, {fetchUser, updateUser} from '../store'
 
 /* COMPONENT */
 class EditProfile extends Component {
@@ -16,9 +16,11 @@ class EditProfile extends Component {
       emailInput: user.email || '',
       shippingInput: user.shipping || '',
       phoneInput: user.phone || '', 
+      isAdminInput: user.isAdmin || false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleSelect = this.handleSelect.bind(this)
   }
 
   componentDidMount(){
@@ -39,56 +41,68 @@ class EditProfile extends Component {
 
   handleSubmit(event){
     event.preventDefault()
+    const {updateUser, history} = this.props
     const userId = this.props.user.id
     const form = event.target
     const updatedUser = {
-      firstNameInput: form.firstName.value,
-      lastNameInput: form.lastName.value,
-      emailInput: form.email.value,
-      shippingInput: form.shipping.value,
-      phoneInput: form.phone.value, 
+      firstName: form.firstName.value,
+      lastName: form.lastName.value,
+      email: form.email.value,
+      shipping: form.shipping.value,
+      phone: form.phone.value, 
+      isAdmin: this.state.isAdmin
     }
+    updateUser(userId, updatedUser, history)
+  }
 
+  handleSelect(event){
+    let boolean = event.target.value === 'Admin' ? true : false
+    this.setState({isAdminInput: boolean})
   }
 
   render(){
-    const {user} = this.props
-    const {firstNameInput, lastNameInput, emailInput, shippingInput, phoneInput} = this.state
+    const {user, authenticatedUser} = this.props
+    const {firstNameInput, lastNameInput, emailInput, shippingInput, phoneInput, isAdminInput} = this.state
     return (
       <div>
         <h2> Edit Profile </h2>
         <form onSubmit={this.handleSubmit}>
           <h3> First Name: </h3>
-          <textarea
+          <input
             value={firstNameInput}
             name="firstName"
             onChange={this.handleChange}
           />
           <h3> Last Name: </h3>
-          <textarea
+          <input
             value={lastNameInput}
             name="lastName"
             onChange={this.handleChange}            
           />
           <h3> Email: </h3>
-          <textarea
+          <input
             value={emailInput}
             name="email"
             onChange={this.handleChange}
           />
           <h3> Shipping Address: </h3>
-          <textarea
+          <input
             value={shippingInput}
             name="shipping"
             onChange={this.handleChange}
           />
           <h3> Phone Number: </h3>
-          <textarea
+          <input
             value={phoneInput}
             name="phone"
             onChange={this.handleChange}
           />
-          <br></br>
+          <h3> User Privileges: 
+          <select onChange={this.handleSelect} name="isAdmin">
+            <option> Regular </option>
+            <option> Admin </option>
+          </select>
+          </h3>
           <button> Submit </button>
         </form>
       </div>
@@ -97,10 +111,18 @@ class EditProfile extends Component {
 }
 
 /* CONTAINER */
+// 'user' refers to the profile of the user we want to look at
+// 'authenticatedUser' is the user that is logged in
+const mapState = ({userProfile, user}) => ({user: userProfile, authenticatedUser: user})
+const mapProps = {fetchUser, updateUser}
+
+export default connect(mapState, mapProps)(EditProfile)
 
 
 /* PROP TYPES */
-const mapState = ({userProfile, user}) => ({user: userProfile, authenticatedUser: user})
-const mapProps = {fetchUser}
-
-export default connect(mapState, mapProps)(EditProfile)
+EditProfile.propTyeps = {
+  user: PropTypes.object,
+  authenticatedUser: PropTypes.object,
+  fetchUser: PropTypes.func,
+  updateUser: PropTypes.func,
+}
