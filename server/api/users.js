@@ -1,7 +1,9 @@
 const router = require('express').Router()
 const {User, Order} = require('../db/models')
+const {makeError, isLoggedIn, isAdmin} = require('../../utility')
 module.exports = router
 
+// router.get('/', isLoggedIn, isAdmin, (req, res, next) => {
 router.get('/', (req, res, next) => {
   User.findAll({
     // explicitly select only the id and email fields - even though
@@ -20,5 +22,19 @@ router.get('/:userId', (req, res, next) => {
     include: [{ model: Order }]
   })
     .then(user => res.json(user))
+    .catch(next)
+})
+
+router.put('/:userId', (req, res, next) => {
+  const {userId} = req.params
+  User.update(req.body, {
+    where: {
+      id: userId
+    },
+    returning: true
+  })
+    .spread((updatedCount, [updatedUser]) => {
+      res.json(updatedUser)
+    })
     .catch(next)
 })

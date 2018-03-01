@@ -19,7 +19,7 @@ export const UserHome = (props) => {
 /**
  * CONTAINER
  */
-const mapState = (state) => {
+export const mapState = (state) => {
   return {
     email: state.user.email
   }

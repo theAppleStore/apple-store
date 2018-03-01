@@ -8,7 +8,8 @@ import AllApples from './components/allapples'
 import SingleUser from './components/single-user'
 import SingleOrder from './components/single-order'
 import AllUsers from './components/all-users'
-import VisitorHome from './components/visitor-home'
+// import VisitorHome from './components/visitor-home'
+import EditProfile from './components/edit-user'
 import AllOrders from './components/all-orders'
 import SingleApple from "./components/singleapple";
 
@@ -33,6 +34,7 @@ class Routes extends Component {
         <Route path="/apples/:id" component = {SingleApple}/>
         <Route path= "/apples" component={AllApples}/>
         <Route exact path="/users" component={AllUsers} />
+        <Route path = "/users/:id/edit" component = { EditProfile } />
         <Route path="/users/:id" component={SingleUser} />
         <Route exact path="/orders" component={AllOrders} />
         <Route path="/orders/:id" component={SingleOrder} />
