@@ -49,10 +49,10 @@ class AllOrders extends Component {
         {orders && orders.map(order => 
           (
             <div key={order.id}>
-              <p> 
+              <NavLink to={`/orders/single/${order.id}`}> 
                  {`Order ID: ${order.id}`} 
-              </p>
-              {/* <br></br> */}
+              </NavLink>
+              <br></br>
             </div>
           )
         )}

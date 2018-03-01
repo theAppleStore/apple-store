@@ -2,16 +2,40 @@ import React from 'react'
 import { NavLink } from "react-router-dom";
 import PropTypes from 'prop-types'
 import SingleApple from './singleapple'
+import store, {editOrder, postNewOrder, me, fetchOrder} from '../store'
+import { connect } from 'react-redux'
 
-export default class AppleItem extends React.Component {
+class AppleItem extends React.Component {
     constructor(props){
         super(props);
+        this.state = {
+            apples: [],
+            userId: 0
+        }
         this.handleClick = this.handleClick.bind(this);
     }
-    handleClick(event){
-        console.log("single page view activated", event);
-        
+
+    componentDidMount() {
+        this.props.me()
     }
+
+    handleClick(event){
+        const {postNewOrder, editOrder, activeOrder, user, fetchOrder, apple} = this.props
+        const order = {
+            userId: user.id,
+            appleId: apple.id,
+            quantity: 1,
+            price: apple.price
+        }
+        postNewOrder(order)
+        console.log('active', activeOrder)
+        // const updatedOrder = {
+        //     ...order,
+        //     apples: [...activeOrder.apples, apple]
+        // }
+        // editOrder(activeOrder.id, updatedOrder)
+    }
+
     render(){
         const apple = this.props.apple;
         return (
@@ -19,6 +43,12 @@ export default class AppleItem extends React.Component {
                 <img src = {apple.image}/>
                 <NavLink to={`/apples/${apple.id}`}>{apple.name}</NavLink>
                 <p>{`$${apple.price}`}</p>
+                <button onClick={this.handleClick}>Add to Cart</button>
            </div>
         )}
     }
+
+const mapState = ({user, activeOrder}) => ({user, activeOrder})
+const mapDispatch = {editOrder, postNewOrder, me, fetchOrder}
+
+export default connect(mapState, mapDispatch)(AppleItem);
