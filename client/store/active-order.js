@@ -21,7 +21,7 @@ const findOrder = foundOrder => ({ type: FIND_ORDER, foundOrder })
 const updateOrder = order => ({type: UPDATE_ORDER, order})
 const addOrder = newOrder => ({type: ADD_ORDER, newOrder})
 const addToOrder = item => ({type: ADD_TO_ORDER, item})
-
+    
 /**
  * THUNK CREATORS
  */
@@ -86,5 +86,3 @@ export default function (state = order, action) {
       return state
   }
 }
-
-// Object.assign({}, state, {apples: state.apples.concat(action.item)})

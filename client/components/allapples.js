@@ -16,17 +16,18 @@ class AllApples extends React.Component {
   render() {
     const apples = this.props.apples;
     const category = this.props.match.params.category;
-    console.log(category)
     return (
       <div>
         {category ? <h1>{`${category[0].toUpperCase() + category.slice(1)} Apples`}</h1> : <h1>All Apples</h1>}
-        <ul>
           {apples && apples.map(apple => {
             return(
-              <li key={apple.id}><AppleItem apple={apple} /></li>
+              <div>
+                <ul>
+                  <li key={apple.id}><AppleItem apple={apple} /></li>
+                </ul>
+              </div>
             )
           })}
-        </ul>
       </div>
     );
   }
@@ -34,7 +35,7 @@ class AllApples extends React.Component {
 
 const mapStateToProps = function(state) {
   return {
-    apples: state.apples,
+    apples: state.apples
   };
 };
 

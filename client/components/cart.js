@@ -9,7 +9,9 @@ import store, {fetchCart, me, editOrder, fetchCartApples} from '../store'
 class Cart extends Component {
     constructor(props){
         super(props);
-        this.state = {}
+        this.state = {
+            isCart: true
+        }
     }
 
     componentDidMount(){
@@ -43,7 +45,7 @@ class Cart extends Component {
                 {apples && apples.map((apple, i, arr) => {
                     return(
                         <ul key={apple.id}>
-                            <li><AppleItem apple={apple} /></li>
+                            <li><AppleItem apple={apple} isCart={this.state.isCart} /></li>
                             <li>{`Quantity: ${apple.lineItem.quantity}`}</li>
                         </ul>
                     )
@@ -54,6 +56,7 @@ class Cart extends Component {
 }
 
 const mapState = (state) => {
+    console.log('HERE', state)
     return {
       order: state.activeOrder,
       user: state.user,
