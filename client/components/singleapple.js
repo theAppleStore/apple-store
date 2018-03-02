@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import store, { fetchAppleById } from "../store";
+import store, { fetchAppleById, getAppleById } from "../store";
 import AppleItem from "./appleitem";
 
 //not yet set up 
@@ -12,16 +12,16 @@ class SingleApple extends React.Component{
         super(props);
       }
     componentDidMount() {
+        console.log(this.props.match.params.id)
       this.props.fetchAppleById(this.props.match.params.id);
       }
       render(){
-        const apple = this.props.match.params.id
-        console.log(apple)
+        const apple = this.props.apple
+        console.log("I am in render", apple)
         return (
             <div>
-                <h1>I am rendering, on item {apple}</h1>
+                <h1>{apple.name} </h1>
                 <img src = {apple.image} />
-            
             </div>
 
         )
@@ -29,9 +29,10 @@ class SingleApple extends React.Component{
 }
 
 const mapStateToProps = function(state) {
-    console.log("i am in map state", state.apple)
+    console.log("i am in map state", state.singleapple)
+    
     return {
-      apple: state.apple,
+      apple: state.singleapple,
     };
   };
 

@@ -1,20 +1,24 @@
-// const express = require("express");
-// const router = express.Router();
-// const Apples = require('../db/models/apple.js');
+const express = require("express")
+const router = express.Router()
+const Apples = require('../db/models/apple.js')
+const Reviews = require ('../db/models/review.js')
+
+router.post('/', (req, res, next) => {
+    Reviews.create({
+        appleId: req.body.appleId,
+        subjectField: req.body.subjectField,
+        text: req.body.text
+    }).then(result => res.status(200).send("OK")) 
+    .catch( err => res.status(400).send(err))
+})
+
+router.get('/:id', (req,res,next) => {
+    Reviews.findAll({where: {
+        appleId: req.params.id
+    }})
+    .then(reviews => res.status(200).send(reviews))
+    .catch( err => res.status(400).send(err))
+})
 
 
-
-// router.post('/:id/reviews', (req, res, next) => {
-//     console.log("this is req body " + JSON.stringify(req.body)); 
-//     console.log(req.body.review);
-//     // console.dir(req);
-    
-//     Apple.create({
-//         username: req.body.username,
-//         password: hash
-//     }).then(function(result){
-//         res.send("OK");
-//     }) .catch(function(err){
-//         throw err;
-//     });
-//   });
+module.exports = router

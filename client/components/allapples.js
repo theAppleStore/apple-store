@@ -16,6 +16,8 @@ class AllApples extends React.Component {
   render() {
     const apples = this.props.apples;
     const category = this.props.match.params.category;
+    console.log("here", this.props)    
+
     return (
       <div>
         {category ? <h1>{`${category[0].toUpperCase() + category.slice(1)} Apples`}</h1> : <h1>All Apples</h1>}

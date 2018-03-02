@@ -22,7 +22,7 @@ export function getAppleById(apple) {
 
 export function fetchAppleById(id){
     return function thunk(dispatch){
-        return axios.get('api/apples/${id}')
+        return axios.get(`/api/apples/${id}`)
         .then(res => res.data)
         .then(apple => dispatch(getAppleById(apple)))
         .catch(err => console.log(err))
@@ -34,7 +34,7 @@ export function fetchAppleById(id){
 export default function reducer (state = initState, action){
     switch (action.type) {
         case GET_APPLE_BY_ID:
-            return action.apples
+            return action.apple;
         default:
             return state
     }
