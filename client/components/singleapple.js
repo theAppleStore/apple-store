@@ -22,6 +22,9 @@ class SingleApple extends React.Component{
             <div>
                 <h1>{apple.name} </h1>
                 <img src = {apple.image} />
+                <p>{apple.description}</p>
+                {apple.stock > 0 ? (<p>{apple.stock} in stock</p>) 
+                : (<p>Out of Stock</p>) }
             </div>
 
         )

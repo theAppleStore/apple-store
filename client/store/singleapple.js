@@ -14,7 +14,7 @@ const initState = []
 export function getAppleById(apple) {
    return {
        type: GET_APPLE_BY_ID,
-       apple
+       apple 
    }
 }
 
