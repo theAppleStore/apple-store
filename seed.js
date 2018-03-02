@@ -114,7 +114,7 @@ const apples = [
         image: 'https://files.slack.com/files-pri/T024FPYBQ-F9GM5B4CF/image.png',
         price: 1.25,
         description: "A cross between Golden Delicious and Indo, it’s named after the Mutsu Province of Japan, where it was first grown. Mutsu is often sold under its other (more onomatopoeic) name, Crispin. Taste it: One of these oversize green apples can easily feed two people, though its boisterous tang may incline you to keep one all to yourself.",
-        stock: 70,
+        stock: 0,
         category: 'green'
     },
 ]
