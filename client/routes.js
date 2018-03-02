@@ -12,7 +12,7 @@ import EditProfile from "./components/edit-user";
 import AllOrders from "./components/all-orders";
 import SingleApple from "./components/singleapple";
 import { AdminHome } from "./components/admin-home";
-import { AddApple } from "./components/add-apple";
+import { default as AddApple } from "./components/add-apple";
 /**
  *  COMPONENT
  */
