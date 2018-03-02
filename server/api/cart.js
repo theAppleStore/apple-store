@@ -17,14 +17,14 @@ router.post('/', (req, res, next) => {
     .catch(next);
 })
 
-// router.get('/:orderId', (req, res, next) => {
-//     LineItem.findAll({
-//         where: {
-//             orderId: req.params.orderId
-//         }
-//     })
-//     .then(items => res.json(items))
-//     .catch(next)
-// })
+router.delete('/:appleId', (req, res, next) => {
+    LineItem.destroy({
+        where: {
+            appleId: req.params.appleId
+        }
+    })
+    .then(res.status(204).end())
+    .catch(next);
+})
 
 module.exports = router;

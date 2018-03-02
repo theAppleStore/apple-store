@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink } from "react-router-dom";
 import PropTypes from 'prop-types'
 import SingleApple from './singleapple'
-import store, {editOrder, postNewOrder, me, fetchOrder} from '../store'
+import store, {editOrder, postNewOrder, me, fetchOrder, deleteFromCart, fetchCart} from '../store'
 import { connect } from 'react-redux'
 
 class AppleItem extends React.Component {
@@ -13,15 +13,15 @@ class AppleItem extends React.Component {
             userId: 0
         }
         this.handleClick = this.handleClick.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
     }
 
     componentDidMount() {
-        console.log('ITEM', this.props)
         this.props.me()
     }
 
     handleClick(event){
-        const {postNewOrder, editOrder, activeOrder, user, fetchOrder, apple} = this.props
+        const {postNewOrder, user, apple} = this.props
         const order = {
             userId: user.id,
             appleId: apple.id,
@@ -31,6 +31,11 @@ class AppleItem extends React.Component {
         postNewOrder(order)
     }
 
+    handleDelete(){
+        this.props.deleteFromCart(this.props.apple.id)
+        this.props.fetchCart();
+    }
+
     render(){
         const apple = this.props.apple;
         return (
@@ -38,15 +43,18 @@ class AppleItem extends React.Component {
                 <img src = {apple.image}/>
                 <NavLink to={`/apples/${apple.id}`}>{apple.name}</NavLink>
                 <p>{`$${apple.price}`}</p>
-                <button onClick={this.handleClick}>Add to Cart</button>
+                {this.props.isCart ? <button onClick={this.handleDelete}>Remove from Cart</button> 
+                : <button onClick={this.handleClick}>Add to Cart</button>}
+                <br></br>
            </div>
         )}
     }
 
-const mapState = ({user, activeOrder}, ownProps) => {
-    console.log(ownProps)
-    return {user, activeOrder}
+const mapState = (state, ownProps) => {
+    return {
+        user: state.user, 
+        activeOrder: state.activeOrder}
 }
-const mapDispatch = {editOrder, postNewOrder, me, fetchOrder}
+const mapDispatch = {editOrder, postNewOrder, me, fetchOrder, deleteFromCart, fetchCart}
 
 export default connect(mapState, mapDispatch)(AppleItem);
