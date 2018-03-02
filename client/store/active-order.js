@@ -57,12 +57,16 @@ export function postNewOrder(order){
   }
 }
 
-export function fetchCart(userId){
+export function fetchCart(){
   return function thunk(dispatch){
-    return axios.get(`/api/orders/${userId}`)
-    .then(res => res.data)
-    .then(orders => orders.find(order => order.status === 'Created'))
-    .then(foundOrder => dispatch(findOrder(foundOrder)))
+    axios.get('/auth/me')
+    .then(res => res.data.id)
+    .then(id => {
+      axios.get(`/api/orders/${id}`)
+      .then(res => res.data)
+      .then(orders => orders.find(order => order.status === 'Created'))
+      .then(foundOrder => dispatch(findOrder(foundOrder)))
+    })
     .catch(err => console.log(err))
   }
 }

@@ -17,4 +17,14 @@ router.post('/', (req, res, next) => {
     .catch(next);
 })
 
+// router.get('/:orderId', (req, res, next) => {
+//     LineItem.findAll({
+//         where: {
+//             orderId: req.params.orderId
+//         }
+//     })
+//     .then(items => res.json(items))
+//     .catch(next)
+// })
+
 module.exports = router;

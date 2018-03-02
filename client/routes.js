@@ -38,7 +38,7 @@ class Routes extends Component {
         <Route path = "/users/:id/edit" component = { EditProfile } />
         <Route path="/users/:id" component={SingleUser} />
         <Route exact path="/orders" component={AllOrders} />
-        <Route exact path="/cart" component={Cart} />
+        <Route path="/cart" component={Cart} />
         <Route path="/orders/single/:id" component={SingleOrder} />
         <Route exact path="/orders/:userId" component={AllOrders} />
 

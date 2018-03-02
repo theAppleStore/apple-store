@@ -57,3 +57,8 @@ module.exports = router;
 // in here Order.findOrCreate -- that you have above
 // .then order.addProduct()   
     // THEN send response back
+
+// OR 
+// OUR CHOICE
+// leave findOrCreate in order
+// in redux store for active-order have it post to order and then once a response is received have it post to line item

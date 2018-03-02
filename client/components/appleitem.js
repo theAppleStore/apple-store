@@ -16,6 +16,7 @@ class AppleItem extends React.Component {
     }
 
     componentDidMount() {
+        console.log('ITEM', this.props)
         this.props.me()
     }
 
@@ -28,12 +29,6 @@ class AppleItem extends React.Component {
             price: apple.price
         }
         postNewOrder(order)
-        console.log('active', activeOrder)
-        // const updatedOrder = {
-        //     ...order,
-        //     apples: [...activeOrder.apples, apple]
-        // }
-        // editOrder(activeOrder.id, updatedOrder)
     }
 
     render(){
@@ -48,7 +43,10 @@ class AppleItem extends React.Component {
         )}
     }
 
-const mapState = ({user, activeOrder}) => ({user, activeOrder})
+const mapState = ({user, activeOrder}, ownProps) => {
+    console.log(ownProps)
+    return {user, activeOrder}
+}
 const mapDispatch = {editOrder, postNewOrder, me, fetchOrder}
 
 export default connect(mapState, mapDispatch)(AppleItem);

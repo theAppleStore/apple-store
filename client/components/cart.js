@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import AppleItem from './appleitem'
 
-import store, {fetchCart, me, editOrder} from '../store'
+import store, {fetchCart, me, editOrder, fetchCartApples} from '../store'
 
 class Cart extends Component {
     constructor(props){
@@ -14,20 +14,21 @@ class Cart extends Component {
 
     componentDidMount(){
         this.props.me()
-        .then(user => this.props.fetchCart(user.id))
+        this.props.fetchCart()
+        this.props.fetchCartApples()
     }
 
     render(){
         const order = this.props.order;
         let date = order.createdAt;
-        const apples = order.apples;
+        const apples = this.props.apples;
         let totalAmount = 0;
         let totalQuantity = 0;
         if(date){
             date = order.createdAt.split('T')[0];
         }
         if(apples){
-            order.apples.forEach(apple => {
+            apples.forEach(apple => {
                 totalAmount += apple.price;
                 totalQuantity += apple.lineItem.quantity;
             })
@@ -39,7 +40,7 @@ class Cart extends Component {
                 <h4>{`Order Date: ${date}`}</h4>
                 <h4>{`Number of Items: ${totalQuantity}`}</h4>
                 <h4>{`Total Price: $${totalAmount}`}</h4>
-                {order.apples && order.apples.map((apple, i, arr) => {
+                {apples && apples.map((apple, i, arr) => {
                     return(
                         <ul key={apple.id}>
                             <li><AppleItem apple={apple} /></li>
@@ -55,10 +56,11 @@ class Cart extends Component {
 const mapState = (state) => {
     return {
       order: state.activeOrder,
-      user: state.user
+      user: state.user,
+      apples: state.apples
     }
   }
   
-  const mapProps = {fetchCart, me, editOrder}
+  const mapDispatch = {fetchCart, me, editOrder, fetchCartApples}
   
-  export default connect(mapState, mapProps)(Cart)
+  export default connect(mapState, mapDispatch)(Cart)
