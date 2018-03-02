@@ -29,10 +29,13 @@ class AllUsers extends Component {
       user.firstName.match(this.state.inputValue)
     )
     const {user} = this.props
+    let message = Object.keys(user).length && !user.isAdmin 
+      ? 'Unauthorized access' 
+      : 'Please login first'
     return (
       <div>
       { user.isAdmin
-        ? (<div>
+        ? <div>
           <h2> All Users </h2>
           <form>
             <h3>Search: 
@@ -52,8 +55,8 @@ class AllUsers extends Component {
               </div>
             )
           )}
-        </div>)
-        : (<h2> Please login first </h2>)
+        </div>
+        : <h2> {message} </h2>
       }
       </div>
     )

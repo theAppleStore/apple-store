@@ -31,7 +31,7 @@ class SingleOrder extends Component {
     }
 
     render(){
-        const order = this.props.order
+        const order = this.props.order;
         let date = order.createdAt;
         const apples = order.apples;
         let totalAmount = 0;
@@ -81,8 +81,9 @@ class SingleOrder extends Component {
 }
 
 const mapState = (state) => {
+    console.log(state.activeOrder)
     return {
-      order: state.order,
+      order: state.activeOrder,
       user: state.user
     }
   }

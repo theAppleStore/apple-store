@@ -9,7 +9,7 @@ router.get('/', (req, res, next) => {
     // explicitly select only the id and email fields - even though
     // users' passwords are encrypted, it won't help if we just
     // send everything to anyone who asks!
-    attributes: ['id', 'email', 'firstName', 'lastName']
+    attributes: ['id', 'email', 'firstName', 'lastName', 'isAdmin']
   })
     .then(users => res.json(users))
     .catch(next)
@@ -33,7 +33,7 @@ router.put('/:userId', (req, res, next) => {
     },
     returning: true
   })
-    .spread((updatedCount, [updatedUser]) => {
+    .then(([_, [updatedUser]]) => {
       res.json(updatedUser)
     })
     .catch(next)

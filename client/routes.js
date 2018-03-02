@@ -10,10 +10,11 @@ import SingleOrder from './components/single-order'
 import AllUsers from './components/all-users'
 import EditProfile from './components/edit-user'
 import AllOrders from './components/all-orders'
-import SingleApple from "./components/singleapple";
-
+import SingleApple from "./components/singleapple"
+import Cart from './components/cart'
+import { AdminHome } from './components/admin-home';
 /**
- * COMPONENT
+ *  COMPONENT
  */
 
 class Routes extends Component {
@@ -22,7 +23,8 @@ class Routes extends Component {
   }
 
   render() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, isAdmin, userId, user } = this.props;
+    console.log("isADMIN", isAdmin, "isLOGGED", isLoggedIn);
 
     return (
       <Switch>
@@ -31,20 +33,32 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/apples/type/:category" component={AllApples} />
-        <Route path="/apples/:id" component = {SingleApple}/>
-        <Route path= "/apples" component={AllApples}/>
+        <Route path="/apples/:id" component={SingleApple} />
+        <Route path="/apples" component={AllApples} />
         <Route exact path="/users" component={AllUsers} />
-        <Route path = "/users/:id/edit" component = { EditProfile } />
+        <Route path="/users/:id/edit" component={EditProfile} />
         <Route path="/users/:id" component={SingleUser} />
         <Route exact path="/orders" component={AllOrders} />
-        <Route path="/orders/:id" component={SingleOrder} />
+        <Route path="/cart" component={Cart} />
+        <Route path="/orders/single/:id" component={SingleOrder} />
+        <Route exact path="/orders/:userId" component={AllOrders} />
 
-        {isLoggedIn && (
-          <Switch>
-            {/* Routes placed here are only available after logging in */}
-            <Route path="/" component={UserHome} />
-          </Switch>
-        )}
+        {isLoggedIn &&
+          !isAdmin && (
+            <Switch>
+              {/* Routes placed here are only available after logging in */}
+              <Route path="/" component={UserHome} />
+            </Switch>
+          )}
+
+        {isLoggedIn &&
+          isAdmin && (
+            <Switch>
+              {/* Routes placed here are only available for Admin*/}
+              <Route path="/:userId" component={AdminHome} />
+            </Switch>
+          )}
+
         {/* Displays our Login component as a fallback */}
         <Route component={Login} />
       </Switch>
@@ -56,10 +70,14 @@ class Routes extends Component {
  * CONTAINER
  */
 const mapState = state => {
+  console.log("routes isAdmin State", state);
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isAdmin: !!state.user.isAdmin,
+    userId: state.user.id,
+    user: state.user
   };
 };
 
@@ -80,5 +98,6 @@ export default withRouter(connect(mapState, mapDispatch)(Routes));
  */
 Routes.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool.isRequired
 };

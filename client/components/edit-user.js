@@ -38,6 +38,11 @@ class EditProfile extends Component {
       phoneInput: form.phone.value, 
     })
   }
+  
+  handleSelect(event){
+    let boolean = event.target.value === 'Admin' ? true : false
+    this.setState({isAdminInput: boolean})
+  }
 
   handleSubmit(event){
     event.preventDefault()
@@ -50,19 +55,16 @@ class EditProfile extends Component {
       email: form.email.value,
       shipping: form.shipping.value,
       phone: form.phone.value, 
-      isAdmin: this.state.isAdmin
+      isAdmin: this.state.isAdminInput
     }
     updateUser(userId, updatedUser, history)
   }
 
-  handleSelect(event){
-    let boolean = event.target.value === 'Admin' ? true : false
-    this.setState({isAdminInput: boolean})
-  }
 
   render(){
     const {user, authenticatedUser} = this.props
     const {firstNameInput, lastNameInput, emailInput, shippingInput, phoneInput, isAdminInput} = this.state
+    const isAdmin = isAdminInput === true ? 'Admin' : 'Regular'
     return (
       <div>
         <h2> Edit Profile </h2>
@@ -97,12 +99,16 @@ class EditProfile extends Component {
             name="phone"
             onChange={this.handleChange}
           />
-          <h3> User Privileges: 
-          <select onChange={this.handleSelect} name="isAdmin">
-            <option> Regular </option>
-            <option> Admin </option>
-          </select>
-          </h3>
+          {
+            authenticatedUser.isAdmin 
+            ? <h3> User Privileges: 
+              <select onChange={this.handleSelect} value={isAdmin}>
+                <option> Regular </option>
+                <option> Admin </option>
+              </select>
+            </h3>
+            : null
+          }
           <button> Submit </button>
         </form>
       </div>
@@ -111,6 +117,7 @@ class EditProfile extends Component {
 }
 
 /* CONTAINER */
+
 // 'user' refers to the profile of the user we want to look at
 // 'authenticatedUser' is the user that is logged in
 const mapState = ({userProfile, user}) => ({user: userProfile, authenticatedUser: user})
