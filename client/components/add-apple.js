@@ -4,70 +4,104 @@ import { connect } from "react-redux";
 // import {NavLink} from 'react-router-dom'
 
 //import store, {fetchApple, updateApple} from '../store'
+import store, { postApple } from "../store";
 
 class AddApple extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imgInput: '',
-      nameInput: '',
-      categoryInput: '',
-      priceInput: '',
-      descInput: '',
-      stockInput: ''
+      name: "",
+      image: "",
+      price: "",
+      description: "",
+      stock: "",
+      category: ""
     };
+    this.handleImgInput = this.handleImgInput.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    //this.handleImageChange = this.handleImageChange.bind(this);
   }
-  handleChange = () => {
-    console.log("hi");
+
+  handleImgInput = event => {
+    const input = event.target.parentNode.lastChild;
+    const preview = event.target.parentNode.nextSibling;
+    const currFile = input.files[0];
+    const image = document.createElement("img");
+    image.src = window.URL.createObjectURL(currFile);
+    preview.appendChild(image);
+    const urlStr = image.src.toString();
+    this.setState({ ...this.state, image: urlStr });
+  };
+
+  handleChange = event => {
+    const form = event.target.parentNode;
+    this.setState({
+      name: form.appleName.value,
+      category: form.appleCategory.value,
+      price: form.applePrice.value,
+      description: form.appleDescription.value,
+      stock: form.appleStock.value
+    });
+    console.log(this.state);
   };
 
   handleSubmit = () => {
-    console.log("hi");
+    event.preventDefault();
+    const newApple = this.state;
+    this.props.addApple(newApple);
   };
 
   render() {
-const { imgInput, nameInput, categoryInput, priceInput, descInput, stockInput } = this.state
+    return (
+      this.props.isAdmin
+        ? this.renderAuthorisedUser()
+        : this.renderUnathorizedUser()
+    )
+  }
+
+  renderUnathorizedUser() {
+    return (<h2> Unathorized access </h2>);
+  }
+
+  renderAuthorisedUser() {
+    const { name, image, price, description, stock, category } = this.state;
     console.log("ADD APPPLE");
     return (
       <div>
         <h2> ADD APPLE </h2>
         <form onSubmit={this.handleSubmit}>
-          <h3> Image: </h3>
-          <input
-            value={imgInput}
-            name="appleImg"
-            onChange={this.handleChange}
-          />
+          <div>
+            <label htmlFor="image_uploads">
+              Image (Choose File To Upload):{" "}
+            </label>
+            <input
+              type="file"
+              id="image_uploads"
+              name="image_uploads"
+              accept=".jpg, .jpeg, .png"
+              onChange={this.handleImgInput}
+            />
+          </div>
+          <div className="preview" />
+
           <h3> Name: </h3>
-          <input
-            value={nameInput}
-            name="appleName"
-            onChange={this.handleChange}
-          />
+          <input value={name} name="appleName" onChange={this.handleChange} />
           <h3> Category: </h3>
           <input
-            value={categoryInput}
+            value={category}
             name="appleCategory"
             onChange={this.handleChange}
           />
           <h3> Price: </h3>
-          <input
-            value={priceInput}
-            name="applePrice"
-            onChange={this.handleChange}
-          />
+          <input value={price} name="applePrice" onChange={this.handleChange} />
           <h3> Description: </h3>
           <input
-            value={descInput}
+            value={description}
             name="appleDescription"
             onChange={this.handleChange}
           />
           <h3> Stock: </h3>
-          <input
-            value={stockInput}
-            name="appleStock"
-            onChange={this.handleChange}
-          />
+          <input value={stock} name="appleStock" onChange={this.handleChange} />
           <button> Submit </button>
         </form>
       </div>
@@ -76,10 +110,16 @@ const { imgInput, nameInput, categoryInput, priceInput, descInput, stockInput } 
 }
 
 const mapState = state => {
-  return {};
+  return {
+    isAdmin: !!state.user.isAdmin
+  };
 };
-const mapDispatch = dispatch => {
-  return {};
+const mapDispatch = (dispatch, ownProps) => {
+  return {
+    addApple: function(apple) {
+      dispatch(postApple(apple, ownProps.history));
+    }
+  };
 };
 
 export default connect(mapState, mapDispatch)(AddApple);

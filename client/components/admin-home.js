@@ -14,7 +14,7 @@ export const AdminHome = props => {
       <h1>ADMIN HOME!!!</h1>
       <UserHome />
       <div className="add-category">
-        <NavLink className="to-edit-category" to="/apples-edit">
+        <NavLink className="to-edit-category" to="/">
           <button>Add a category</button>
         </NavLink>
       </div>

@@ -28,11 +28,13 @@ class Routes extends Component {
 
     return (
       <Switch>
+
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/" component={VisitorHome} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/apples/type/:category" component={AllApples} />
+        <Route exact path="/apples/edit" component={AddApple} />
         <Route path="/apples/:id" component={SingleApple} />
         <Route exact path="/apples" component={AllApples} />
         <Route exact path="/users" component={AllUsers} />
@@ -48,15 +50,14 @@ class Routes extends Component {
             </Switch>
           )}
 
+
         {isLoggedIn &&
           isAdmin && (
             <Switch>
               {/* Routes placed here are only available for Admin*/}
-              <Route exact path="/apples-edit" component={AddApple} />
               <Route path="/:userId" component={AdminHome} />
             </Switch>
           )}
-
         {/* Displays our Login component as a fallback */}
         <Route component={Login} />
       </Switch>
