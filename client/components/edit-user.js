@@ -15,7 +15,7 @@ class EditProfile extends Component {
       lastNameInput: user.lastName || '',
       emailInput: user.email || '',
       shippingInput: user.shipping || '',
-      phoneInput: user.phone || '', 
+      phoneInput: user.phone || '',
       isAdminInput: user.isAdmin || false
     }
     this.handleChange = this.handleChange.bind(this)
@@ -35,10 +35,10 @@ class EditProfile extends Component {
       lastNameInput: form.lastName.value,
       emailInput: form.email.value,
       shippingInput: form.shipping.value,
-      phoneInput: form.phone.value, 
+      phoneInput: form.phone.value
     })
   }
-  
+
   handleSelect(event){
     let boolean = event.target.value === 'Admin' ? true : false
     this.setState({isAdminInput: boolean})
@@ -54,7 +54,7 @@ class EditProfile extends Component {
       lastName: form.lastName.value,
       email: form.email.value,
       shipping: form.shipping.value,
-      phone: form.phone.value, 
+      phone: form.phone.value,
       isAdmin: this.state.isAdminInput
     }
     updateUser(userId, updatedUser, history)
@@ -79,7 +79,7 @@ class EditProfile extends Component {
           <input
             value={lastNameInput}
             name="lastName"
-            onChange={this.handleChange}            
+            onChange={this.handleChange}
           />
           <h3> Email: </h3>
           <input
@@ -100,8 +100,8 @@ class EditProfile extends Component {
             onChange={this.handleChange}
           />
           {
-            authenticatedUser.isAdmin 
-            ? <h3> User Privileges: 
+            authenticatedUser.isAdmin
+            ? <h3> User Privileges:
               <select onChange={this.handleSelect} value={isAdmin}>
                 <option> Regular </option>
                 <option> Admin </option>
