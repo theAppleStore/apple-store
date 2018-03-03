@@ -1,10 +1,6 @@
 import React, { Component } from "react";
-// import PropTypes from 'prop-types'
 import { connect } from "react-redux";
-// import {NavLink} from 'react-router-dom'
-
-//import store, {fetchApple, updateApple} from '../store'
-import store, { postApple } from "../store";
+import { postApple } from "../store";
 
 class AddApple extends Component {
   constructor(props) {
@@ -19,7 +15,6 @@ class AddApple extends Component {
     };
     this.handleImgInput = this.handleImgInput.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    //this.handleImageChange = this.handleImageChange.bind(this);
   }
 
   handleImgInput = event => {
@@ -42,30 +37,26 @@ class AddApple extends Component {
       description: form.appleDescription.value,
       stock: form.appleStock.value
     });
-    console.log(this.state);
   };
 
-  handleSubmit = () => {
+  handleSubmit = event => {
     event.preventDefault();
     const newApple = this.state;
     this.props.addApple(newApple);
   };
 
   render() {
-    return (
-      this.props.isAdmin
-        ? this.renderAuthorisedUser()
-        : this.renderUnathorizedUser()
-    )
+    return this.props.isAdmin
+      ? this.renderAuthorisedUser()
+      : this.renderUnathorizedUser();
   }
 
   renderUnathorizedUser() {
-    return (<h2> Unathorized access </h2>);
+    return <h2> Unathorized access </h2>;
   }
 
   renderAuthorisedUser() {
     const { name, image, price, description, stock, category } = this.state;
-    console.log("ADD APPPLE");
     return (
       <div>
         <h2> ADD APPLE </h2>
@@ -117,12 +108,10 @@ const mapState = state => {
 const mapDispatch = (dispatch, ownProps) => {
   return {
     addApple: function(apple) {
-      dispatch(postApple(apple, ownProps.history));
+      console.log("ADD APPLE COMPONENT OWN PROPS", ownProps.history);
+      dispatch(postApple(apple, ownProps));
     }
   };
 };
 
 export default connect(mapState, mapDispatch)(AddApple);
-
-//onSubmit ->update the input value through dispatch
-//need api

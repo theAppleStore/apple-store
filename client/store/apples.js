@@ -69,6 +69,6 @@ export default function reducer(state = initState, action) {
 function addAppleAndRedirect(apple, histor, dispatch) {
   console.log('ADDDAPPLE AND REDIRECT', histor.location)
   dispatch(addApple(apple));
-  histor.push(`/apples/${apple.id}`)
+  histor.history.push(`/apples/${apple.id}`)
 }
 
