@@ -27,7 +27,7 @@ if (process.env.NODE_ENV !== 'production') require('../secrets')
 passport.serializeUser((user, done) => done(null, user.id))
 passport.deserializeUser((id, done) =>
   db.models.user.findById(id)
-    .then(user => done(null, user))
+    .then(user => done(null, user)) // creates req.user
     .catch(done))
 
 const createApp = () => {
@@ -49,7 +49,7 @@ const createApp = () => {
     saveUninitialized: false
   }))
   app.use(passport.initialize())
-  app.use(passport.session())
+  app.use(passport.session()) // creates req.user (by invoking deserializeUser)
 
   // auth and api routes
   app.use('/auth', require('./auth'))

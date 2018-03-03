@@ -108,7 +108,6 @@ const mapState = state => {
 const mapDispatch = (dispatch, ownProps) => {
   return {
     addApple: function(apple) {
-      console.log("ADD APPLE COMPONENT OWN PROPS", ownProps.history);
       dispatch(postApple(apple, ownProps));
     }
   };

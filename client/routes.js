@@ -11,8 +11,9 @@ import AllUsers from "./components/all-users";
 import EditProfile from "./components/edit-user";
 import AllOrders from "./components/all-orders";
 import SingleApple from "./components/singleapple";
+import AddApple from "./components/add-apple";
+import Cart from "./components/cart";
 import { AdminHome } from "./components/admin-home";
-import { default as AddApple } from "./components/add-apple";
 /**
  *  COMPONENT
  */
@@ -28,7 +29,6 @@ class Routes extends Component {
 
     return (
       <Switch>
-
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/" component={VisitorHome} />
         <Route path="/login" component={Login} />
@@ -41,7 +41,10 @@ class Routes extends Component {
         <Route path="/users/:id/edit" component={EditProfile} />
         <Route path="/users/:id" component={SingleUser} />
         <Route exact path="/orders" component={AllOrders} />
-        <Route path="/orders/:userId" component={AllOrders} />
+        <Route path="/cart" component={Cart} />
+        <Route path="/orders/single/:id" component={SingleOrder} />
+        <Route exact path="/orders/:userId" component={AllOrders} />
+
         {isLoggedIn &&
           !isAdmin && (
             <Switch>
@@ -49,7 +52,6 @@ class Routes extends Component {
               <Route path="/" component={UserHome} />
             </Switch>
           )}
-
 
         {isLoggedIn &&
           isAdmin && (

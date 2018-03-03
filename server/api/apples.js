@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const Apple = require("../db/models/apple.js");
+// const Reviews = require('../db/models/reviews.js');
+const Apple = require('../db/models/apple.js');
 
 router.get("/", function(req, res, next) {
   Apple.findAll()

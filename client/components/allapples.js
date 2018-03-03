@@ -17,7 +17,7 @@ class AllApples extends React.Component {
   render() {
     const { apples, isAdmin } = this.props;
     const category = this.props.match.params.category;
-    console.log(category);
+
     return (
       <div>
         {isAdmin && (
