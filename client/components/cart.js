@@ -32,7 +32,9 @@ class Cart extends Component {
         if(apples){
             apples.forEach(apple => {
                 totalAmount += apple.price;
+                if (apple.lineItem){
                 totalQuantity += apple.lineItem.quantity;
+                }
             })
         }
 
@@ -46,7 +48,10 @@ class Cart extends Component {
                     return(
                         <ul key={apple.id}>
                             <li><AppleItem apple={apple} isCart={this.state.isCart} /></li>
-                            <li>{`Quantity: ${apple.lineItem.quantity}`}</li>
+                            {
+                              apple.lineItem &&
+                              <li>{`Quantity: ${apple.lineItem.quantity}`}</li>
+                            }
                         </ul>
                     )
                 })}
