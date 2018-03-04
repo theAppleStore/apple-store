@@ -9,9 +9,6 @@ const Review = db.define('review', {
   },
   subjectField: {
     type: Sequelize.STRING,
-    // defaultValue: function(){
-    //   return Review.getDataValue('text').slice(0,25) + '...'
-    // }
   },
   text: {
     type: Sequelize.TEXT,

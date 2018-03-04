@@ -12,7 +12,8 @@ import EditProfile from './components/edit-user'
 import AllOrders from './components/all-orders'
 import SingleApple from "./components/singleapple"
 import Cart from './components/cart'
-import { AdminHome } from './components/admin-home';
+import { AdminHome } from './components/admin-home'
+import NewReviewForm from './components/newreviewform'
 /**
  *  COMPONENT
  */
@@ -29,12 +30,16 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        {/* If you only want to match '/roster', then you need to use
+the "exact" prop. The following will match '/roster', but not '/roster/2'.
+<Route exact path='/roster'/>*/}
         <Route exact path="/" component={VisitorHome} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/apples/type/:category" component={AllApples} />
-        <Route path="/apples/:id" component={SingleApple} />
-        <Route path="/apples" component={AllApples} />
+        <Route exact path="/apples/type/:category" component={AllApples} />
+        <Route exact path="/apples/:id" component={SingleApple} />
+        <Route exact path="/apples/:id/review" component={NewReviewForm}/>
+        <Route exact path="/apples" component={AllApples} />
         <Route exact path="/users" component={AllUsers} />
         <Route path="/users/:id/edit" component={EditProfile} />
         <Route path="/users/:id" component={SingleUser} />
