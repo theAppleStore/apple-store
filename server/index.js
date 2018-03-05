@@ -57,6 +57,9 @@ const createApp = () => {
 
   app.use(function (req, res, next) {
     console.log('SESSION: ', req.session);
+    if(!req.user){
+      if (!req.session.cart) req.session.cart = {};
+    }
     next();
   });
 
