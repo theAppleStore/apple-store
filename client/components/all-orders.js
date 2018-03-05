@@ -11,7 +11,6 @@ class AllOrders extends Component {
     super(props)
     this.state = {
       inputValue: '',
-      orders: []
     }
     this.handleChange = this.handleChange.bind(this)
   }

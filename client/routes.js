@@ -1,21 +1,26 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter, Route, Switch } from "react-router-dom";
-import PropTypes from "prop-types";
-import { Login, Signup, UserHome, VisitorHome } from "./components";
-import { me } from "./store";
-import AllApples from "./components/allapples";
-import SingleUser from "./components/single-user";
-import SingleOrder from "./components/single-order";
-import AllUsers from "./components/all-users";
-import EditProfile from "./components/edit-user";
-import AllOrders from "./components/all-orders";
-import SingleApple from "./components/singleapple";
-import AddApple from "./components/add-apple";
-import Cart from "./components/cart";
-import { AdminHome } from "./components/admin-home";
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {withRouter, Route, Switch} from 'react-router-dom'
+import PropTypes from 'prop-types'
+import {Login, Signup, UserHome, VisitorHome} from './components'
+import {me} from './store'
+import AllApples from './components/allapples'
+import SingleUser from './components/single-user'
+import SingleOrder from './components/single-order'
+import AllUsers from './components/all-users'
+import EditProfile from './components/edit-user'
+import AllOrders from './components/all-orders'
+import SingleApple from "./components/singleapple"
+import Cart from './components/cart'
+import { AdminHome } from './components/admin-home'
 import EditApple from "./components/edit-apple";
+<<<<<<< HEAD
 import Checkout from './components/checkout';
+=======
+import NewReviewForm from './components/newreviewform'
+import AddApple from './components/add-apple'
+
+>>>>>>> master
 /**
  *  COMPONENT
  */
@@ -32,14 +37,17 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        {/* If you only want to match '/roster', then you need to use
+the "exact" prop. The following will match '/roster', but not '/roster/2'.
+<Route exact path='/roster'/>*/}
         <Route exact path="/" component={VisitorHome} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/apples/type/:category" component={AllApples} />
+        <Route exact path="/apples/:id" component={SingleApple} />
+        <Route exact path="/apples/:id/review" component={NewReviewForm}/>
         <Route exact path="/apples/edit" component={AddApple} />
         <Route path="/apples/:id/edit" component={EditApple} />
-        <Route path="/apples/:id" component={SingleApple} />
         <Route exact path="/apples" component={AllApples} />
         <Route exact path="/users" component={AllUsers} />
         <Route path="/users/:id/edit" component={EditProfile} />
