@@ -14,13 +14,10 @@ import SingleApple from "./components/singleapple"
 import Cart from './components/cart'
 import { AdminHome } from './components/admin-home'
 import EditApple from "./components/edit-apple";
-<<<<<<< HEAD
 import Checkout from './components/checkout';
-=======
 import NewReviewForm from './components/newreviewform'
 import AddApple from './components/add-apple'
 
->>>>>>> master
 /**
  *  COMPONENT
  */
