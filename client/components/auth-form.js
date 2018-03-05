@@ -12,6 +12,22 @@ export const AuthForm = (props) => {
   return (
     <div>
       <form onSubmit={handleSubmit} name={name}>
+        {
+          name === "signup"
+          ? <div>
+            <label htmlFor="firstName"><small>First Name</small></label>
+            <input name="firstName" type="text" />
+          </div>
+          : null
+        }
+        {
+          name === "signup"
+          ? <div>
+            <label htmlFor="lastName"><small>Last Name</small></label>
+            <input name="lastName" type="text" />
+          </div>
+          : null
+        }
         <div>
           <label htmlFor="email"><small>Email</small></label>
           <input name="email" type="text" />
@@ -53,20 +69,38 @@ const mapSignup = (state) => {
   }
 }
 
-const mapDispatch = (dispatch) => {
+const mapSignUpDispatch = (dispatch) => {
   return {
     handleSubmit (evt) {
       evt.preventDefault()
       const formName = evt.target.name
-      const email = evt.target.email.value
-      const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      const newUser = {
+        firstName: evt.target.firstName.value, 
+        lastName: evt.target.lastName.value, 
+        email: evt.target.email.value, 
+        password: evt.target.password.value
+      }
+      dispatch(auth(newUser, formName))
     }
   }
 }
 
-export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
+const mapLoginDispatch = (dispatch) => {
+  return {
+    handleSubmit(evt) {
+      evt.preventDefault()
+      const formName = evt.target.name
+      const newUser = {
+        email: evt.target.email.value,
+        password: evt.target.password.value
+      }
+      dispatch(auth(newUser, formName))
+    }
+  }
+}
+
+export const Login = connect(mapLogin, mapLoginDispatch)(AuthForm)
+export const Signup = connect(mapSignup, mapSignUpDispatch)(AuthForm)
 
 /**
  * PROP TYPES

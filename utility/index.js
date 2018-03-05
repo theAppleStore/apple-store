@@ -10,7 +10,7 @@ const isLoggedIn = (req, res, next) => {
 }
 
 const isAdmin = (req, res, next) => {
-  if(!req.user.admin) next(makeError(403, 'Access forbidden'))
+  if(!req.user.isAdmin) next(makeError(403, 'Access forbidden'))
   next()
 }
 
