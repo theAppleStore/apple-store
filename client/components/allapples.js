@@ -60,7 +60,7 @@ const mapDispatch = { fetchApples };
 const AllApplesContainer = connect(mapStateToProps, mapDispatch)(AllApples);
 export default AllApplesContainer;
 
-AllApples.propTypes = {
-  apples: PropTypes.array,
-  isAdmin: PropTypes.boolean
-}
+// AllApples.propTypes = {
+//   apples: PropTypes.array,
+//   isAdmin: PropTypes.boolean
+// }

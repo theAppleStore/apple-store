@@ -29,7 +29,6 @@ class Routes extends Component {
 
   render() {
     const { isLoggedIn, isAdmin, userId, user } = this.props;
-    console.log("isADMIN", isAdmin, "isLOGGED", isLoggedIn);
 
     return (
       <Switch>
@@ -79,8 +78,7 @@ the "exact" prop. The following will match '/roster', but not '/roster/2'.
 /**
  * CONTAINER
  */
-const mapState = state => {
-  console.log("routes isAdmin State", state);
+const mapState = state => { 
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey

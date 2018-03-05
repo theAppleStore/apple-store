@@ -16,7 +16,7 @@ const initState = [];
 
 //creators
 
-export const getApples = apples => ({type: GET_APPLES, apple})
+export const getApples = apples => ({type: GET_APPLES, apples})
 
 export const removeApple = id => ({type: DELETE_APPLE, id})
 
@@ -101,6 +101,7 @@ export function deleteFromCart(appleId) {
       .catch(err => console.log(err));
   };
 }
+
 
 //reducer
 export default function reducer(state = initState, action) {
