@@ -5,7 +5,7 @@ const users = [
     {
         id: 1,
         firstName: 'Heather',
-        lastName: 'Kopenski', 
+        lastName: 'Kopenski',
         email: 'heatherkop320@gmail.com',
         password: 'themyscira',
         isAdmin: true
@@ -13,7 +13,7 @@ const users = [
     {
         id: 2,
         firstName: 'Brittany',
-        lastName: 'Chu', 
+        lastName: 'Chu',
         email: 'brittany@fullstack.com',
         password: 'noodlesnyc',
         isAdmin: true
@@ -21,7 +21,7 @@ const users = [
     {
         id: 3,
         firstName: 'Claudia',
-        lastName: 'Baik', 
+        lastName: 'Baik',
         email: 'claudiabaik@gmail.com',
         password: '123456',
         isAdmin: true
@@ -29,7 +29,7 @@ const users = [
     {
         id: 4,
         firstName: 'Danielle',
-        lastName: 'Howard', 
+        lastName: 'Howard',
         email: 'danielle@fullstack.com',
         password: 'coloradolife',
         isAdmin: true
@@ -37,7 +37,7 @@ const users = [
     {
         id: 5,
         firstName: 'Diana',
-        lastName: 'Prince', 
+        lastName: 'Prince',
         email: 'brittany.s.chu@gmail.com',
         password: 'jla4eva',
         isAdmin: false
@@ -48,7 +48,7 @@ const apples = [
     {
         id: 1,
         name: 'Fuji',
-        image: 'https://files.slack.com/files-pri/T024FPYBQ-F9FJNPG12/image.png',
+        image: '/images/red-fuji.png',
         price: 1.50,
         description: 'The Sweetest Apple Around. Fuji apples were developed in the late 1930s by growers at the Tohoku Research Station in Fujisaki, Japan. Fuji apples are a cross between two classic American apple varieties – Red Delicious and Virginia Ralls Janet. Fuji apples were introduced to the United States in the 1960s.',
         stock: 50,
@@ -57,7 +57,7 @@ const apples = [
     {
         id: 2,
         name: 'Jonagold',
-        image: 'https://files.slack.com/files-pri/T024FPYBQ-F9FJR76VA/image.png',
+        image: '/images/red-jonaGold.png',
         price: 1,
         description: 'A very popular commercial variety, with a good flavour. Inherits many of the good qualities of its parents Jonathan and Golden Delicious.',
         stock: 5,
@@ -66,7 +66,7 @@ const apples = [
     {
         id: 3,
         name: 'Gala',
-        image: 'https://files.slack.com/files-pri/T024FPYBQ-F9GF02M2A/image.png',
+        image: '/images/red-gala.png',
         price: 1,
         description: 'Gala apples have mild sweet and vanilla-like flavors with a floral aroma. This variety is excellent for fresh eating, salads, sauce, pies, and baking.',
         stock: 80,
@@ -75,7 +75,7 @@ const apples = [
     {
         id: 4,
         name: 'McIntosh',
-        image: 'https://files.slack.com/files-pri/T024FPYBQ-F9FGKQXV1/image.png',
+        image: '/images/red-mcIntosh.png',
         price: 1.25,
         description: 'McIntosh apples are vivid red brushed with bright green, oftentimes speckled with white lenticels (spots). The amount of red or green on the skin of the McIntosh will vary depending on when it was harvested. Early season apples will have more green and later season will sometimes be almost all red.',
         stock: 100,
@@ -84,7 +84,7 @@ const apples = [
     {
         id: 5,
         name: 'Granny Smith',
-        image: 'https://files.slack.com/files-pri/T024FPYBQ-F9GF2RMKQ/image.png',
+        image: '/images/green-grannySmith.png',
         price: 1,
         description: 'Granny Smith apples have a bright green skin that is often speckled with faint white lenticels (spots). Medium to large in size and round in shape, they are a firm and juicy apple with thick skin. Their flesh is bright white and crisp in texture with a tart, acidic, yet subtly sweet flavor.',
         stock: 60,
@@ -93,7 +93,7 @@ const apples = [
     {
         id: 6,
         name: 'Ginger Gold',
-        image: 'https://files.slack.com/files-pri/T024FPYBQ-F9FJWS23W/image.png',
+        image: '/images/green-gingerGold.png',
         price: 1,
         description: 'Ginger Gold apples have a pale yellow skin with slight russeting on the surface. They are variable in size, but tend toward conical in shape, sometimes with ribs and long stalks. They have a crisp, cream-colored flesh with a sweet, mildly tart taste. The sweet apple also has a sharp flavor that provides a slight spiciness.',
         stock: 70,
@@ -102,7 +102,7 @@ const apples = [
     {
         id: 7,
         name: 'Golden Delicious',
-        image: 'https://files.slack.com/files-pri/T024FPYBQ-F9GM4GAFR/image.png',
+        image: '/images/green-goldenDelicious.png',
         price: 1,
         description: 'Golden Delicious apples are pale green to golden yellow in color and speckled with small lenticels (spots). They are small to medium in size, and tend to be conical or oblong in shape. Golden Delicious apples are firm, crisp, and white-fleshed.',
         stock: 85,
@@ -111,7 +111,7 @@ const apples = [
     {
         id: 8,
         name: 'Mutsu',
-        image: 'https://files.slack.com/files-pri/T024FPYBQ-F9GM5B4CF/image.png',
+        image: '/images/green-mutsu.png',
         price: 1.25,
         description: "A cross between Golden Delicious and Indo, it’s named after the Mutsu Province of Japan, where it was first grown. Mutsu is often sold under its other (more onomatopoeic) name, Crispin. Taste it: One of these oversize green apples can easily feed two people, though its boisterous tang may incline you to keep one all to yourself.",
         stock: 0,
