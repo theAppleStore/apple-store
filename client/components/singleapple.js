@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import store, { me, auth, fetchAppleById, getAppleById, fetchReviewByAssociation} from "../store";
 import AppleItem from "./appleitem";
-import { NavLink } from "react-router-dom";
+import { NavLink, Route } from "react-router-dom";
+import NewReviewForum from "./newreviewform"
+
 
 class SingleApple extends React.Component{
     constructor(props) {
         super(props);
-        // this.state = {value = ""};
       }
 
     componentDidMount() {
@@ -19,8 +20,7 @@ class SingleApple extends React.Component{
         const user = this.props.user
         const apple = this.props.apple
         const reviews = this.props.reviews
-        console.log(user);
-
+        console.log('here', this.props)
         return (
             <div>
                 <h1>{apple.name}</h1>
@@ -32,6 +32,8 @@ class SingleApple extends React.Component{
                 : (<p>Out of Stock</p>) }
                 {user.id ? (<NavLink to={`/apples/${apple.id}/review`}>Write Your Own Review</NavLink>):
             null }
+            {console.log('before form', this.props.match)}
+       <NewReviewForum apple = {apple} reviews = {reviews} user = {user}/>
                  {user.isAdmin ? (<p>Put a navlink here to let admin edit</p>):
                   null}
                    {reviews && reviews.map(review => {

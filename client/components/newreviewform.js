@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import store, { me, auth, fetchAppleById, getAppleById, fetchReviewByAssociation, addReviewByAssociation} from "../store";
 import AppleItem from "./appleitem";
+import {withRouter} from "react-router"
 // import { supportsGoWithoutReloadUsingHash } from "../../../.cache/typescript/2.6/node_modules/@types/history/DOMUtils";
 
 class NewReviewForm extends React.Component{
@@ -29,7 +30,6 @@ class NewReviewForm extends React.Component{
     handleSubmit(event) {
         const review = this.state
         this.props.addReviewByAssociation(review)
-        console.log(review)
         // event.preventDefault();
         // this.setState({ fireRedirect: true })
     }
@@ -73,5 +73,5 @@ const mapStateToProps = function(state) {
 
 const mapDispatch = {addReviewByAssociation, fetchAppleById, fetchReviewByAssociation, me, auth}
   
-const NewReviewContainer = connect(mapStateToProps, mapDispatch)(NewReviewForm);
+const NewReviewContainer = connect(mapStateToProps, mapDispatch)(withRouter(NewReviewForm));
 export default NewReviewContainer;
