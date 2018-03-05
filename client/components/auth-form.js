@@ -75,8 +75,8 @@ const mapDispatch = (dispatch) => {
       evt.preventDefault()
       const formName = evt.target.name
       const newUser = {
-        firstName: evt.target.firstName.value, 
-        lastName: evt.target.lastName.value, 
+        // firstName: evt.target.firstName.value, 
+        // lastName: evt.target.lastName.value, 
         email: evt.target.email.value, 
         password: evt.target.password.value
       }

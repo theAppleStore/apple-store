@@ -15,6 +15,7 @@ import Cart from './components/cart'
 import { AdminHome } from './components/admin-home'
 import EditApple from "./components/edit-apple";
 import NewReviewForm from './components/newreviewform'
+import AddApple from './components/add-apple'
 
 /**
  *  COMPONENT

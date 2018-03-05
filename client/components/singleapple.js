@@ -58,7 +58,7 @@ const mapStateToProps = function(state) {
       user: state.user
     };
   };
-};
+
 
 const mapDispatch = {fetchAppleById, fetchReviewByAssociation, me, auth}
   

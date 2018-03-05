@@ -28,8 +28,8 @@ export function fetchAppleById(id){
         .then(res => res.data)
         .then(apple => dispatch(getAppleById(apple)))
         .catch(err => console.log(err));
-    };
-
+    }
+  }
 
 
 //reducer
