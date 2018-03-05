@@ -14,9 +14,13 @@ import SingleApple from "./components/singleapple"
 import Cart from './components/cart'
 import { AdminHome } from './components/admin-home'
 import EditApple from "./components/edit-apple";
+<<<<<<< HEAD
+import Checkout from './components/checkout';
+=======
 import NewReviewForm from './components/newreviewform'
 import AddApple from './components/add-apple'
 
+>>>>>>> master
 /**
  *  COMPONENT
  */
@@ -37,6 +41,7 @@ class Routes extends Component {
 the "exact" prop. The following will match '/roster', but not '/roster/2'.
 <Route exact path='/roster'/>*/}
         <Route exact path="/" component={VisitorHome} />
+        <Route path="/checkout" component={Checkout} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/apples/:id" component={SingleApple} />
