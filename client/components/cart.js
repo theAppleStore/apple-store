@@ -55,13 +55,13 @@ class Cart extends Component {
                         </ul>
                     )
                 })}
+                <button><NavLink to='/checkout'>Continue to Checkout</NavLink></button>
             </div>
         )
     }
 }
 
 const mapState = (state) => {
-    console.log('HERE', state)
     return {
       order: state.activeOrder,
       user: state.user,

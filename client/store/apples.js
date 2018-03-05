@@ -16,42 +16,17 @@ const initState = [];
 
 //creators
 
-export function getApples(apples) {
-  return {
-    type: GET_APPLES,
-    apples
-  };
-}
+export const getApples = apples => ({type: GET_APPLES, apple})
 
-export function removeApple(id) {
-  return {
-    type: DELETE_APPLE,
-    id
-  };
-}
+export const removeApple = id => ({type: DELETE_APPLE, id})
 
-export function addApple(apple) {
-  return {
-    type: ADD_APPLE,
-    apple
-  };
-}
+export const addApple = apple => ({type: ADD_APPLE,apple})
 
-export function editApple(apple) {
-  return {
-    type: UPDATE_APPLE,
-    apple
-  };
-}
+export const editApple = apple => ({type: UPDATE_APPLE, apple})
 
-export function getCartApples(apples) {
-  return {
-    type: GET_CART_APPLES,
-    apples
-  };
-}
+export const getCartApples = apples => ({type: GET_CART_APPLES, apples})
 
-const removeFromCart = apple => ({ type: REMOVE_FROM_CART, apple });
+export const removeFromCart = appleId => ({ type: REMOVE_FROM_CART, appleId });
 
 //thunk
 
@@ -71,7 +46,7 @@ export function fetchApples(category) {
 
 export function deleteApple(id, ownProps) {
   return function thunk(dispatch) {
-    axios
+    return axios
       .delete(`/api/apples/${id}`)
       .then(() => removeAppleAndRedirect(id, ownProps, dispatch))
       .catch(err => console.log(err, "failed to remove apple"));
@@ -80,7 +55,7 @@ export function deleteApple(id, ownProps) {
 
 export function postApple(apple, ownProps) {
   return function thunk(dispatch) {
-    axios
+    return axios
       .post("/api/apples", apple)
       .then(res => addAppleAndRedirect(res.data, ownProps, dispatch))
       .catch(err => console.log(err, "failed to post apple"));
@@ -98,7 +73,7 @@ export function updateApple(apple, ownProps) {
 
 export function fetchCartApples() {
   return function thunk(dispatch) {
-    axios
+    return axios
       .get("/auth/me")
       .then(res => res.data.id)
       .then(id => {
@@ -119,10 +94,10 @@ export function fetchCartApples() {
 
 export function deleteFromCart(appleId) {
   return function thunk(dispatch) {
-    axios
+    return axios
       .delete(`/api/cart/${appleId}`)
       .then(res => res.data)
-      .then(deletedApple => dispatch(removeFromCart(deletedApple)))
+      .then(deletedAppleId => dispatch(removeFromCart(deletedAppleId)))
       .catch(err => console.log(err));
   };
 }
@@ -144,7 +119,7 @@ export default function reducer(state = initState, action) {
     case GET_CART_APPLES:
       return action.apples;
     case REMOVE_FROM_CART:
-      const filtered = state.filter(apple => apple.id !== action.apple.id);
+      const filtered = state.filter(apple => apple.id !== +action.appleId);
       return filtered;
     default:
       return state;

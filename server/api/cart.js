@@ -23,7 +23,9 @@ router.delete('/:appleId', (req, res, next) => {
             appleId: req.params.appleId
         }
     })
-    .then(res.status(204).end())
+    .then(apple => {
+      res.json(req.params.appleId).status(204)
+    })
     .catch(next);
 })
 

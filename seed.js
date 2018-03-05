@@ -60,7 +60,7 @@ const apples = [
         image: 'https://files.slack.com/files-pri/T024FPYBQ-F9FJR76VA/image.png',
         price: 1,
         description: 'A very popular commercial variety, with a good flavour. Inherits many of the good qualities of its parents Jonathan and Golden Delicious.',
-        stock: 80,
+        stock: 5,
         category: 'red'
     },
     {
