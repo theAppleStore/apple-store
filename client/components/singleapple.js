@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import store, { me, auth, fetchAppleById, getAppleById, fetchReviewByAssociation} from "../store";
 import AppleItem from "./appleitem";
+import { NavLink } from "react-router-dom";
 
 class SingleApple extends React.Component{
     constructor(props) {
@@ -18,6 +19,7 @@ class SingleApple extends React.Component{
         const user = this.props.user
         const apple = this.props.apple
         const reviews = this.props.reviews
+        console.log(user);
 
         return (
             <div>
@@ -28,6 +30,10 @@ class SingleApple extends React.Component{
                 : null}
                 {apple.stock > 0 ? (<button>Add To Cart</button>) 
                 : (<p>Out of Stock</p>) }
+                {user.id ? (<NavLink to={`/apples/${apple.id}/review`}>Write Your Own Review</NavLink>):
+            null }
+                 {user.isAdmin ? (<p>Put a navlink here to let admin edit</p>):
+                  null}
                    {reviews && reviews.map(review => {
                     return(
                         <div>
@@ -37,7 +43,6 @@ class SingleApple extends React.Component{
                         </div>
                     )
                 })}
-                {user ? (<p>see</p>) : null}
                
             </div>
 

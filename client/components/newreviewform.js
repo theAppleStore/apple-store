@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import store, { me, auth, fetchAppleById, getAppleById, fetchReviewByAssociation, addReviewByAssociation} from "../store";
 import AppleItem from "./appleitem";
-import { supportsGoWithoutReloadUsingHash } from "../../../.cache/typescript/2.6/node_modules/@types/history/DOMUtils";
+// import { supportsGoWithoutReloadUsingHash } from "../../../.cache/typescript/2.6/node_modules/@types/history/DOMUtils";
 
 class NewReviewForm extends React.Component{
     constructor(props) {
