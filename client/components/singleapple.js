@@ -6,7 +6,6 @@ import AppleItem from "./appleitem";
 import { NavLink, Route } from "react-router-dom";
 import NewReviewForum from "./newreviewform"
 
-
 class SingleApple extends React.Component{
     constructor(props) {
         super(props);
@@ -59,11 +58,10 @@ const mapStateToProps = function(state) {
       user: state.user
     };
   };
+};
 
 const mapDispatch = {fetchAppleById, fetchReviewByAssociation, me, auth}
   
 const SingleApplesContainer = connect(mapStateToProps, mapDispatch)(SingleApple);
 export default SingleApplesContainer;
-
-
 

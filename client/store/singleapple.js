@@ -1,22 +1,23 @@
-import axios from 'axios'
-import history from '../history'
+import axios from "axios";
+//import history from "../history";
 
 //action type
 
-const GET_APPLE_BY_ID = 'GET_APPLE_BY_ID'
+const GET_APPLE_BY_ID = "GET_APPLE_BY_ID";
+
 
 
 //initial state
 
-const initState = []
+const initState = [];
 
 //creators
 
 export function getAppleById(apple) {
-   return {
-       type: GET_APPLE_BY_ID,
-       apple: apple 
-   }
+  return {
+    type: GET_APPLE_BY_ID,
+    apple
+  }
 }
 
 //thunk
@@ -28,12 +29,13 @@ export function fetchAppleById(id){
         .then(apple => dispatch(getAppleById(apple)))
         .catch(err => console.log(err));
     };
-}
+
+
 
 //reducer
 
+
 export default function reducer (state = initState, action){
-    console.log(action);
     switch (action.type) {
         case GET_APPLE_BY_ID:
             return action.apple;
@@ -41,3 +43,4 @@ export default function reducer (state = initState, action){
             return state;
     }
 }
+

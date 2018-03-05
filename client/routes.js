@@ -13,7 +13,9 @@ import AllOrders from './components/all-orders'
 import SingleApple from "./components/singleapple"
 import Cart from './components/cart'
 import { AdminHome } from './components/admin-home'
+import EditApple from "./components/edit-apple";
 import NewReviewForm from './components/newreviewform'
+
 /**
  *  COMPONENT
  */
@@ -36,9 +38,10 @@ the "exact" prop. The following will match '/roster', but not '/roster/2'.
         <Route exact path="/" component={VisitorHome} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route exact path="/apples/type/:category" component={AllApples} />
         <Route exact path="/apples/:id" component={SingleApple} />
         <Route exact path="/apples/:id/review" component={NewReviewForm}/>
+        <Route exact path="/apples/edit" component={AddApple} />
+        <Route path="/apples/:id/edit" component={EditApple} />
         <Route exact path="/apples" component={AllApples} />
         <Route exact path="/users" component={AllUsers} />
         <Route path="/users/:id/edit" component={EditProfile} />
@@ -63,7 +66,6 @@ the "exact" prop. The following will match '/roster', but not '/roster/2'.
               <Route path="/:userId" component={AdminHome} />
             </Switch>
           )}
-
         {/* Displays our Login component as a fallback */}
         <Route component={Login} />
       </Switch>
