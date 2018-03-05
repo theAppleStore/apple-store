@@ -58,10 +58,10 @@ class Cart extends Component {
         }
 
         return(
-            <div>
-                <h1>Your Cart</h1>
-                <h4>{`Number of Items: ${totalQuantity}`}</h4>
-                <h4>{`Total Price: $${totalAmount}`}</h4>
+            <div className="center">
+                <h1 className = "text-info">Your Cart</h1>
+                <h4 className = "text-info">{`Number of Items: ${totalQuantity}`}</h4>
+                <h4 className = "text-info">{`Total Price: $${totalAmount}`}</h4>
                 {apples[0] && apples.map((apple, i, arr) => {
                     let quantity;
                     if(Object.keys(this.props.user).length && apple.lineItem){
@@ -76,7 +76,7 @@ class Cart extends Component {
                         </ul>
                     )
                 })}
-                <button><NavLink to='/checkout'>Continue to Checkout</NavLink></button>
+                <button className = "btn btn-warning"><NavLink to='/checkout'>Continue to Checkout</NavLink></button>
             </div>
         )
     }

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import store, { me, auth, fetchAppleById, getAppleById, fetchReviewByAssociation} from "../store";
 import AppleItem from "./appleitem";
 import { NavLink, Route } from "react-router-dom";
-import NewReviewForum from "./newreviewform"
+import NewReviewForm from "./newreviewform"
 
 class SingleApple extends React.Component{
     constructor(props) {
@@ -21,25 +21,23 @@ class SingleApple extends React.Component{
         const reviews = this.props.reviews
         console.log('here', this.props)
         return (
-            <div>
-                <h1>{apple.name}</h1>
+      
+            <div className = "center">
+                <h1 className = "text-primary">{apple.name}</h1>
                 <img src = {apple.image} />
-                <p>{apple.description}</p>
-                {apple.stock < 10 && apple.stock > 0 ? (<p>Only {apple.stock} in stock, order now</p>) 
+                <p className = "text-info">{apple.description}</p>
+                {apple.stock < 10 && apple.stock > 0 ? <p className = "text-info">Only {apple.stock} in stock, order now</p> 
                 : null}
-                {apple.stock > 0 ? (<button>Add To Cart</button>) 
-                : (<p>Out of Stock</p>) }
-                {user.id ? (<NavLink to={`/apples/${apple.id}/review`}>Write Your Own Review</NavLink>):
-            null }
-            {console.log('before form', this.props.match)}
-       <NewReviewForum apple = {apple} reviews = {reviews} user = {user}/>
+                {apple.stock > 0 ? <button className = "btn btn-primary">Add To Cart</button>
+                : <p>Out of Stock</p> }
+       <NewReviewForm apple = {apple} reviews = {reviews} user = {user}/>
                  {user.isAdmin ? (<p>Put a navlink here to let admin edit</p>):
                   null}
                    {reviews && reviews.map(review => {
                     return(
                         <div>
                             <ul>
-                            <li key={review.id}>{review.text}</li>
+                            <li key={review.id} className = "text-info">{review.text}</li>
                             </ul>
                         </div>
                     )

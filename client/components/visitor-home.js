@@ -9,11 +9,7 @@ import store from "../store";
  */
 export default function VisitorHome() {
     return (
-      <div>
-          <div className="banner-welcome">
-            <h1>Welcome!</h1>
-          </div>
-
+      <div className = "center">
           <div className="categories">
 
               <NavLink className="category-product" to="/apples/type/green">
