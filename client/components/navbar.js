@@ -6,27 +6,29 @@ import {logout} from '../store'
 
 const Navbar = ({ handleClick, isLoggedIn, user }) => (
   <div>
+    <div className = "navbar-dark bg-primary">
     <Link to="/">
       <h1>
         <img src="https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX26650293.jpg" height="55" width="45" />
       THE APPLE STORE
       </h1>
     </Link>
-    <nav>
+    </div>
+    <nav className = "navbar-dark bg-dark">
       {isLoggedIn ? (
         <div>
         {/* The navbar will show these links after you log in */}
-          <Link to={`/${user.id}`}>Home</Link>
-          <Link to="/apples"> Apples </Link>
-          <Link to="/cart"> Cart </Link>
+          <Link to={`/${user.id}`}><h2>Home</h2></Link>
+          <Link to="/apples"><h2>Apples</h2> </Link>
+          <Link to="/cart"><h2>Cart</h2></Link>
           <a href="#" onClick={handleClick}>
-            Logout
+            <h2>Logout</h2>
           </a>
           {
             user.isAdmin 
             ? <div>
-              <Link to="/users"> Users </Link>
-              <Link to ="/orders"> Orders </Link>
+              <Link to="/users"><h3>Users</h3> </Link>
+              <Link to ="/orders"><h3>Orders</h3> </Link>
             </div>
             : null 
           }
@@ -34,11 +36,11 @@ const Navbar = ({ handleClick, isLoggedIn, user }) => (
       ) : (
         <div>
           {/* The navbar will show these links before you log in */}
-          <Link to="/"> Home </Link>
-          <Link to="/apples"> Apples </Link>
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-          <Link to="/cart"> Cart </Link>
+          <Link to="/"><h2>Home</h2></Link>
+          <Link to="/apples"><h2>Apples</h2></Link>
+          <Link to="/login"><h2>Login</h2></Link>
+          <Link to="/signup"><h2>Sign Up</h2></Link>
+          <Link to="/cart"><h2>Cart</h2></Link>
         </div>
       )}
       

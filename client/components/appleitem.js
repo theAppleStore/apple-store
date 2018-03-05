@@ -39,12 +39,15 @@ class AppleItem extends React.Component {
     render(){
         const apple = this.props.apple;
         return (
-           <div>
-                <img src = {apple.image}/>
-                <NavLink to={`/apples/${apple.id}`}>{apple.name}</NavLink>
-                <p>{`$${apple.price}`}</p>
-                {this.props.isCart ? <button onClick={this.handleDelete}>Remove from Cart</button> 
-                : <button onClick={this.handleClick}>Add to Cart</button>}
+           <div className = "center" >
+           <br></br>
+               <NavLink to={`/apples/${apple.id}`} ><h1 className = "text-success">{apple.name}</h1></NavLink>
+               <br></br>
+                <img  src = {apple.image}/>
+                <h3 className = "text-muted">{`$${apple.price}`}</h3>
+                <br></br>
+                {this.props.isCart ? <button className = "btn btn-danger" onClick={this.handleDelete}  >Remove from Cart</button> 
+                : <button className = "btn btn-primary btn-lg" onClick={this.handleClick}>Add to Cart</button>}
                 <br></br>
            </div>
         )}

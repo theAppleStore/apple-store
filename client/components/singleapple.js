@@ -21,6 +21,7 @@ class SingleApple extends React.Component{
         const reviews = this.props.reviews
         console.log('here', this.props)
         return (
+            // className = "center text-primary"
             <div>
                 <h1>{apple.name}</h1>
                 <img src = {apple.image} />
@@ -29,8 +30,6 @@ class SingleApple extends React.Component{
                 : null}
                 {apple.stock > 0 ? (<button>Add To Cart</button>) 
                 : (<p>Out of Stock</p>) }
-                {user.id ? (<NavLink to={`/apples/${apple.id}/review`}>Write Your Own Review</NavLink>):
-            null }
             {console.log('before form', this.props.match)}
        <NewReviewForum apple = {apple} reviews = {reviews} user = {user}/>
                  {user.isAdmin ? (<p>Put a navlink here to let admin edit</p>):
