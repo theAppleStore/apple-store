@@ -14,6 +14,7 @@ import SingleApple from "./components/singleapple";
 import AddApple from "./components/add-apple";
 import Cart from "./components/cart";
 import { AdminHome } from "./components/admin-home";
+import EditApple from "./components/edit-apple";
 /**
  *  COMPONENT
  */
@@ -35,6 +36,7 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         <Route path="/apples/type/:category" component={AllApples} />
         <Route exact path="/apples/edit" component={AddApple} />
+        <Route path="/apples/:id/edit" component={EditApple} />
         <Route path="/apples/:id" component={SingleApple} />
         <Route exact path="/apples" component={AllApples} />
         <Route exact path="/users" component={AllUsers} />
