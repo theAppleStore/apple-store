@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 
-import store, {fetchUser, updateUser} from '../store'
+import store, {fetchUser, updateUser, me} from '../store'
 
 /* COMPONENT */
 class EditProfile extends Component {
@@ -16,7 +16,7 @@ class EditProfile extends Component {
       emailInput: user.email || '',
       shippingInput: user.shipping || '',
       phoneInput: user.phone || '',
-      isAdminInput: user.isAdmin || false
+      isAdminInput: user.isAdmin || false,
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -121,7 +121,7 @@ class EditProfile extends Component {
 // 'user' refers to the profile of the user we want to look at
 // 'authenticatedUser' is the user that is logged in
 const mapState = ({userProfile, user}) => ({user: userProfile, authenticatedUser: user})
-const mapProps = {fetchUser, updateUser}
+const mapProps = {fetchUser, updateUser, me}
 
 export default connect(mapState, mapProps)(EditProfile)
 

@@ -15,6 +15,7 @@ import AddApple from "./components/add-apple";
 import Cart from "./components/cart";
 import { AdminHome } from "./components/admin-home";
 import EditApple from "./components/edit-apple";
+import Checkout from './components/checkout';
 /**
  *  COMPONENT
  */
@@ -32,6 +33,7 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/" component={VisitorHome} />
+        <Route path="/checkout" component={Checkout} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/apples/type/:category" component={AllApples} />
