@@ -1,12 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const {Order, Apple} = require('../db/models');
+const {makeError, isLoggedIn, isAdmin} = require('../../utility')
 
-router.get('/', (req, res, next) => {
+router.get('/', isLoggedIn, isAdmin, (req, res, next) => {
     Order.findAll()
     .then(orders => res.json(orders))
     .catch(next)
 })
+
+
 
 router.post('/new', (req, res, next) => {
     // Order.create(req.body)
@@ -15,14 +18,23 @@ router.post('/new', (req, res, next) => {
     // if not logged in, no userId
     // if logged in and not admin, use req.user.id
     //  if admin, user can be req.body.userId
-    Order.findOrCreate({
-        where: {
-            status: 'Created',
-            userId: req.body.userId
-        }
-    })
+    if(req.user){
+        Order.findOrCreate({
+            where: {
+                status: 'Created',
+                userId: req.body.userId
+            }
+        })
         .then(([order, createdBool]) => res.json(order))
         .catch(next)
+    } else {
+        if (req.session.cart[req.body.appleId]) {
+            req.session.cart[req.body.appleId]++
+        } else {
+            req.session.cart[req.body.appleId] = req.body.quantity
+        }
+        res.send(req.session.cart)
+    }
 })
 
 router.get('/single/:id', (req, res, next) => {

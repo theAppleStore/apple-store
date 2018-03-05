@@ -49,9 +49,22 @@ export function postNewOrder(order){
     return axios.post('/api/orders/new', order)
     .then(res => res.data)
     .then(newOrder => {
+      console.log('HELLO!', newOrder)
       return axios.post('/api/cart', Object.assign({}, order, {orderId: newOrder.id}))
       .then(res => res.data)
       .then(lineItem => dispatch(addOrder(newOrder)))
+    })
+    .catch(err => console.log(err))
+  }
+}
+
+export function addUnauthorizedCart(order){
+  return function thunk(dispatch) {
+    return axios.post('/api/orders/new', order)
+    .then(res => res.data)
+    .then(sessionCart => {
+      console.log(sessionCart)
+      dispatch(addOrder(sessionCart))
     })
     .catch(err => console.log(err))
   }
@@ -68,6 +81,25 @@ export function fetchCart(){
       .then(foundOrder => dispatch(findOrder(foundOrder)))
     })
     .catch(err => console.log(err))
+  }
+}
+
+export function fetchUnauthorizedCart(){
+  return function thunk(dispatch) {
+    axios.get('/api/cart/session')
+    .then(res => res.data)
+    .then(sessionCart => dispatch(findOrder(sessionCart)))
+    .catch(err => console.log(err))
+  }
+}
+
+export function deletefromUnauthorized(appleId){
+  return function thunk(dispatch) {
+      return axios
+      .delete(`/api/cart/session/${appleId}`)
+      .then(res => res.data)
+      .then(sessionCart => dispatch(updateOrder(sessionCart)))
+      .catch(err => console.log(err))
   }
 }
 

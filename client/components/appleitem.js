@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink } from "react-router-dom";
 import PropTypes from 'prop-types'
 import SingleApple from './singleapple'
-import store, {editOrder, postNewOrder, me, fetchOrder, deleteFromCart, fetchCart} from '../store'
+import store, {editOrder, postNewOrder, me, fetchOrder, deleteFromCart, fetchCart, addUnauthorizedCart, deletefromUnauthorized} from '../store'
 import { connect } from 'react-redux'
 
 class AppleItem extends React.Component {
@@ -21,19 +21,28 @@ class AppleItem extends React.Component {
     }
 
     handleClick(event){
-        const {postNewOrder, user, apple} = this.props
+        const {postNewOrder, user, apple, addUnauthorizedCart} = this.props
         const order = {
             userId: user.id,
             appleId: apple.id,
             quantity: 1,
             price: apple.price
         }
-        postNewOrder(order)
+        if (Object.keys(user).length) {
+            postNewOrder(order) 
+        }
+        else {
+            addUnauthorizedCart(order)
+        }
     }
 
     handleDelete(){
-        this.props.deleteFromCart(this.props.apple.id)
-        this.props.fetchCart();
+        if (Object.keys(this.props.user).length) {
+            this.props.deleteFromCart(this.props.apple.id)
+        }
+        else {
+            this.props.deletefromUnauthorized(this.props.apple.id)
+        }
     }
 
     render(){
@@ -55,6 +64,6 @@ const mapState = (state, ownProps) => {
         user: state.user, 
         activeOrder: state.activeOrder}
 }
-const mapDispatch = {editOrder, postNewOrder, me, fetchOrder, deleteFromCart, fetchCart}
+const mapDispatch = {editOrder, postNewOrder, me, fetchOrder, deleteFromCart, fetchCart, addUnauthorizedCart, deletefromUnauthorized}
 
 export default connect(mapState, mapDispatch)(AppleItem);
