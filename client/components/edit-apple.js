@@ -1,31 +1,40 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { postApple } from "../store";
+import { NavLink } from "react-router-dom";
+import { fetchAppleById, updateApple, deleteApple } from "../store";
 
-class AddApple extends Component {
+// import store, {fetchUser, updateUser} from '../store'
+
+/* COMPONENT */
+class EditApple extends Component {
   constructor(props) {
     super(props);
+    const { apple } = props;
     this.state = {
-      name: "",
-      image: "",
-      price: "",
-      description: "",
-      stock: "",
-      category: ""
+      id: apple.id || "",
+      name: apple.name || "",
+      image: apple.image || "",
+      price: apple.price || "",
+      description: apple.description || "",
+      stock: apple.stock || "",
+      category: apple.category || ""
     };
     this.handleImgInput = this.handleImgInput.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
-  handleImgInput = event => {  //if I want to change photo more than once pictures all appear on the browser :(
+  componentDidMount() {
+    const { id } = this.props.match.params;
+    this.props.getApple(id);
+  }
+
+  handleImgInput = event => {
     const input = event.target.parentNode.lastChild;
-    const preview = event.target.parentNode.nextSibling;
     const currFile = input.files[0];
-    const image = document.createElement("img");
-    image.src = window.URL.createObjectURL(currFile);
-    preview.appendChild(image);
-    const urlStr = image.src.toString();
-    this.setState({ ...this.state, image: urlStr });
+    const src = window.URL.createObjectURL(currFile);
+    this.setState({ ...this.state, image: src });
   };
 
   handleChange = event => {
@@ -41,9 +50,14 @@ class AddApple extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const newApple = this.state;
-    this.props.addApple(newApple);
+    const updatedApple = this.state;
+    this.props.editApple(updatedApple);
   };
+
+  handleDelete = (evt) => {
+    console.log('HI HANDLEDELETE', this.state.id)
+    this.props.removeApple(this.state.id)
+  }
 
   render() {
     return this.props.isAdmin
@@ -59,12 +73,11 @@ class AddApple extends Component {
     const { name, image, price, description, stock, category } = this.state;
     return (
       <div>
-        <h2> ADD APPLE </h2>
+        <h2> EDIT APPLE </h2>
         <form onSubmit={this.handleSubmit}>
+          <label htmlFor="image_uploads">Image (Choose File To Upload): </label>
           <div>
-            <label htmlFor="image_uploads">
-              Image (Choose File To Upload):{" "}
-            </label>
+            {image && <img id="appleImage" src={image} />}
             <input
               type="file"
               id="image_uploads"
@@ -95,6 +108,9 @@ class AddApple extends Component {
           <input value={stock} name="appleStock" onChange={this.handleChange} />
           <button> Submit </button>
         </form>
+        <div>
+        <button onClick={this.handleDelete}> DELETE THIS APPLE </button>
+        </div>
       </div>
     );
   }
@@ -102,15 +118,22 @@ class AddApple extends Component {
 
 const mapState = state => {
   return {
-    isAdmin: !!state.user.isAdmin
+    isAdmin: !!state.user.isAdmin,
+    apple: state.singleapple
   };
 };
 const mapDispatch = (dispatch, ownProps) => {
   return {
-    addApple: function(apple) {
-      dispatch(postApple(apple, ownProps));
+    editApple: function(apple) {
+      dispatch(updateApple(apple, ownProps));
+    },
+    getApple: function(id) {
+      dispatch(fetchAppleById(id));
+    },
+    removeApple: function(id) {
+      dispatch(deleteApple(id, ownProps))
     }
   };
 };
 
-export default connect(mapState, mapDispatch)(AddApple);
+export default connect(mapState, mapDispatch)(EditApple);
