@@ -60,7 +60,7 @@ class SingleUser extends Component {
           user.orders.map(order => {
             return (
               <div key={order.id}>
-                <NavLink to={`/orders/${order.id}`}>
+                <NavLink to={`/orders/single/${order.id}`}>
                   <div> Order #{order.id} </div>
                 </NavLink>
                 <div> Status: {order.status} </div>

@@ -17,6 +17,8 @@ import EditApple from "./components/edit-apple";
 import Checkout from './components/checkout';
 import NewReviewForm from './components/newreviewform'
 import AddApple from './components/add-apple'
+import ReviewCart from './components/review-cart'
+import ThankYou from './components/thank-you'
 
 /**
  *  COMPONENT
@@ -40,6 +42,7 @@ the "exact" prop. The following will match '/roster', but not '/roster/2'.
         <Route path="/checkout" component={Checkout} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route exact path="/thank-you" component={ThankYou} />
         <Route exact path="/apples/edit" component={AddApple} />
         <Route exact path="/apples/type/:category" component={AllApples} />
         <Route exact path="/apples/:id" component={SingleApple} />
@@ -54,6 +57,7 @@ the "exact" prop. The following will match '/roster', but not '/roster/2'.
         <Route path="/cart" component={Cart} />
         <Route path="/orders/single/:id" component={SingleOrder} />
         <Route exact path="/orders/:userId" component={AllOrders} />
+        <Route exact path="/reviewcart" component={ReviewCart} />
 
         {isLoggedIn &&
           !isAdmin && (

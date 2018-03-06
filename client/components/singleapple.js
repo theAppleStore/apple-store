@@ -22,8 +22,6 @@ class SingleApple extends React.Component{
         const user = this.props.user
         const apple = this.props.apple
         const reviews = this.props.reviews
-        const reviewName = this.props.reviews.user
-        
         return (
       
             <div className = "center">
