@@ -1,10 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import store, { me, auth, fetchAppleById, getAppleById, fetchReviewByAssociation} from "../store";
+import store, {
+  me,
+  auth,
+  fetchAppleById,
+  getAppleById,
+  fetchReviewByAssociation
+} from "../store";
 import AppleItem from "./appleitem";
 import { NavLink, Route } from "react-router-dom";
-import NewReviewForm from "./newreviewform"
+import NewReviewForm from "./newreviewform";
 
 
 class SingleApple extends React.Component{
@@ -23,11 +29,11 @@ class SingleApple extends React.Component{
         const apple = this.props.apple
         const reviews = this.props.reviews
         return (
-      
+
             <div className = "center">
                 <AppleItem apple = {apple} />
                 <p className = "text-info">{apple.description}</p>
-                {apple.stock < 10 && apple.stock > 0 ? <p className = "text-info">Only {apple.stock} in stock, order now</p> 
+                {apple.stock < 10 && apple.stock > 0 ? <p className = "text-info">Only {apple.stock} in stock, order now</p>
                 : null}
                 { reviews.length ? <h2 className = "top-padding text-primary"> What People are saying </h2> : null}
                    {reviews && reviews.map(review => {
@@ -60,7 +66,6 @@ const mapStateToProps = function(state) {
   };
 };
 const mapDispatch = {fetchAppleById, fetchReviewByAssociation, me, auth}
-  
+
 const SingleApplesContainer = connect(mapStateToProps, mapDispatch)(SingleApple);
 export default SingleApplesContainer;
-
