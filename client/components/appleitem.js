@@ -14,20 +14,21 @@ class AppleItem extends React.Component {
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
         this.props.me()
     }
 
-    handleClick(event){
+    handleClick(event, order){
         const {postNewOrder, user, apple, addUnauthorizedCart} = this.props
-        const order = {
-            userId: user.id,
-            appleId: apple.id,
-            quantity: 1,
-            price: apple.price
-        }
+        // const order = {
+        //     userId: user.id,
+        //     appleId: apple.id,
+        //     quantity: 1,
+        //     price: apple.price
+        // }
         if (Object.keys(user).length) {
             postNewOrder(order) 
         }
@@ -45,21 +46,38 @@ class AppleItem extends React.Component {
         }
     }
 
+    handleChange(evt){
+        const {user, apple} = this.props
+        const order = {
+            userId: user.id,
+            appleId: apple.id,
+            quantity: evt.target.value,
+            price: apple.price
+        }
+        this.handleClick(null, order)
+    }
+
     render(){
         const apple = this.props.apple;
         return (
-           <div className = "center" >
-           <br></br>
+           <div className = "center">
                <NavLink to={`/apples/${apple.id}`} ><h1 className = "text-success">{apple.name}</h1></NavLink>
-               <br></br>
                 <img  src = {apple.image}/>
                 <h3 className = "text-muted">{`$${apple.price}`}</h3>
                 <br></br>
-                {/* when adding style in the ternary it only renders one apple on apples */}
-                {this.props.isCart ? <button onClick={this.handleDelete} className= "btn btn-primary">Remove from Cart</button> 
-                : <button  onClick={this.handleClick} className= "btn btn-primary">Add to Cart</button>}
-                <br></br>
-           </div>
+                    {this.props.isCart ?
+                    <form>
+                        <p>Change Quantity:</p>
+                        <input onChange={this.handleChange} name='quantity'/> 
+                        <button onClick={this.handleDelete} className= "btn btn-primary">Remove from Cart</button> 
+                    </form>
+                    : <form>
+                        <p>Quantity:</p>
+                        <input onChange={this.handleChange} defaultValue='1' name='quantity'/>
+                        <button  onClick={this.handleClick} className= "btn btn-primary">Add to Cart</button>
+                    </form>}
+                    <br></br>
+            </div>
         )}
     }
 
