@@ -1108,10 +1108,12 @@ var AppleItem = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (AppleItem.__proto__ || Object.getPrototypeOf(AppleItem)).call(this, props));
 
         _this.state = {
-            apples: [],
-            userId: 0
+            userId: 0,
+            quantityInput: 1
         };
         _this.handleClick = _this.handleClick.bind(_this);
+        _this.handleUpdate = _this.handleUpdate.bind(_this);
+        _this.handleChange = _this.handleChange.bind(_this);
         _this.handleDelete = _this.handleDelete.bind(_this);
         return _this;
     }
@@ -1120,6 +1122,7 @@ var AppleItem = function (_React$Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             this.props.me();
+            console.log(this.props);
         }
     }, {
         key: 'handleClick',
@@ -1133,13 +1136,24 @@ var AppleItem = function (_React$Component) {
             var order = {
                 userId: user.id,
                 appleId: apple.id,
-                quantity: 1,
+                quantity: this.state.quantityInput,
                 price: apple.price
             };
             if (Object.keys(user).length) {
                 postNewOrder(order);
             } else {
                 addUnauthorizedCart(order);
+            }
+        }
+    }, {
+        key: 'handleUpdate',
+        value: function handleUpdate() {
+            var input = +this.state.quantityInput;
+            if (this.props.user.id) {
+                var appleQuantity = this.props.apple.lineItem.quantity;
+                this.props.putCart(this.props.apple.id, this.props.activeOrder.id, { quantity: input });
+            } else {
+                this.props.putUnauthorizedCart(this.props.apple.id, { quantity: input });
             }
         }
     }, {
@@ -1152,13 +1166,23 @@ var AppleItem = function (_React$Component) {
             }
         }
     }, {
+        key: 'handleChange',
+        value: function handleChange(evt) {
+            this.setState({ quantityInput: evt.target.value });
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var quantity = void 0;
             var apple = this.props.apple;
+            if (Object.keys(this.props.user).length && this.props.apple.lineItem) {
+                quantity = this.props.apple.lineItem.quantity;
+            } else {
+                quantity = this.props.activeOrder[apple.id];
+            }
             return _react2.default.createElement(
                 'div',
                 { className: 'center' },
-                _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     _reactRouterDom.NavLink,
                     { to: '/apples/' + apple.id },
@@ -1168,22 +1192,49 @@ var AppleItem = function (_React$Component) {
                         apple.name
                     )
                 ),
-                _react2.default.createElement('br', null),
                 _react2.default.createElement('img', { src: apple.image }),
                 _react2.default.createElement(
                     'h3',
                     { className: 'text-muted' },
-                    '$' + apple.price
+                    '$' + apple.price + ' each'
                 ),
-                _react2.default.createElement('br', null),
                 this.props.isCart ? _react2.default.createElement(
-                    'button',
-                    { onClick: this.handleDelete, className: 'btn btn-primary' },
-                    'Remove from Cart'
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'p',
+                        null,
+                        'Quantity: ',
+                        quantity
+                    ),
+                    _react2.default.createElement('input', { onChange: this.handleChange, value: this.state.quantityInput, name: 'quantity', size: '2' }),
+                    '\xA0',
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this.handleUpdate, className: 'btn btn-primary' },
+                        'Update Cart'
+                    ),
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this.handleDelete, className: 'btn btn-primary' },
+                        'Remove from Cart'
+                    )
                 ) : _react2.default.createElement(
-                    'button',
-                    { onClick: this.handleClick, className: 'btn btn-primary' },
-                    'Add to Cart'
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'p',
+                        null,
+                        'Quantity:'
+                    ),
+                    _react2.default.createElement('input', { onChange: this.handleChange, value: this.state.quantityInput, name: 'quantity', size: '2' }),
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this.handleClick, className: 'btn btn-primary' },
+                        'Add to Cart'
+                    )
                 ),
                 _react2.default.createElement('br', null)
             );
@@ -1198,7 +1249,7 @@ var mapState = function mapState(state, ownProps) {
         user: state.user,
         activeOrder: state.activeOrder };
 };
-var mapDispatch = { editOrder: _store.editOrder, postNewOrder: _store.postNewOrder, me: _store.me, fetchOrder: _store.fetchOrder, deleteFromCart: _store.deleteFromCart, fetchCart: _store.fetchCart, addUnauthorizedCart: _store.addUnauthorizedCart, deletefromUnauthorized: _store.deletefromUnauthorized };
+var mapDispatch = { editOrder: _store.editOrder, postNewOrder: _store.postNewOrder, me: _store.me, fetchOrder: _store.fetchOrder, deleteFromCart: _store.deleteFromCart, fetchCart: _store.fetchCart, addUnauthorizedCart: _store.addUnauthorizedCart, deletefromUnauthorized: _store.deletefromUnauthorized, putCart: _store.putCart, putUnauthorizedCart: _store.putUnauthorizedCart };
 
 exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(AppleItem);
 
@@ -3041,20 +3092,7 @@ var AdminHome = exports.AdminHome = function AdminHome(props) {
       { className: "text-danger" },
       "Admin Privileges Granted"
     ),
-    _react2.default.createElement(_userHome2.default, null),
-    _react2.default.createElement(
-      "div",
-      { className: "add-category" },
-      _react2.default.createElement(
-        _reactRouterDom.NavLink,
-        { className: "to-edit-category", to: "/" },
-        _react2.default.createElement(
-          "button",
-          { className: "btn btn-primary" },
-          "Add a category"
-        )
-      )
-    )
+    _react2.default.createElement(_userHome2.default, null)
   );
 };
 
@@ -3123,6 +3161,7 @@ var AllApples = function (_React$Component) {
   _createClass(AllApples, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      console.log('ALl APPLES RENDERING');
       this.props.fetchApples(this.props.match.params.category);
     }
   }, {
@@ -3133,7 +3172,7 @@ var AllApples = function (_React$Component) {
           isAdmin = _props.isAdmin;
 
       var category = this.props.match.params.category;
-
+      console.log('category', category);
       return _react2.default.createElement(
         "div",
         null,
@@ -3601,10 +3640,10 @@ var NewReviewForm = function (_React$Component) {
     }, {
         key: "handleSubmit",
         value: function handleSubmit(event) {
+            // event.preventDefault();
             var review = this.state;
             this.props.addReviewByAssociation(review);
-            // event.preventDefault();
-            // this.setState({ fireRedirect: true })
+            this.setState({ fireRedirect: true });
         }
     }, {
         key: "componentDidMount",
@@ -3623,7 +3662,7 @@ var NewReviewForm = function (_React$Component) {
                 "div",
                 { className: "center" },
                 _react2.default.createElement(
-                    "h1",
+                    "h2",
                     { className: "text-success" },
                     "Tell us what you think about our ",
                     apple.name,
@@ -3729,18 +3768,15 @@ var SingleApple = function (_React$Component) {
     }, {
         key: "render",
         value: function render() {
+            var appleId = this.props.appleId;
+            var path = "/apples/" + appleId + "/edit";
             var user = this.props.user;
             var apple = this.props.apple;
             var reviews = this.props.reviews;
             return _react2.default.createElement(
                 "div",
                 { className: "center" },
-                _react2.default.createElement(
-                    "h1",
-                    { className: "text-primary" },
-                    apple.name
-                ),
-                _react2.default.createElement("img", { src: apple.image }),
+                _react2.default.createElement(_appleitem2.default, { apple: apple }),
                 _react2.default.createElement(
                     "p",
                     { className: "text-info" },
@@ -3753,20 +3789,10 @@ var SingleApple = function (_React$Component) {
                     apple.stock,
                     " in stock, order now"
                 ) : null,
-                apple.stock > 0 ? _react2.default.createElement(
-                    "button",
-                    { className: "btn btn-primary" },
-                    "Add To Cart"
-                ) : _react2.default.createElement(
-                    "p",
-                    null,
-                    "Out of Stock"
-                ),
-                _react2.default.createElement(_newreviewform2.default, { apple: apple, reviews: reviews, user: user }),
-                user.isAdmin ? _react2.default.createElement(
-                    "p",
-                    null,
-                    "Put a navlink here to let admin edit"
+                reviews.length ? _react2.default.createElement(
+                    "h2",
+                    { className: "top-padding text-primary" },
+                    " What People are saying "
                 ) : null,
                 reviews && reviews.map(function (review) {
                     return _react2.default.createElement(
@@ -3777,12 +3803,34 @@ var SingleApple = function (_React$Component) {
                             null,
                             _react2.default.createElement(
                                 "li",
-                                { key: review.id, className: "text-info" },
+                                null,
+                                " ",
+                                review.user.firstName,
+                                " said"
+                            ),
+                            _react2.default.createElement(
+                                "li",
+                                { className: "text-info" },
+                                review.subjectField
+                            ),
+                            _react2.default.createElement(
+                                "li",
+                                { className: "text-info" },
                                 review.text
                             )
                         )
                     );
-                })
+                }),
+                _react2.default.createElement(_newreviewform2.default, { apple: apple, reviews: reviews, user: user }),
+                user.isAdmin ? _react2.default.createElement(
+                    _reactRouterDom.NavLink,
+                    { className: "add-apple", to: path },
+                    _react2.default.createElement(
+                        "button",
+                        { className: "btn btn-primary" },
+                        "Edit Apple"
+                    )
+                ) : null
             );
         }
     }]);
@@ -3793,11 +3841,11 @@ var SingleApple = function (_React$Component) {
 var mapStateToProps = function mapStateToProps(state) {
     return {
         apple: state.singleapple,
+        appleId: state.singleapple.id,
         reviews: state.reviews,
         user: state.user
     };
 };
-
 var mapDispatch = { fetchAppleById: _store.fetchAppleById, fetchReviewByAssociation: _store.fetchReviewByAssociation, me: _store.me, auth: _store.auth };
 
 var SingleApplesContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatch)(SingleApple);
@@ -8133,7 +8181,7 @@ AuthForm.propTypes = {
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -8167,135 +8215,126 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Cart = function (_Component) {
-  _inherits(Cart, _Component);
+    _inherits(Cart, _Component);
 
-  function Cart(props) {
-    _classCallCheck(this, Cart);
+    function Cart(props) {
+        _classCallCheck(this, Cart);
 
-    var _this = _possibleConstructorReturn(this, (Cart.__proto__ || Object.getPrototypeOf(Cart)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Cart.__proto__ || Object.getPrototypeOf(Cart)).call(this, props));
 
-    _this.state = {
-      isCart: true
-    };
-    return _this;
-  }
-
-  _createClass(Cart, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      this.props.me().then(function (userAction) {
-        if (Object.keys(userAction.user).length) {
-          _this2.props.fetchCart();
-          _this2.props.fetchCartApples();
-        } else {
-          _this2.props.fetchApples();
-          _this2.props.fetchUnauthorizedCart();
-        }
-      });
+        _this.state = {
+            isCart: true
+        };
+        return _this;
     }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this3 = this;
 
-      var order = this.props.order;
-      var keys = Object.keys(order);
-      var date = order.createdAt;
-      var apples = void 0;
-      if (Object.keys(this.props.user).length) {
-        apples = this.props.apples;
-      } else {
-        apples = [];
-        keys.forEach(function (id) {
-          var appleObj = _this3.props.apples.find(function (apple) {
-            return +id === apple.id;
-          });
-          apples.push(appleObj);
-        });
-      }
+    _createClass(Cart, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
 
-      var totalAmount = 0;
-      var totalQuantity = 0;
-      if (Object.keys(this.props.user).length && apples) {
-        apples.forEach(function (apple) {
-          if (apple.lineItem) {
-            totalAmount += apple.price * apple.lineItem.quantity;
-            totalQuantity += apple.lineItem.quantity;
-          }
-        });
-      } else if (apples[0]) {
-        for (var key in order) {
-          totalQuantity += order[key];
+            this.props.me().then(function () {
+                if (_this2.props.user.id) {
+                    _this2.props.fetchCart();
+                    _this2.props.fetchCartApples();
+                } else {
+                    _this2.props.fetchApples();
+                    _this2.props.fetchUnauthorizedCart();
+                }
+            });
         }
-        apples.forEach(function (apple) {
-          return totalAmount += apple.price * order[apple.id];
-        });
-      }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
 
-      return _react2.default.createElement(
-        'div',
-        { className: 'center' },
-        _react2.default.createElement(
-          'h1',
-          { className: 'text-info' },
-          'Your Cart'
-        ),
-        _react2.default.createElement(
-          'h4',
-          { className: 'text-info' },
-          'Number of Items: ' + totalQuantity
-        ),
-        _react2.default.createElement(
-          'h4',
-          { className: 'text-info' },
-          'Total Price: $' + totalAmount
-        ),
-        apples[0] && apples.map(function (apple, i, arr) {
-          var quantity = void 0;
-          if (Object.keys(_this3.props.user).length && apple.lineItem) {
-            quantity = apple.lineItem.quantity;
-          } else {
-            quantity = order[apple.id];
-          }
-          return _react2.default.createElement(
-            'ul',
-            { key: apple.id },
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement(_appleitem2.default, { apple: apple, isCart: _this3.state.isCart })
-            ),
-            _react2.default.createElement(
-              'li',
-              null,
-              'Quantity: ' + quantity
-            )
-          );
-        }),
-        _react2.default.createElement(
-          _reactRouterDom.NavLink,
-          { to: '/checkout' },
-          _react2.default.createElement(
-            'button',
-            { className: 'btn btn-warning' },
-            'Checkout'
-          )
-        )
-      );
-    }
-  }]);
+            var order = this.props.order;
+            var keys = Object.keys(order);
+            var date = order.createdAt;
+            var apples = void 0;
+            if (Object.keys(this.props.user).length) {
 
-  return Cart;
+                apples = this.props.apples;
+            } else {
+                apples = [];
+                keys.forEach(function (id) {
+                    var appleObj = _this3.props.apples.find(function (apple) {
+                        return +id === apple.id;
+                    });
+                    apples.push(appleObj);
+                });
+            }
+
+            var totalAmount = 0;
+            var totalQuantity = 0;
+            if (Object.keys(this.props.user).length && apples) {
+
+                apples.forEach(function (apple, i) {
+                    if (apple.lineItem) {
+                        totalAmount += apple.price * apple.lineItem.quantity;
+                        totalQuantity += apple.lineItem.quantity;
+                    }
+                });
+            } else if (apples[0]) {
+                for (var key in order) {
+                    totalQuantity += order[key];
+                }
+                apples.forEach(function (apple) {
+                    return totalAmount += apple.price * order[apple.id];
+                });
+            }
+
+            return _react2.default.createElement(
+                'div',
+                { className: 'center' },
+                _react2.default.createElement(
+                    'h1',
+                    { className: 'text-info' },
+                    'Your Cart'
+                ),
+                _react2.default.createElement(
+                    'h4',
+                    { className: 'text-info' },
+                    'Number of Items: ' + totalQuantity
+                ),
+                _react2.default.createElement(
+                    'h4',
+                    { className: 'text-info' },
+                    'Total Price: $' + totalAmount
+                ),
+                apples[0] && apples.map(function (apple, i, arr) {
+                    return _react2.default.createElement(
+                        'ul',
+                        { key: apple.id },
+                        _react2.default.createElement(
+                            'li',
+                            null,
+                            _react2.default.createElement(_appleitem2.default, { apple: apple, isCart: _this3.state.isCart })
+                        )
+                    );
+                }),
+                _react2.default.createElement(
+                    'button',
+                    { className: 'btn btn-warning' },
+                    _react2.default.createElement(
+                        _reactRouterDom.NavLink,
+                        { to: '/checkout' },
+                        'Continue to Checkout'
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Cart;
 }(_react.Component);
 
 var mapState = function mapState(state) {
-  return {
-    order: state.activeOrder,
-    user: state.user,
-    apples: state.apples
-  };
+    return {
+        order: state.activeOrder,
+        user: state.user,
+        apples: state.apples
+    };
 };
 
 var mapDispatch = { fetchCart: _store.fetchCart, me: _store.me, editOrder: _store.editOrder, fetchCartApples: _store.fetchCartApples, fetchApples: _store.fetchApples, fetchUnauthorizedCart: _store.fetchUnauthorizedCart };
@@ -8501,13 +8540,11 @@ var Checkout = function (_Component) {
           _react2.default.createElement(
             _reactRouterDom.NavLink,
             { to: '/reviewcart', params: this.state },
-            ' ',
             _react2.default.createElement(
               'button',
-              null,
+              { className: 'btn btn-warning' },
               ' Continue to Review '
-            ),
-            ' '
+            )
           )
         )
       );
@@ -9767,10 +9804,12 @@ var Routes = function (_Component) {
         _react2.default.createElement(_reactRouterDom.Route, { path: '/signup', component: _components.Signup }),
         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/thank-you', component: _thankYou2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/apples/edit', component: _addApple2.default }),
+        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/apples/type/:category', component: _allapples2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/apples/:id', component: _singleapple2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/apples/:id/review', component: _newreviewform2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { path: '/apples/:id/edit', component: _editApple2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/apples', component: _allapples2.default }),
+        _react2.default.createElement(_reactRouterDom.Route, { path: '/apples/type/:category', component: _allapples2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/users', component: _allUsers2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { path: '/users/:id/edit', component: _editUser2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { path: '/users/:id', component: _singleUser2.default }),
@@ -9853,6 +9892,7 @@ exports.addUnauthorizedCart = addUnauthorizedCart;
 exports.fetchCart = fetchCart;
 exports.fetchUnauthorizedCart = fetchUnauthorizedCart;
 exports.deletefromUnauthorized = deletefromUnauthorized;
+exports.putUnauthorizedCart = putUnauthorizedCart;
 
 exports.default = function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : order;
@@ -9980,15 +10020,15 @@ function fetchCart() {
     _axios2.default.get('/auth/me').then(function (res) {
       return res.data.id;
     }).then(function (id) {
-      _axios2.default.get('/api/orders/' + id).then(function (res) {
-        return res.data;
-      }).then(function (orders) {
-        return orders.find(function (order) {
-          return order.status === 'Created';
-        });
-      }).then(function (foundOrder) {
-        return dispatch(findOrder(foundOrder));
+      return _axios2.default.get('/api/orders/' + id); // do this in the backend using req.user.id
+    }).then(function (res) {
+      return res.data;
+    }).then(function (orders) {
+      return orders.find(function (order) {
+        return order.status === 'Created';
       });
+    }).then(function (foundOrder) {
+      return dispatch(findOrder(foundOrder));
     }).catch(function (err) {
       return console.log(err);
     });
@@ -10019,6 +10059,18 @@ function deletefromUnauthorized(appleId) {
   };
 }
 
+function putUnauthorizedCart(appleId, quantity) {
+  return function tunnk(dispatch) {
+    return _axios2.default.put('/api/cart/session/' + appleId, quantity).then(function (res) {
+      return res.data;
+    }).then(function (sessionCart) {
+      return dispatch(updateOrder(sessionCart));
+    }).catch(function (err) {
+      return console.log(err);
+    });
+  };
+}
+
 /**
  * REDUCER
  */
@@ -10033,13 +10085,14 @@ function deletefromUnauthorized(appleId) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.removeFromCart = exports.getCartApples = exports.editApple = exports.addApple = exports.removeApple = exports.getApples = undefined;
+exports.updateCart = exports.removeFromCart = exports.getCartApples = exports.editApple = exports.addApple = exports.removeApple = exports.getApples = undefined;
 exports.fetchApples = fetchApples;
 exports.deleteApple = deleteApple;
 exports.postApple = postApple;
 exports.updateApple = updateApple;
 exports.fetchCartApples = fetchCartApples;
 exports.deleteFromCart = deleteFromCart;
+exports.putCart = putCart;
 exports.default = reducer;
 
 var _axios = __webpack_require__(9);
@@ -10060,6 +10113,7 @@ var ADD_APPLE = "ADD_APPLE";
 var UPDATE_APPLE = "UPDATE_APPLE";
 var GET_CART_APPLES = "GET_CART_APPLES";
 var REMOVE_FROM_CART = "REMOVE_FROM_CART";
+var UPDATE_CART = "UPDATE_CART";
 
 //initial state
 
@@ -10089,6 +10143,10 @@ var getCartApples = exports.getCartApples = function getCartApples(apples) {
 
 var removeFromCart = exports.removeFromCart = function removeFromCart(appleId) {
   return { type: REMOVE_FROM_CART, appleId: appleId };
+};
+
+var updateCart = exports.updateCart = function updateCart(apple) {
+  return { type: UPDATE_CART, apple: apple };
 };
 
 //thunk
@@ -10144,19 +10202,19 @@ function fetchCartApples() {
     return _axios2.default.get("/auth/me").then(function (res) {
       return res.data.id;
     }).then(function (id) {
-      _axios2.default.get("/api/orders/" + id).then(function (res) {
-        return res.data;
-      }).then(function (orders) {
-        return orders.find(function (order) {
-          return order.status === "Created";
-        });
-      }).then(function (order) {
-        _axios2.default.get("/api/orders/single/" + order.id).then(function (res) {
-          return res.data;
-        }).then(function (order) {
-          return dispatch(getCartApples(order.apples));
-        });
+      return _axios2.default.get("/api/orders/" + id);
+    }).then(function (res) {
+      return res.data;
+    }).then(function (orders) {
+      return orders.find(function (order) {
+        return order.status === "Created";
       });
+    }).then(function (order) {
+      return _axios2.default.get("/api/orders/single/" + order.id);
+    }).then(function (res) {
+      return res.data;
+    }).then(function (order) {
+      return dispatch(getCartApples(order.apples));
     }).catch(function (err) {
       return console.log(err);
     });
@@ -10169,6 +10227,19 @@ function deleteFromCart(appleId) {
       return res.data;
     }).then(function (deletedAppleId) {
       return dispatch(removeFromCart(deletedAppleId));
+    }).catch(function (err) {
+      return console.log(err);
+    });
+  };
+}
+
+function putCart(appleId, orderId, updatedInfo) {
+  console.log(updatedInfo);
+  return function thunk(dispatch) {
+    return _axios2.default.put("/api/cart/" + orderId + "/apple/" + appleId, updatedInfo).then(function (res) {
+      return res.data;
+    }).then(function (updatedLineItem) {
+      return dispatch(updateCart({ id: updatedLineItem.appleId, quantity: updatedInfo.quantity }));
     }).catch(function (err) {
       return console.log(err);
     });
@@ -10200,6 +10271,19 @@ function reducer() {
         return apple.id !== +action.appleId;
       });
       return filtered;
+    case UPDATE_CART:
+      return state.map(function (apple) {
+        if (+apple.id === +action.apple.id) {
+          var lineItem = Object.assign({}, apple.lineItem, { quantity: action.apple.quantity });
+          var newApple = Object.assign({}, apple, { lineItem: lineItem });
+          return newApple;
+        } else {
+          return apple;
+        }
+      });
+    // const apple = state.find(apple => apple.id === action.appleId);
+    // const filteredApples = state.filter(apple => apple.id !== +action.appleId);
+    // return filteredApples.concat(apple);
     default:
       return state;
   }

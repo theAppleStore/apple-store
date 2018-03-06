@@ -74,7 +74,6 @@ router.delete('/:appleId', (req, res, next) => {
   .catch(next);
 })
 
-<<<<<<< HEAD
 router.get('/session', (req, res, next) => {
   res.json(req.session.cart)
 })
@@ -85,6 +84,4 @@ router.delete('/session/:appleId', (req, res, next) => {
 })
 
 
-=======
->>>>>>> master
 module.exports = router;

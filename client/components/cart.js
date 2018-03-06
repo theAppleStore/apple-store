@@ -14,50 +14,6 @@ class Cart extends Component {
     }
   }
 
-<<<<<<< HEAD
-  componentDidMount(){
-    this.props.me()
-      .then(userAction => {
-        if (Object.keys(userAction.user).length){
-          this.props.fetchCart()
-          this.props.fetchCartApples()
-        } else {
-          this.props.fetchApples()
-          this.props.fetchUnauthorizedCart()
-        }
-      })
-  }
-
-  render(){
-    const order = this.props.order;
-    const keys = Object.keys(order)
-    let date = order.createdAt;
-    let apples 
-    if (Object.keys(this.props.user).length) {
-      apples = this.props.apples
-    } else {
-      apples = []
-      keys.forEach(id => {
-        let appleObj = this.props.apples.find(apple => +id === apple.id)
-        apples.push(appleObj)
-      })
-    }
-
-    let totalAmount = 0;
-    let totalQuantity = 0;
-    if(Object.keys(this.props.user).length && apples){
-      apples.forEach(apple => {
-        if (apple.lineItem){
-          totalAmount += apple.price*apple.lineItem.quantity;
-          totalQuantity += apple.lineItem.quantity;
-        }
-      })
-    } else if (apples[0]) {
-      for (let key in order) {
-        totalQuantity += order[key]
-      }
-      apples.forEach(apple => totalAmount += apple.price*order[apple.id])
-=======
     componentDidMount(){
         this.props.me()
         .then(() => {
@@ -119,34 +75,7 @@ class Cart extends Component {
                 <button className = "btn btn-warning"><NavLink to='/checkout'>Continue to Checkout</NavLink></button>
             </div>
         )
->>>>>>> master
     }
-
-    return(
-      <div className="center">
-        <h1 className = "text-info">Your Cart</h1>
-        <h4 className = "text-info">{`Number of Items: ${totalQuantity}`}</h4>
-        <h4 className = "text-info">{`Total Price: $${totalAmount}`}</h4>
-        {apples[0] && apples.map((apple, i, arr) => {
-          let quantity;
-          if(Object.keys(this.props.user).length && apple.lineItem){
-            quantity = apple.lineItem.quantity
-          } else {
-            quantity = order[apple.id]
-          }
-          return(
-            <ul key={apple.id}>
-              <li><AppleItem apple={apple} isCart={this.state.isCart} /></li>
-              <li>{`Quantity: ${quantity}`}</li>
-            </ul>
-          )
-        })}
-      <NavLink to='/checkout'>
-        <button className="btn btn-warning">Checkout</button>
-      </NavLink>
-      </div>
-    )
-  }
 }
 
 const mapState = (state) => {

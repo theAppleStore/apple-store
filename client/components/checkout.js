@@ -99,7 +99,9 @@ class Checkout extends Component {
             <input />
           </div>
           <br></br>
-          <NavLink to="/reviewcart" params={this.state}> <button> Continue to Review </button> </NavLink>
+          <NavLink to="/reviewcart" params={this.state}> 
+            <button className="btn btn-warning"> Continue to Review </button> 
+          </NavLink>
         </form>
       </div>
     )
