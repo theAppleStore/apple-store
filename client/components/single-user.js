@@ -48,7 +48,7 @@ class SingleUser extends Component {
         <h4> Shipping Address: {user.shipping} </h4>
         <h4> Phone Number: {user.phone} </h4>
         <h4> Email: {user.email} </h4>
-        <NavLink to={`/users/${user.id}/edit`}> <button> Edit </button> </NavLink>
+        <NavLink to={`/users/${user.id}/edit`}> <button className="btn btn-primary"> Edit </button> </NavLink>
 
         <h3> Orders: </h3>
         {

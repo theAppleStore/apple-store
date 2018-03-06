@@ -109,7 +109,7 @@ class EditProfile extends Component {
             </h3>
             : null
           }
-          <button> Submit </button>
+          <button className="btn btn-primary"> Submit </button>
         </form>
       </div>
     )
