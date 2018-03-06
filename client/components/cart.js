@@ -27,10 +27,6 @@ class Cart extends Component {
         })
     }
 
-    componentWillReceiveProps (newProps) {
-        console.log('new props', newProps)
-    }
-
     render(){
         const order = this.props.order;
         const keys = Object.keys(order)

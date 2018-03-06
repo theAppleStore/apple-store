@@ -16,8 +16,6 @@ export default function VisitorHome() {
                 <img name="green" src="/images/category-greenApple.png" />
               </NavLink>
 
-
-
               <NavLink className="category-product" to="/apples/type/red">
                 <img name="red" src="/images/category-redApple.png" />
               </NavLink>
