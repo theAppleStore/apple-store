@@ -1108,12 +1108,13 @@ var AppleItem = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (AppleItem.__proto__ || Object.getPrototypeOf(AppleItem)).call(this, props));
 
         _this.state = {
-            apples: [],
-            userId: 0
+            userId: 0,
+            quantityInput: 1
         };
         _this.handleClick = _this.handleClick.bind(_this);
-        _this.handleDelete = _this.handleDelete.bind(_this);
+        _this.handleUpdate = _this.handleUpdate.bind(_this);
         _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleDelete = _this.handleDelete.bind(_this);
         return _this;
     }
 
@@ -1121,26 +1122,38 @@ var AppleItem = function (_React$Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             this.props.me();
+            console.log(this.props);
         }
     }, {
         key: 'handleClick',
-        value: function handleClick(event, order) {
+        value: function handleClick(event) {
             var _props = this.props,
                 postNewOrder = _props.postNewOrder,
                 user = _props.user,
                 apple = _props.apple,
                 addUnauthorizedCart = _props.addUnauthorizedCart;
-            // const order = {
-            //     userId: user.id,
-            //     appleId: apple.id,
-            //     quantity: 1,
-            //     price: apple.price
-            // }
 
+            var order = {
+                userId: user.id,
+                appleId: apple.id,
+                quantity: this.state.quantityInput,
+                price: apple.price
+            };
             if (Object.keys(user).length) {
                 postNewOrder(order);
             } else {
                 addUnauthorizedCart(order);
+            }
+        }
+    }, {
+        key: 'handleUpdate',
+        value: function handleUpdate() {
+            var input = +this.state.quantityInput;
+            if (this.props.user.id) {
+                var appleQuantity = this.props.apple.lineItem.quantity;
+                this.props.putCart(this.props.apple.id, this.props.activeOrder.id, { quantity: input });
+            } else {
+                this.props.putUnauthorizedCart(this.props.apple.id, { quantity: input });
             }
         }
     }, {
@@ -1155,22 +1168,18 @@ var AppleItem = function (_React$Component) {
     }, {
         key: 'handleChange',
         value: function handleChange(evt) {
-            var _props2 = this.props,
-                user = _props2.user,
-                apple = _props2.apple;
-
-            var order = {
-                userId: user.id,
-                appleId: apple.id,
-                quantity: evt.target.value,
-                price: apple.price
-            };
-            this.handleClick(null, order);
+            this.setState({ quantityInput: evt.target.value });
         }
     }, {
         key: 'render',
         value: function render() {
+            var quantity = void 0;
             var apple = this.props.apple;
+            if (Object.keys(this.props.user).length && this.props.apple.lineItem) {
+                quantity = this.props.apple.lineItem.quantity;
+            } else {
+                quantity = this.props.activeOrder[apple.id];
+            }
             return _react2.default.createElement(
                 'div',
                 { className: 'center' },
@@ -1187,32 +1196,40 @@ var AppleItem = function (_React$Component) {
                 _react2.default.createElement(
                     'h3',
                     { className: 'text-muted' },
-                    '$' + apple.price
+                    '$' + apple.price + ' each'
                 ),
-                _react2.default.createElement('br', null),
                 this.props.isCart ? _react2.default.createElement(
-                    'form',
+                    'div',
                     null,
                     _react2.default.createElement(
                         'p',
                         null,
-                        'Change Quantity:'
+                        'Quantity: ',
+                        quantity
                     ),
-                    _react2.default.createElement('input', { onChange: this.handleChange, name: 'quantity' }),
+                    _react2.default.createElement('input', { onChange: this.handleChange, value: this.state.quantityInput, name: 'quantity', size: '2' }),
+                    '\xA0',
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this.handleUpdate, className: 'btn btn-primary' },
+                        'Update Cart'
+                    ),
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement('br', null),
                     _react2.default.createElement(
                         'button',
                         { onClick: this.handleDelete, className: 'btn btn-primary' },
                         'Remove from Cart'
                     )
                 ) : _react2.default.createElement(
-                    'form',
+                    'div',
                     null,
                     _react2.default.createElement(
                         'p',
                         null,
                         'Quantity:'
                     ),
-                    _react2.default.createElement('input', { onChange: this.handleChange, defaultValue: '1', name: 'quantity' }),
+                    _react2.default.createElement('input', { onChange: this.handleChange, value: this.state.quantityInput, name: 'quantity', size: '2' }),
                     _react2.default.createElement(
                         'button',
                         { onClick: this.handleClick, className: 'btn btn-primary' },
@@ -1232,7 +1249,7 @@ var mapState = function mapState(state, ownProps) {
         user: state.user,
         activeOrder: state.activeOrder };
 };
-var mapDispatch = { editOrder: _store.editOrder, postNewOrder: _store.postNewOrder, me: _store.me, fetchOrder: _store.fetchOrder, deleteFromCart: _store.deleteFromCart, fetchCart: _store.fetchCart, addUnauthorizedCart: _store.addUnauthorizedCart, deletefromUnauthorized: _store.deletefromUnauthorized };
+var mapDispatch = { editOrder: _store.editOrder, postNewOrder: _store.postNewOrder, me: _store.me, fetchOrder: _store.fetchOrder, deleteFromCart: _store.deleteFromCart, fetchCart: _store.fetchCart, addUnauthorizedCart: _store.addUnauthorizedCart, deletefromUnauthorized: _store.deletefromUnauthorized, putCart: _store.putCart, putUnauthorizedCart: _store.putUnauthorizedCart };
 
 exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(AppleItem);
 
@@ -8220,8 +8237,8 @@ var Cart = function (_Component) {
         value: function componentDidMount() {
             var _this2 = this;
 
-            this.props.me().then(function (user) {
-                if (Object.keys(_this2.props.user).length) {
+            this.props.me().then(function () {
+                if (_this2.props.user.id) {
                     _this2.props.fetchCart();
                     _this2.props.fetchCartApples();
                 } else {
@@ -8229,6 +8246,11 @@ var Cart = function (_Component) {
                     _this2.props.fetchUnauthorizedCart();
                 }
             });
+        }
+    }, {
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(newProps) {
+            console.log('new props', newProps);
         }
     }, {
         key: 'render',
@@ -8240,6 +8262,7 @@ var Cart = function (_Component) {
             var date = order.createdAt;
             var apples = void 0;
             if (Object.keys(this.props.user).length) {
+
                 apples = this.props.apples;
             } else {
                 apples = [];
@@ -8253,9 +8276,9 @@ var Cart = function (_Component) {
 
             var totalAmount = 0;
             var totalQuantity = 0;
-            console.log(apples);
             if (Object.keys(this.props.user).length && apples) {
-                apples.forEach(function (apple) {
+
+                apples.forEach(function (apple, i) {
                     if (apple.lineItem) {
                         totalAmount += apple.price * apple.lineItem.quantity;
                         totalQuantity += apple.lineItem.quantity;
@@ -8289,12 +8312,6 @@ var Cart = function (_Component) {
                     'Total Price: $' + totalAmount
                 ),
                 apples[0] && apples.map(function (apple, i, arr) {
-                    var quantity = void 0;
-                    if (Object.keys(_this3.props.user).length && apple.lineItem) {
-                        quantity = apple.lineItem.quantity;
-                    } else {
-                        quantity = order[apple.id];
-                    }
                     return _react2.default.createElement(
                         'ul',
                         { key: apple.id },
@@ -8302,11 +8319,6 @@ var Cart = function (_Component) {
                             'li',
                             null,
                             _react2.default.createElement(_appleitem2.default, { apple: apple, isCart: _this3.state.isCart })
-                        ),
-                        _react2.default.createElement(
-                            'li',
-                            null,
-                            'Quantity: ' + quantity
                         )
                     );
                 }),
@@ -9606,6 +9618,7 @@ exports.addUnauthorizedCart = addUnauthorizedCart;
 exports.fetchCart = fetchCart;
 exports.fetchUnauthorizedCart = fetchUnauthorizedCart;
 exports.deletefromUnauthorized = deletefromUnauthorized;
+exports.putUnauthorizedCart = putUnauthorizedCart;
 
 exports.default = function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : order;
@@ -9723,15 +9736,15 @@ function fetchCart() {
     _axios2.default.get('/auth/me').then(function (res) {
       return res.data.id;
     }).then(function (id) {
-      _axios2.default.get('/api/orders/' + id).then(function (res) {
-        return res.data;
-      }).then(function (orders) {
-        return orders.find(function (order) {
-          return order.status === 'Created';
-        });
-      }).then(function (foundOrder) {
-        return dispatch(findOrder(foundOrder));
+      return _axios2.default.get('/api/orders/' + id); // do this in the backend using req.user.id
+    }).then(function (res) {
+      return res.data;
+    }).then(function (orders) {
+      return orders.find(function (order) {
+        return order.status === 'Created';
       });
+    }).then(function (foundOrder) {
+      return dispatch(findOrder(foundOrder));
     }).catch(function (err) {
       return console.log(err);
     });
@@ -9762,6 +9775,18 @@ function deletefromUnauthorized(appleId) {
   };
 }
 
+function putUnauthorizedCart(appleId, quantity) {
+  return function tunnk(dispatch) {
+    return _axios2.default.put('/api/cart/session/' + appleId, quantity).then(function (res) {
+      return res.data;
+    }).then(function (sessionCart) {
+      return dispatch(updateOrder(sessionCart));
+    }).catch(function (err) {
+      return console.log(err);
+    });
+  };
+}
+
 /**
  * REDUCER
  */
@@ -9776,13 +9801,14 @@ function deletefromUnauthorized(appleId) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.removeFromCart = exports.getCartApples = exports.editApple = exports.addApple = exports.removeApple = exports.getApples = undefined;
+exports.updateCart = exports.removeFromCart = exports.getCartApples = exports.editApple = exports.addApple = exports.removeApple = exports.getApples = undefined;
 exports.fetchApples = fetchApples;
 exports.deleteApple = deleteApple;
 exports.postApple = postApple;
 exports.updateApple = updateApple;
 exports.fetchCartApples = fetchCartApples;
 exports.deleteFromCart = deleteFromCart;
+exports.putCart = putCart;
 exports.default = reducer;
 
 var _axios = __webpack_require__(9);
@@ -9803,6 +9829,7 @@ var ADD_APPLE = "ADD_APPLE";
 var UPDATE_APPLE = "UPDATE_APPLE";
 var GET_CART_APPLES = "GET_CART_APPLES";
 var REMOVE_FROM_CART = "REMOVE_FROM_CART";
+var UPDATE_CART = "UPDATE_CART";
 
 //initial state
 
@@ -9832,6 +9859,10 @@ var getCartApples = exports.getCartApples = function getCartApples(apples) {
 
 var removeFromCart = exports.removeFromCart = function removeFromCart(appleId) {
   return { type: REMOVE_FROM_CART, appleId: appleId };
+};
+
+var updateCart = exports.updateCart = function updateCart(apple) {
+  return { type: UPDATE_CART, apple: apple };
 };
 
 //thunk
@@ -9887,19 +9918,19 @@ function fetchCartApples() {
     return _axios2.default.get("/auth/me").then(function (res) {
       return res.data.id;
     }).then(function (id) {
-      _axios2.default.get("/api/orders/" + id).then(function (res) {
-        return res.data;
-      }).then(function (orders) {
-        return orders.find(function (order) {
-          return order.status === "Created";
-        });
-      }).then(function (order) {
-        _axios2.default.get("/api/orders/single/" + order.id).then(function (res) {
-          return res.data;
-        }).then(function (order) {
-          return dispatch(getCartApples(order.apples));
-        });
+      return _axios2.default.get("/api/orders/" + id);
+    }).then(function (res) {
+      return res.data;
+    }).then(function (orders) {
+      return orders.find(function (order) {
+        return order.status === "Created";
       });
+    }).then(function (order) {
+      return _axios2.default.get("/api/orders/single/" + order.id);
+    }).then(function (res) {
+      return res.data;
+    }).then(function (order) {
+      return dispatch(getCartApples(order.apples));
     }).catch(function (err) {
       return console.log(err);
     });
@@ -9912,6 +9943,19 @@ function deleteFromCart(appleId) {
       return res.data;
     }).then(function (deletedAppleId) {
       return dispatch(removeFromCart(deletedAppleId));
+    }).catch(function (err) {
+      return console.log(err);
+    });
+  };
+}
+
+function putCart(appleId, orderId, updatedInfo) {
+  console.log(updatedInfo);
+  return function thunk(dispatch) {
+    return _axios2.default.put("/api/cart/" + orderId + "/apple/" + appleId, updatedInfo).then(function (res) {
+      return res.data;
+    }).then(function (updatedLineItem) {
+      return dispatch(updateCart({ id: updatedLineItem.appleId, quantity: updatedInfo.quantity }));
     }).catch(function (err) {
       return console.log(err);
     });
@@ -9943,6 +9987,19 @@ function reducer() {
         return apple.id !== +action.appleId;
       });
       return filtered;
+    case UPDATE_CART:
+      return state.map(function (apple) {
+        if (+apple.id === +action.apple.id) {
+          var lineItem = Object.assign({}, apple.lineItem, { quantity: action.apple.quantity });
+          var newApple = Object.assign({}, apple, { lineItem: lineItem });
+          return newApple;
+        } else {
+          return apple;
+        }
+      });
+    // const apple = state.find(apple => apple.id === action.appleId);
+    // const filteredApples = state.filter(apple => apple.id !== +action.appleId);
+    // return filteredApples.concat(apple);
     default:
       return state;
   }

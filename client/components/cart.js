@@ -16,8 +16,8 @@ class Cart extends Component {
 
     componentDidMount(){
         this.props.me()
-        .then(user => {
-            if (Object.keys(this.props.user).length){
+        .then(() => {
+            if (this.props.user.id){
                 this.props.fetchCart()
                 this.props.fetchCartApples()
             } else {
@@ -27,12 +27,17 @@ class Cart extends Component {
         })
     }
 
+    componentWillReceiveProps (newProps) {
+        console.log('new props', newProps)
+    }
+
     render(){
         const order = this.props.order;
         const keys = Object.keys(order)
         let date = order.createdAt;
         let apples 
         if (Object.keys(this.props.user).length) {
+            
             apples = this.props.apples
         } else {
             apples = []
@@ -44,9 +49,9 @@ class Cart extends Component {
         
         let totalAmount = 0;
         let totalQuantity = 0;
-        console.log(apples)
         if(Object.keys(this.props.user).length && apples){
-            apples.forEach(apple => {
+            
+            apples.forEach((apple, i) => {
                 if (apple.lineItem){
                     totalAmount += apple.price*apple.lineItem.quantity;
                     totalQuantity += apple.lineItem.quantity;
@@ -65,16 +70,9 @@ class Cart extends Component {
                 <h4 className = "text-info">{`Number of Items: ${totalQuantity}`}</h4>
                 <h4 className = "text-info">{`Total Price: $${totalAmount}`}</h4>
                 {apples[0] && apples.map((apple, i, arr) => {
-                    let quantity;
-                    if(Object.keys(this.props.user).length && apple.lineItem){
-                        quantity = apple.lineItem.quantity
-                    } else {
-                        quantity = order[apple.id]
-                    }
                     return(
                         <ul key={apple.id}>
                             <li><AppleItem apple={apple} isCart={this.state.isCart} /></li>
-                            <li>{`Quantity: ${quantity}`}</li>
                         </ul>
                     )
                 })}
