@@ -13,11 +13,6 @@ export const AdminHome = props => {
     <div className = "center">
       <h5 className = "text-danger">Admin Privileges Granted</h5>
       <UserHome />
-      <div className="add-category">
-        <NavLink className="to-edit-category" to="/">
-          <button className = "btn btn-primary">Add a category</button>
-        </NavLink>
-      </div>
     </div>
   );
 };
