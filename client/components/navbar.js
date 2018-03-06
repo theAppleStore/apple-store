@@ -9,7 +9,7 @@ const Navbar = ({ handleClick, isLoggedIn, user }) => (
     <div className = "navbar-dark bg-primary">
     <Link to="/">
       <h1>
-        <img src="https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX26650293.jpg" height="55" width="45" />
+        <img src="/images/AppleLogo.png" height="55" width="45" />
       THE APPLE STORE
       </h1>
     </Link>
