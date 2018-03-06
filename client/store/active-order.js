@@ -75,11 +75,11 @@ export function fetchCart(){
     axios.get('/auth/me')
     .then(res => res.data.id)
     .then(id => {
-      axios.get(`/api/orders/${id}`)
-      .then(res => res.data)
-      .then(orders => orders.find(order => order.status === 'Created'))
-      .then(foundOrder => dispatch(findOrder(foundOrder)))
+      return axios.get(`/api/orders/${id}`) // do this in the backend using req.user.id
     })
+    .then(res => res.data)
+    .then(orders => orders.find(order => order.status === 'Created'))
+    .then(foundOrder => dispatch(findOrder(foundOrder)))
     .catch(err => console.log(err))
   }
 }
@@ -100,6 +100,16 @@ export function deletefromUnauthorized(appleId){
       .then(res => res.data)
       .then(sessionCart => dispatch(updateOrder(sessionCart)))
       .catch(err => console.log(err))
+  }
+}
+
+export function putUnauthorizedCart(appleId, quantity){
+  return function tunnk(dispatch){
+    return axios
+    .put(`/api/cart/session/${appleId}`, quantity)
+    .then(res => res.data)
+    .then(sessionCart => dispatch(updateOrder(sessionCart)))
+    .catch(err => console.log(err))
   }
 }
 

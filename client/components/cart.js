@@ -15,14 +15,16 @@ class Cart extends Component {
     }
 
     componentDidMount(){
-        if (Object.keys(this.props.user).length){
-            this.props.me()
-            this.props.fetchCart()
-            this.props.fetchCartApples()
-        } else {
-            this.props.fetchApples()
-            this.props.fetchUnauthorizedCart()
-        }
+        this.props.me()
+        .then(() => {
+            if (this.props.user.id){
+                this.props.fetchCart()
+                this.props.fetchCartApples()
+            } else {
+                this.props.fetchApples()
+                this.props.fetchUnauthorizedCart()
+            }
+        })
     }
 
     render(){
@@ -31,6 +33,7 @@ class Cart extends Component {
         let date = order.createdAt;
         let apples 
         if (Object.keys(this.props.user).length) {
+            
             apples = this.props.apples
         } else {
             apples = []
@@ -39,15 +42,15 @@ class Cart extends Component {
                 apples.push(appleObj)
             })
         }
-        console.log('APPLES', apples)
         
         let totalAmount = 0;
         let totalQuantity = 0;
         if(Object.keys(this.props.user).length && apples){
-            apples.forEach(apple => {
-                totalAmount += apple.price*apple.lineItem.quantity;
+            
+            apples.forEach((apple, i) => {
                 if (apple.lineItem){
-                totalQuantity += apple.lineItem.quantity;
+                    totalAmount += apple.price*apple.lineItem.quantity;
+                    totalQuantity += apple.lineItem.quantity;
                 }
             })
         } else if (apples[0]) {
@@ -63,16 +66,9 @@ class Cart extends Component {
                 <h4 className = "text-info">{`Number of Items: ${totalQuantity}`}</h4>
                 <h4 className = "text-info">{`Total Price: $${totalAmount}`}</h4>
                 {apples[0] && apples.map((apple, i, arr) => {
-                    let quantity;
-                    if(Object.keys(this.props.user).length && apple.lineItem){
-                        quantity = apple.lineItem.quantity
-                    } else {
-                        quantity = order[apple.id]
-                    }
                     return(
                         <ul key={apple.id}>
                             <li><AppleItem apple={apple} isCart={this.state.isCart} /></li>
-                            <li>{`Quantity: ${quantity}`}</li>
                         </ul>
                     )
                 })}
