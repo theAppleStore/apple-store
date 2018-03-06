@@ -39,7 +39,7 @@ class AllApples extends React.Component {
         </div>
         {isAdmin && (
           <NavLink className="add-apple" to="/apples/edit">
-            <button class = "btn btn-primary">Add Apple</button>
+            <button className = "btn btn-primary">Add Apple</button>
           </NavLink>
         )}
   

@@ -58,6 +58,14 @@ export function postNewOrder(order){
   }
 }
 
+export function postUnauthorizedOrder(order){
+  return function thunk(dispatch){
+    return axios.post('/api/cart/neworder', order)
+      .then(res => res.data)
+      .then(newOrder => dispatch(updateOrder({})))
+  }
+}
+
 export function addUnauthorizedCart(order){
   return function thunk(dispatch) {
     return axios.post('/api/orders/new', order)

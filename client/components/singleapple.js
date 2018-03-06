@@ -19,7 +19,6 @@ class SingleApple extends React.Component{
         const user = this.props.user
         const apple = this.props.apple
         const reviews = this.props.reviews
-        console.log('here', this.props)
         return (
       
             <div className = "center">
@@ -35,7 +34,7 @@ class SingleApple extends React.Component{
                   null}
                    {reviews && reviews.map(review => {
                     return(
-                        <div>
+                        <div key={review.id}>
                             <ul>
                             <li key={review.id} className = "text-info">{review.text}</li>
                             </ul>

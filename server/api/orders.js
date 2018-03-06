@@ -12,9 +12,6 @@ router.get('/', isLoggedIn, isAdmin, (req, res, next) => {
 
 
 router.post('/new', (req, res, next) => {
-    // Order.create(req.body)
-    // .then(newOrder => res.json(newOrder))
-    // .catch(next)
     // if not logged in, no userId
     // if logged in and not admin, use req.user.id
     //  if admin, user can be req.body.userId
