@@ -6,6 +6,7 @@ import AppleItem from "./appleitem";
 import { NavLink, Route } from "react-router-dom";
 import NewReviewForm from "./newreviewform"
 
+
 class SingleApple extends React.Component{
     constructor(props) {
         super(props);
@@ -16,48 +17,50 @@ class SingleApple extends React.Component{
         this.props.fetchAppleById(this.props.match.params.id);
       }
       render(){
+        const appleId = this.props.appleId;
+        const path = `/apples/${appleId}/edit`;
         const user = this.props.user
         const apple = this.props.apple
         const reviews = this.props.reviews
-        console.log('here', this.props)
+        const reviewName = this.props.reviews.user
+        if (this.props.reviews.length) console.log('here', this.props.reviews[1].user)
         return (
       
             <div className = "center">
-                <h1 className = "text-primary">{apple.name}</h1>
-                <img src = {apple.image} />
+                <AppleItem apple = {apple} />
                 <p className = "text-info">{apple.description}</p>
                 {apple.stock < 10 && apple.stock > 0 ? <p className = "text-info">Only {apple.stock} in stock, order now</p> 
                 : null}
-                {apple.stock > 0 ? <button className = "btn btn-primary">Add To Cart</button>
-                : <p>Out of Stock</p> }
-       <NewReviewForm apple = {apple} reviews = {reviews} user = {user}/>
-                 {user.isAdmin ? (<p>Put a navlink here to let admin edit</p>):
-                  null}
+                { reviews.length ? <h2 className = "top-padding text-primary"> What People are saying </h2> : null}
                    {reviews && reviews.map(review => {
                     return(
-                        <div>
+                        <div key={review.id}>
                             <ul>
-                            <li key={review.id} className = "text-info">{review.text}</li>
+                            <li> {review.user.firstName} said</li>
+                            <li className = "text-info">{review.subjectField}</li>
+                            <li className = "text-info">{review.text}</li>
                             </ul>
                         </div>
                     )
                 })}
-               
+                <NewReviewForm apple = {apple} reviews = {reviews} user = {user}/>
+               {user.isAdmin ? (  <NavLink className="add-apple" to={path}>
+    <button className="btn btn-primary">Edit Apple</button>
+    </NavLink>):
+                  null}
             </div>
 
         )
     }
 }
-
 const mapStateToProps = function(state) {
-    return {
-      apple: state.singleapple,
-      reviews: state.reviews,
-      user: state.user
-    };
+  return {
+    apple: state.singleapple,
+    appleId: state.singleapple.id,
+    reviews: state.reviews,
+    user: state.user
   };
-
-
+};
 const mapDispatch = {fetchAppleById, fetchReviewByAssociation, me, auth}
   
 const SingleApplesContainer = connect(mapStateToProps, mapDispatch)(SingleApple);

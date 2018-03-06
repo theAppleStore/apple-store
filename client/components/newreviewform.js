@@ -28,10 +28,10 @@ class NewReviewForm extends React.Component{
     }
  
     handleSubmit(event) {
+        // event.preventDefault();
         const review = this.state
         this.props.addReviewByAssociation(review)
-        // event.preventDefault();
-        // this.setState({ fireRedirect: true })
+        this.setState({ fireRedirect: true })
     }
 
     componentDidMount() {
@@ -45,7 +45,7 @@ class NewReviewForm extends React.Component{
         this.state.userId = user.id
         return (
             <div className = "center">
-            <h1 className = "text-success">Tell us what you think about our {apple.name} apples</h1>
+            <h2 className = "text-success">Tell us what you think about our {apple.name} apples</h2>
             <form onSubmit={this.handleSubmit}>
                 <label>
                     Title:
