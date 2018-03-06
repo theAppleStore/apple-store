@@ -18,7 +18,7 @@ class AllApples extends React.Component {
   render() {
     const { apples, isAdmin } = this.props;
     const category = this.props.match.params.category;
-
+    console.log('category', category)
     return (
       <div>
         <div className="apple-list">
@@ -43,7 +43,7 @@ class AllApples extends React.Component {
             <button class = "btn btn-primary">Add Apple</button>
           </NavLink>
         )}
-  
+
       </div>
     );
   }
