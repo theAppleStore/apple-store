@@ -3384,7 +3384,8 @@ var EditApple = function (_Component) {
               id: "image_uploads",
               name: "image_uploads",
               accept: ".jpg, .jpeg, .png",
-              onChange: this.handleImgInput
+              onChange: this.handleImgInput,
+              className: "btn btn-primary"
             })
           ),
           _react2.default.createElement("div", { className: "preview" }),
@@ -3428,7 +3429,7 @@ var EditApple = function (_Component) {
           _react2.default.createElement("input", { value: stock, name: "appleStock", onChange: this.handleChange }),
           _react2.default.createElement(
             "button",
-            null,
+            { className: "btn btn-primary" },
             " Submit "
           )
         ),
@@ -3437,7 +3438,7 @@ var EditApple = function (_Component) {
           null,
           _react2.default.createElement(
             "button",
-            { onClick: this.handleDelete },
+            { className: "btn btn-primary", onClick: this.handleDelete },
             " DELETE THIS APPLE "
           )
         )
@@ -8875,6 +8876,15 @@ var Navbar = function Navbar(_ref) {
             'Apples'
           ),
           ' '
+        ),
+        _react2.default.createElement(
+          _reactRouterDom.Link,
+          { to: '/users/' + user.id },
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Profile'
+          )
         ),
         _react2.default.createElement(
           _reactRouterDom.Link,
