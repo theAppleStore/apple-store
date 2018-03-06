@@ -19,3 +19,15 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+ul {
+  list-style-type: none;
+}
+
+.center{
+  text-align: center;
+}
+
+.add-apple-btn {
+  padding-bottom: 100px;
+}

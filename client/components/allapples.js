@@ -21,17 +21,11 @@ class AllApples extends React.Component {
 
     return (
       <div>
-        {isAdmin && (
-          <NavLink className="add-apple" to="/apples/edit">
-            <button>Add Apple</button>
-          </NavLink>
-        )}
-
         <div className="apple-list">
           {category ? (
             <h1>{`${category[0].toUpperCase() + category.slice(1)} Apples`}</h1>
           ) : (
-            <h1>All Apples</h1>
+           <h1 className = "center text-info">Our Current Selection</h1>
           )}
           <ul>
             {apples &&
@@ -44,6 +38,12 @@ class AllApples extends React.Component {
               })}
           </ul>
         </div>
+        {isAdmin && (
+          <NavLink className="add-apple" to="/apples/edit">
+            <button class = "btn btn-primary">Add Apple</button>
+          </NavLink>
+        )}
+  
       </div>
     );
   }

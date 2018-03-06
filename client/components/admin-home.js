@@ -10,12 +10,12 @@ import UserHome from "./user-home";
 export const AdminHome = props => {
   console.log("ADMIN HOME");
   return (
-    <div>
-      <h1>ADMIN HOME!!!</h1>
+    <div className = "center">
+      <h5 className = "text-danger">Admin Privileges Granted</h5>
       <UserHome />
       <div className="add-category">
         <NavLink className="to-edit-category" to="/">
-          <button>Add a category</button>
+          <button className = "btn btn-primary">Add a category</button>
         </NavLink>
       </div>
     </div>

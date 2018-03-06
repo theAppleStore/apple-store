@@ -44,12 +44,12 @@ class NewReviewForm extends React.Component{
         const reviews = this.props.reviews
         this.state.userId = user.id
         return (
-            <div>
-            <h1>Tell us what you think about our {apple.name} apples</h1>
+            <div className = "center">
+            <h1 className = "text-success">Tell us what you think about our {apple.name} apples</h1>
             <form onSubmit={this.handleSubmit}>
                 <label>
                     Title:
-                    <textarea name="subjectField" value={this.state.subjectField} onChange = {this.handleChange}/>
+                    <input name="subjectField" value={this.state.subjectField} onChange = {this.handleChange}/>
                 </label>
                 <label>
                     Feedback:
