@@ -91,7 +91,7 @@ class AppleItem extends React.Component {
             </div>
         )}
     }
-
+    
 const mapState = (state, ownProps) => {
     return {
         user: state.user, 
