@@ -3333,7 +3333,8 @@ var EditApple = function (_Component) {
               id: "image_uploads",
               name: "image_uploads",
               accept: ".jpg, .jpeg, .png",
-              onChange: this.handleImgInput
+              onChange: this.handleImgInput,
+              className: "btn btn-primary"
             })
           ),
           _react2.default.createElement("div", { className: "preview" }),
@@ -3377,7 +3378,7 @@ var EditApple = function (_Component) {
           _react2.default.createElement("input", { value: stock, name: "appleStock", onChange: this.handleChange }),
           _react2.default.createElement(
             "button",
-            null,
+            { className: "btn btn-primary" },
             " Submit "
           )
         ),
@@ -3386,7 +3387,7 @@ var EditApple = function (_Component) {
           null,
           _react2.default.createElement(
             "button",
-            { onClick: this.handleDelete },
+            { className: "btn btn-primary", onClick: this.handleDelete },
             " DELETE THIS APPLE "
           )
         )
@@ -3662,7 +3663,7 @@ exports.default = NewReviewContainer;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -3700,91 +3701,98 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var SingleApple = function (_React$Component) {
-    _inherits(SingleApple, _React$Component);
+  _inherits(SingleApple, _React$Component);
 
-    function SingleApple(props) {
-        _classCallCheck(this, SingleApple);
+  function SingleApple(props) {
+    _classCallCheck(this, SingleApple);
 
-        return _possibleConstructorReturn(this, (SingleApple.__proto__ || Object.getPrototypeOf(SingleApple)).call(this, props));
+    return _possibleConstructorReturn(this, (SingleApple.__proto__ || Object.getPrototypeOf(SingleApple)).call(this, props));
+  }
+
+  _createClass(SingleApple, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.fetchReviewByAssociation(this.props.match.params.id);
+      this.props.fetchAppleById(this.props.match.params.id);
     }
+  }, {
+    key: "render",
+    value: function render() {
+      var user = this.props.user;
+      var apple = this.props.apple;
+      var reviews = this.props.reviews;
+      var appleId = this.props.appleId;
+      var path = "/apples/" + appleId + "/edit";
+      console.log("here", this.props);
+      return _react2.default.createElement(
+        "div",
+        { className: "center" },
+        _react2.default.createElement(
+          "h1",
+          { className: "text-primary" },
+          apple.name
+        ),
+        _react2.default.createElement("img", { src: apple.image }),
+        _react2.default.createElement(
+          "p",
+          { className: "text-info" },
+          apple.description
+        ),
+        apple.stock < 10 && apple.stock > 0 ? _react2.default.createElement(
+          "p",
+          { className: "text-info" },
+          "Only ",
+          apple.stock,
+          " in stock, order now"
+        ) : null,
+        apple.stock > 0 ? _react2.default.createElement(
+          "button",
+          { className: "btn btn-primary" },
+          "Add To Cart"
+        ) : _react2.default.createElement(
+          "p",
+          null,
+          "Out of Stock"
+        ),
+        _react2.default.createElement(_newreviewform2.default, { apple: apple, reviews: reviews, user: user }),
+        user.isAdmin ? _react2.default.createElement(
+          _reactRouterDom.NavLink,
+          { className: "add-apple", to: path },
+          _react2.default.createElement(
+            "button",
+            { className: "btn btn-primary" },
+            "Edit Apple"
+          )
+        ) : null,
+        reviews && reviews.map(function (review) {
+          return _react2.default.createElement(
+            "div",
+            null,
+            _react2.default.createElement(
+              "ul",
+              null,
+              _react2.default.createElement(
+                "li",
+                { key: review.id, className: "text-info" },
+                review.text
+              )
+            )
+          );
+        })
+      );
+    }
+  }]);
 
-    _createClass(SingleApple, [{
-        key: "componentDidMount",
-        value: function componentDidMount() {
-            this.props.fetchReviewByAssociation(this.props.match.params.id);
-            this.props.fetchAppleById(this.props.match.params.id);
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            var user = this.props.user;
-            var apple = this.props.apple;
-            var reviews = this.props.reviews;
-            console.log('here', this.props);
-            return _react2.default.createElement(
-                "div",
-                { className: "center" },
-                _react2.default.createElement(
-                    "h1",
-                    { className: "text-primary" },
-                    apple.name
-                ),
-                _react2.default.createElement("img", { src: apple.image }),
-                _react2.default.createElement(
-                    "p",
-                    { className: "text-info" },
-                    apple.description
-                ),
-                apple.stock < 10 && apple.stock > 0 ? _react2.default.createElement(
-                    "p",
-                    { className: "text-info" },
-                    "Only ",
-                    apple.stock,
-                    " in stock, order now"
-                ) : null,
-                apple.stock > 0 ? _react2.default.createElement(
-                    "button",
-                    { className: "btn btn-primary" },
-                    "Add To Cart"
-                ) : _react2.default.createElement(
-                    "p",
-                    null,
-                    "Out of Stock"
-                ),
-                _react2.default.createElement(_newreviewform2.default, { apple: apple, reviews: reviews, user: user }),
-                user.isAdmin ? _react2.default.createElement(
-                    "p",
-                    null,
-                    "Put a navlink here to let admin edit"
-                ) : null,
-                reviews && reviews.map(function (review) {
-                    return _react2.default.createElement(
-                        "div",
-                        null,
-                        _react2.default.createElement(
-                            "ul",
-                            null,
-                            _react2.default.createElement(
-                                "li",
-                                { key: review.id, className: "text-info" },
-                                review.text
-                            )
-                        )
-                    );
-                })
-            );
-        }
-    }]);
-
-    return SingleApple;
+  return SingleApple;
 }(_react2.default.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
-    return {
-        apple: state.singleapple,
-        reviews: state.reviews,
-        user: state.user
-    };
+  return {
+    apple: state.singleapple,
+    appleId: state.singleapple.id,
+    reviews: state.reviews,
+    user: state.user
+  };
 };
 
 var mapDispatch = { fetchAppleById: _store.fetchAppleById, fetchReviewByAssociation: _store.fetchReviewByAssociation, me: _store.me, auth: _store.auth };

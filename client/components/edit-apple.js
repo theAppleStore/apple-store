@@ -84,6 +84,7 @@ class EditApple extends Component {
               name="image_uploads"
               accept=".jpg, .jpeg, .png"
               onChange={this.handleImgInput}
+              className="btn btn-primary"
             />
           </div>
           <div className="preview" />
@@ -106,10 +107,10 @@ class EditApple extends Component {
           />
           <h3> Stock: </h3>
           <input value={stock} name="appleStock" onChange={this.handleChange} />
-          <button> Submit </button>
+          <button className="btn btn-primary" > Submit </button>
         </form>
         <div>
-        <button onClick={this.handleDelete}> DELETE THIS APPLE </button>
+        <button className="btn btn-primary"  onClick={this.handleDelete}> DELETE THIS APPLE </button>
         </div>
       </div>
     );
