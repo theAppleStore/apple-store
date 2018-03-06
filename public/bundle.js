@@ -8768,7 +8768,7 @@ var EditProfile = function (_Component) {
           ) : null,
           _react2.default.createElement(
             'button',
-            null,
+            { className: 'btn btn-primary' },
             ' Submit '
           )
         )
@@ -9525,7 +9525,7 @@ var SingleUser = function (_Component) {
           ' ',
           _react2.default.createElement(
             'button',
-            null,
+            { className: 'btn btn-primary' },
             ' Edit '
           ),
           ' '
