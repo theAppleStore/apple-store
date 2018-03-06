@@ -11,6 +11,7 @@ class AllApples extends React.Component {
   }
 
   componentDidMount() {
+    console.log('ALl APPLES RENDERING')
     this.props.fetchApples(this.props.match.params.category);
   }
 
