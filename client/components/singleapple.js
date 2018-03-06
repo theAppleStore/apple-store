@@ -23,7 +23,7 @@ class SingleApple extends React.Component{
         const apple = this.props.apple
         const reviews = this.props.reviews
         const reviewName = this.props.reviews.user
-        if (this.props.reviews.length) console.log('here', this.props.reviews[1].user)
+        
         return (
       
             <div className = "center">
