@@ -3739,7 +3739,7 @@ var SingleApple = function (_React$Component) {
             var apple = this.props.apple;
             var reviews = this.props.reviews;
             var reviewName = this.props.reviews.user;
-            // if (this.props.reviews.length) console.log('here', this.props.reviews[0].user)
+            if (this.props.reviews.length) console.log('here', this.props.reviews[1].user);
             return _react2.default.createElement(
                 "div",
                 { className: "center" },
