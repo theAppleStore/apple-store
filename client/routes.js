@@ -44,10 +44,12 @@ the "exact" prop. The following will match '/roster', but not '/roster/2'.
         <Route path="/signup" component={Signup} />
         <Route exact path="/thank-you" component={ThankYou} />
         <Route exact path="/apples/edit" component={AddApple} />
+        <Route exact path="/apples/type/:category" component={AllApples} />
         <Route exact path="/apples/:id" component={SingleApple} />
         <Route exact path="/apples/:id/review" component={NewReviewForm}/>
         <Route path="/apples/:id/edit" component={EditApple} />
         <Route exact path="/apples" component={AllApples} />
+        <Route path="/apples/type/:category" component={AllApples} />
         <Route exact path="/users" component={AllUsers} />
         <Route path="/users/:id/edit" component={EditProfile} />
         <Route path="/users/:id" component={SingleUser} />
@@ -82,7 +84,7 @@ the "exact" prop. The following will match '/roster', but not '/roster/2'.
 /**
  * CONTAINER
  */
-const mapState = state => { 
+const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey

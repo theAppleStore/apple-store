@@ -14,6 +14,7 @@ class Cart extends Component {
     }
   }
 
+<<<<<<< HEAD
   componentDidMount(){
     this.props.me()
       .then(userAction => {
@@ -56,6 +57,69 @@ class Cart extends Component {
         totalQuantity += order[key]
       }
       apples.forEach(apple => totalAmount += apple.price*order[apple.id])
+=======
+    componentDidMount(){
+        this.props.me()
+        .then(() => {
+            if (this.props.user.id){
+                this.props.fetchCart()
+                this.props.fetchCartApples()
+            } else {
+                this.props.fetchApples()
+                this.props.fetchUnauthorizedCart()
+            }
+        })
+    }
+
+    render(){
+        const order = this.props.order;
+        const keys = Object.keys(order)
+        let date = order.createdAt;
+        let apples 
+        if (Object.keys(this.props.user).length) {
+            
+            apples = this.props.apples
+        } else {
+            apples = []
+            keys.forEach(id => {
+                let appleObj = this.props.apples.find(apple => +id === apple.id)
+                apples.push(appleObj)
+            })
+        }
+        
+        let totalAmount = 0;
+        let totalQuantity = 0;
+        if(Object.keys(this.props.user).length && apples){
+            
+            apples.forEach((apple, i) => {
+                if (apple.lineItem){
+                    totalAmount += apple.price*apple.lineItem.quantity;
+                    totalQuantity += apple.lineItem.quantity;
+                }
+            })
+        } else if (apples[0]) {
+            for (let key in order) {
+                totalQuantity += order[key]
+            }
+            apples.forEach(apple => totalAmount += apple.price*order[apple.id])
+        }
+
+        return(
+            <div className="center">
+                <h1 className = "text-info">Your Cart</h1>
+                <h4 className = "text-info">{`Number of Items: ${totalQuantity}`}</h4>
+                <h4 className = "text-info">{`Total Price: $${totalAmount}`}</h4>
+                {apples[0] && apples.map((apple, i, arr) => {
+                    return(
+                        <ul key={apple.id}>
+                            <li><AppleItem apple={apple} isCart={this.state.isCart} /></li>
+                        </ul>
+                    )
+                })}
+                <button className = "btn btn-warning"><NavLink to='/checkout'>Continue to Checkout</NavLink></button>
+            </div>
+        )
+>>>>>>> master
     }
 
     return(

@@ -36,6 +36,32 @@ router.post('/neworder', (req, res, next) => {
   .catch(next)
 })
 
+router.get('/session', (req, res, next) => {
+    res.json(req.session.cart)
+})
+
+router.delete('/session/:appleId', (req, res, next) => {
+    delete req.session.cart[req.params.appleId]
+    res.json(req.session.cart)
+})
+
+router.put('/session/:appleId', (req, res, next) => {
+    req.session.cart[req.params.appleId] = +req.body.quantity;
+    res.json(req.session.cart)
+})
+
+router.put('/:orderId/apple/:appleId', (req, res, next) => {
+    LineItem.findOne({
+        where: {
+            appleId: req.params.appleId,
+            orderId: req.params.orderId
+        }
+    })
+    .then(found => found.update({quantity: req.body.quantity}))
+    .then(updated => res.json(updated))
+    .catch(next)
+})
+
 router.delete('/:appleId', (req, res, next) => {
   LineItem.destroy({
     where: {
@@ -48,6 +74,7 @@ router.delete('/:appleId', (req, res, next) => {
   .catch(next);
 })
 
+<<<<<<< HEAD
 router.get('/session', (req, res, next) => {
   res.json(req.session.cart)
 })
@@ -58,4 +85,6 @@ router.delete('/session/:appleId', (req, res, next) => {
 })
 
 
+=======
+>>>>>>> master
 module.exports = router;

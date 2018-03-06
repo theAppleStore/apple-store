@@ -9,6 +9,7 @@ const ADD_APPLE = "ADD_APPLE";
 const UPDATE_APPLE = "UPDATE_APPLE";
 const GET_CART_APPLES = "GET_CART_APPLES";
 const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+const UPDATE_CART = "UPDATE_CART";
 
 //initial state
 
@@ -27,6 +28,8 @@ export const editApple = apple => ({type: UPDATE_APPLE, apple})
 export const getCartApples = apples => ({type: GET_CART_APPLES, apples})
 
 export const removeFromCart = appleId => ({ type: REMOVE_FROM_CART, appleId });
+
+export const updateCart = apple => ({type: UPDATE_CART, apple})
 
 //thunk
 
@@ -77,17 +80,15 @@ export function fetchCartApples() {
       .get("/auth/me")
       .then(res => res.data.id)
       .then(id => {
-        axios
-          .get(`/api/orders/${id}`)
-          .then(res => res.data)
-          .then(orders => orders.find(order => order.status === "Created"))
-          .then(order => {
-            axios
-              .get(`/api/orders/single/${order.id}`)
-              .then(res => res.data)
-              .then(order => dispatch(getCartApples(order.apples)));
-          });
+        return axios.get(`/api/orders/${id}`)
       })
+      .then(res => res.data)
+      .then(orders => orders.find(order => order.status === "Created"))
+      .then(order => {
+        return axios.get(`/api/orders/single/${order.id}`)
+      })
+      .then(res => res.data)
+      .then(order => dispatch(getCartApples(order.apples)))
       .catch(err => console.log(err));
   };
 }
@@ -98,6 +99,17 @@ export function deleteFromCart(appleId) {
       .delete(`/api/cart/${appleId}`)
       .then(res => res.data)
       .then(deletedAppleId => dispatch(removeFromCart(deletedAppleId)))
+      .catch(err => console.log(err));
+  };
+}
+
+export function putCart(appleId, orderId, updatedInfo) {
+  console.log(updatedInfo)
+  return function thunk(dispatch) {
+    return axios
+      .put(`/api/cart/${orderId}/apple/${appleId}`, updatedInfo)
+      .then(res => res.data)
+      .then(updatedLineItem => dispatch(updateCart({ id: updatedLineItem.appleId, quantity: updatedInfo.quantity } )))
       .catch(err => console.log(err));
   };
 }
@@ -122,6 +134,27 @@ export default function reducer(state = initState, action) {
     case REMOVE_FROM_CART:
       const filtered = state.filter(apple => apple.id !== +action.appleId);
       return filtered;
+    case UPDATE_CART:
+      return state.map(apple => {
+        if (+apple.id === +action.apple.id) {
+          let lineItem = Object.assign(
+            {}, 
+            apple.lineItem, 
+            { quantity: action.apple.quantity }
+          ) 
+          let newApple = Object.assign(
+            {}, 
+            apple, 
+            {lineItem}
+          )
+          return newApple
+        } else {
+          return apple
+        }
+      })
+      // const apple = state.find(apple => apple.id === action.appleId);
+      // const filteredApples = state.filter(apple => apple.id !== +action.appleId);
+      // return filteredApples.concat(apple);
     default:
       return state;
   }

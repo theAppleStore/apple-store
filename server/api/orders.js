@@ -26,9 +26,9 @@ router.post('/new', (req, res, next) => {
         .catch(next)
     } else {
         if (req.session.cart[req.body.appleId]) {
-            req.session.cart[req.body.appleId]++
+            req.session.cart[req.body.appleId] += +req.body.quantity 
         } else {
-            req.session.cart[req.body.appleId] = req.body.quantity
+            req.session.cart[req.body.appleId] = +req.body.quantity
         }
         res.send(req.session.cart)
     }
@@ -50,9 +50,10 @@ router.put('/single/:id', (req, res, next) => {
 })
 
 router.get('/:userId', (req, res, next) => {
+    console.log('id', req.params.userId)
     Order.findAll({
         where: {
-            userId: req.params.userId
+            userId: req.params.userId // consider req.user.id for non-admin, logged in users
         }
     })
     .then(orders => res.json(orders))

@@ -11,13 +11,14 @@ class AllApples extends React.Component {
   }
 
   componentDidMount() {
+    console.log('ALl APPLES RENDERING')
     this.props.fetchApples(this.props.match.params.category);
   }
 
   render() {
     const { apples, isAdmin } = this.props;
     const category = this.props.match.params.category;
-
+    console.log('category', category)
     return (
       <div>
         <div className="apple-list">
@@ -42,7 +43,7 @@ class AllApples extends React.Component {
             <button className = "btn btn-primary">Add Apple</button>
           </NavLink>
         )}
-  
+
       </div>
     );
   }
