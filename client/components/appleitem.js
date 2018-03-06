@@ -57,12 +57,13 @@ class AppleItem extends React.Component {
                 <br></br>
                 {/* when adding style in the ternary it only renders one apple on apples */}
                 {this.props.isCart ? <button onClick={this.handleDelete} className= "btn btn-primary">Remove from Cart</button> 
-                : <button  onClick={this.handleClick} className= "btn btn-primary">Add to Cart</button>}
+                : apple.stock > 0 ? <button onClick={this.handleClick} className = "btn btn-primary">Add To Cart</button>
+                : <p>Out of Stock</p> }
                 <br></br>
            </div>
         )}
     }
-
+    
 const mapState = (state, ownProps) => {
     return {
         user: state.user, 

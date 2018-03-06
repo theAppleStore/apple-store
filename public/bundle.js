@@ -1127,7 +1127,8 @@ var AppleItem = function (_React$Component) {
             var _props = this.props,
                 postNewOrder = _props.postNewOrder,
                 user = _props.user,
-                apple = _props.apple;
+                apple = _props.apple,
+                addUnauthorizedCart = _props.addUnauthorizedCart;
 
             var order = {
                 userId: user.id,
@@ -1135,13 +1136,20 @@ var AppleItem = function (_React$Component) {
                 quantity: 1,
                 price: apple.price
             };
-            postNewOrder(order);
+            if (Object.keys(user).length) {
+                postNewOrder(order);
+            } else {
+                addUnauthorizedCart(order);
+            }
         }
     }, {
         key: 'handleDelete',
         value: function handleDelete() {
-            this.props.deleteFromCart(this.props.apple.id);
-            this.props.fetchCart();
+            if (Object.keys(this.props.user).length) {
+                this.props.deleteFromCart(this.props.apple.id);
+            } else {
+                this.props.deletefromUnauthorized(this.props.apple.id);
+            }
         }
     }, {
         key: 'render',
@@ -1149,26 +1157,37 @@ var AppleItem = function (_React$Component) {
             var apple = this.props.apple;
             return _react2.default.createElement(
                 'div',
-                null,
-                _react2.default.createElement('img', { src: apple.image }),
+                { className: 'center' },
+                _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     _reactRouterDom.NavLink,
                     { to: '/apples/' + apple.id },
-                    apple.name
+                    _react2.default.createElement(
+                        'h1',
+                        { className: 'text-success' },
+                        apple.name
+                    )
                 ),
+                _react2.default.createElement('br', null),
+                _react2.default.createElement('img', { src: apple.image }),
                 _react2.default.createElement(
-                    'p',
-                    null,
+                    'h3',
+                    { className: 'text-muted' },
                     '$' + apple.price
                 ),
+                _react2.default.createElement('br', null),
                 this.props.isCart ? _react2.default.createElement(
                     'button',
-                    { onClick: this.handleDelete },
+                    { onClick: this.handleDelete, className: 'btn btn-primary' },
                     'Remove from Cart'
-                ) : _react2.default.createElement(
+                ) : apple.stock > 0 ? _react2.default.createElement(
                     'button',
-                    { onClick: this.handleClick },
-                    'Add to Cart'
+                    { onClick: this.handleClick, className: 'btn btn-primary' },
+                    'Add To Cart'
+                ) : _react2.default.createElement(
+                    'p',
+                    null,
+                    'Out of Stock'
                 ),
                 _react2.default.createElement('br', null)
             );
@@ -1183,7 +1202,7 @@ var mapState = function mapState(state, ownProps) {
         user: state.user,
         activeOrder: state.activeOrder };
 };
-var mapDispatch = { editOrder: _store.editOrder, postNewOrder: _store.postNewOrder, me: _store.me, fetchOrder: _store.fetchOrder, deleteFromCart: _store.deleteFromCart, fetchCart: _store.fetchCart };
+var mapDispatch = { editOrder: _store.editOrder, postNewOrder: _store.postNewOrder, me: _store.me, fetchOrder: _store.fetchOrder, deleteFromCart: _store.deleteFromCart, fetchCart: _store.fetchCart, addUnauthorizedCart: _store.addUnauthorizedCart, deletefromUnauthorized: _store.deletefromUnauthorized };
 
 exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(AppleItem);
 
@@ -3020,11 +3039,11 @@ var AdminHome = exports.AdminHome = function AdminHome(props) {
   console.log("ADMIN HOME");
   return _react2.default.createElement(
     "div",
-    null,
+    { className: "center" },
     _react2.default.createElement(
-      "h1",
-      null,
-      "ADMIN HOME!!!"
+      "h5",
+      { className: "text-danger" },
+      "Admin Privileges Granted"
     ),
     _react2.default.createElement(_userHome2.default, null),
     _react2.default.createElement(
@@ -3035,7 +3054,7 @@ var AdminHome = exports.AdminHome = function AdminHome(props) {
         { className: "to-edit-category", to: "/" },
         _react2.default.createElement(
           "button",
-          null,
+          { className: "btn btn-primary" },
           "Add a category"
         )
       )
@@ -3122,15 +3141,6 @@ var AllApples = function (_React$Component) {
       return _react2.default.createElement(
         "div",
         null,
-        isAdmin && _react2.default.createElement(
-          _reactRouterDom.NavLink,
-          { className: "add-apple", to: "/apples/edit" },
-          _react2.default.createElement(
-            "button",
-            null,
-            "Add Apple"
-          )
-        ),
         _react2.default.createElement(
           "div",
           { className: "apple-list" },
@@ -3140,8 +3150,8 @@ var AllApples = function (_React$Component) {
             category[0].toUpperCase() + category.slice(1) + " Apples"
           ) : _react2.default.createElement(
             "h1",
-            null,
-            "All Apples"
+            { className: "center text-info" },
+            "Our Current Selection"
           ),
           _react2.default.createElement(
             "ul",
@@ -3153,6 +3163,15 @@ var AllApples = function (_React$Component) {
                 _react2.default.createElement(_appleitem2.default, { apple: apple })
               );
             })
+          )
+        ),
+        isAdmin && _react2.default.createElement(
+          _reactRouterDom.NavLink,
+          { className: "add-apple", to: "/apples/edit" },
+          _react2.default.createElement(
+            "button",
+            { "class": "btn btn-primary" },
+            "Add Apple"
           )
         )
       );
@@ -3174,11 +3193,10 @@ var mapDispatch = { fetchApples: _store.fetchApples };
 var AllApplesContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatch)(AllApples);
 exports.default = AllApplesContainer;
 
-
-AllApples.propTypes = {
-  apples: _propTypes2.default.array,
-  isAdmin: _propTypes2.default.boolean
-};
+// AllApples.propTypes = {
+//   apples: PropTypes.array,
+//   isAdmin: PropTypes.boolean
+// }
 
 /***/ }),
 /* 41 */
@@ -3587,10 +3605,10 @@ var NewReviewForm = function (_React$Component) {
     }, {
         key: "handleSubmit",
         value: function handleSubmit(event) {
+            // event.preventDefault();
             var review = this.state;
             this.props.addReviewByAssociation(review);
-            // event.preventDefault();
-            // this.setState({ fireRedirect: true })
+            this.setState({ fireRedirect: true });
         }
     }, {
         key: "componentDidMount",
@@ -3607,10 +3625,10 @@ var NewReviewForm = function (_React$Component) {
             this.state.userId = user.id;
             return _react2.default.createElement(
                 "div",
-                null,
+                { className: "center" },
                 _react2.default.createElement(
-                    "h1",
-                    null,
+                    "h2",
+                    { className: "text-success" },
                     "Tell us what you think about our ",
                     apple.name,
                     " apples"
@@ -3622,7 +3640,7 @@ var NewReviewForm = function (_React$Component) {
                         "label",
                         null,
                         "Title:",
-                        _react2.default.createElement("textarea", { name: "subjectField", value: this.state.subjectField, onChange: this.handleChange })
+                        _react2.default.createElement("input", { name: "subjectField", value: this.state.subjectField, onChange: this.handleChange })
                     ),
                     _react2.default.createElement(
                         "label",
@@ -3715,67 +3733,71 @@ var SingleApple = function (_React$Component) {
     }, {
         key: "render",
         value: function render() {
+            var appleId = this.props.appleId;
+            var path = "/apples/" + appleId + "/edit";
             var user = this.props.user;
             var apple = this.props.apple;
             var reviews = this.props.reviews;
-            console.log('here', this.props);
+            var reviewName = this.props.reviews.user;
+            // if (this.props.reviews.length) console.log('here', this.props.reviews[0].user)
             return _react2.default.createElement(
                 "div",
-                null,
-                _react2.default.createElement(
-                    "h1",
-                    null,
-                    apple.name
-                ),
-                _react2.default.createElement("img", { src: apple.image }),
+                { className: "center" },
+                _react2.default.createElement(_appleitem2.default, { apple: apple }),
                 _react2.default.createElement(
                     "p",
-                    null,
+                    { className: "text-info" },
                     apple.description
                 ),
                 apple.stock < 10 && apple.stock > 0 ? _react2.default.createElement(
                     "p",
-                    null,
+                    { className: "text-info" },
                     "Only ",
                     apple.stock,
                     " in stock, order now"
                 ) : null,
-                apple.stock > 0 ? _react2.default.createElement(
-                    "button",
-                    null,
-                    "Add To Cart"
-                ) : _react2.default.createElement(
-                    "p",
-                    null,
-                    "Out of Stock"
-                ),
-                user.id ? _react2.default.createElement(
-                    _reactRouterDom.NavLink,
-                    { to: "/apples/" + apple.id + "/review" },
-                    "Write Your Own Review"
-                ) : null,
-                console.log('before form', this.props.match),
-                _react2.default.createElement(_newreviewform2.default, { apple: apple, reviews: reviews, user: user }),
-                user.isAdmin ? _react2.default.createElement(
-                    "p",
-                    null,
-                    "Put a navlink here to let admin edit"
+                reviews.length ? _react2.default.createElement(
+                    "h2",
+                    { className: "top-padding text-primary" },
+                    " What People are saying "
                 ) : null,
                 reviews && reviews.map(function (review) {
                     return _react2.default.createElement(
                         "div",
-                        null,
+                        { key: review.id },
                         _react2.default.createElement(
                             "ul",
                             null,
                             _react2.default.createElement(
                                 "li",
-                                { key: review.id },
+                                null,
+                                " ",
+                                review.user.firstName,
+                                " said"
+                            ),
+                            _react2.default.createElement(
+                                "li",
+                                { className: "text-info" },
+                                review.subjectField
+                            ),
+                            _react2.default.createElement(
+                                "li",
+                                { className: "text-info" },
                                 review.text
                             )
                         )
                     );
-                })
+                }),
+                _react2.default.createElement(_newreviewform2.default, { apple: apple, reviews: reviews, user: user }),
+                user.isAdmin ? _react2.default.createElement(
+                    _reactRouterDom.NavLink,
+                    { className: "add-apple", to: path },
+                    _react2.default.createElement(
+                        "button",
+                        { className: "btn btn-primary" },
+                        "Edit Apple"
+                    )
+                ) : null
             );
         }
     }]);
@@ -3786,11 +3808,11 @@ var SingleApple = function (_React$Component) {
 var mapStateToProps = function mapStateToProps(state) {
     return {
         apple: state.singleapple,
+        appleId: state.singleapple.id,
         reviews: state.reviews,
         user: state.user
     };
 };
-
 var mapDispatch = { fetchAppleById: _store.fetchAppleById, fetchReviewByAssociation: _store.fetchReviewByAssociation, me: _store.me, auth: _store.auth };
 
 var SingleApplesContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatch)(SingleApple);
@@ -3835,8 +3857,8 @@ var UserHome = function UserHome(props) {
     'div',
     null,
     _react2.default.createElement(
-      'h3',
-      null,
+      'h1',
+      { className: 'text-primary center' },
       'Welcome, ',
       email
     ),
@@ -3899,16 +3921,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function VisitorHome() {
   return _react2.default.createElement(
     "div",
-    null,
-    _react2.default.createElement(
-      "div",
-      { className: "banner-welcome" },
-      _react2.default.createElement(
-        "h1",
-        null,
-        "Welcome!"
-      )
-    ),
+    { className: "center" },
     _react2.default.createElement(
       "div",
       { className: "categories" },
@@ -8185,9 +8198,14 @@ var Cart = function (_Component) {
     _createClass(Cart, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            this.props.me();
-            this.props.fetchCart();
-            this.props.fetchCartApples();
+            if (Object.keys(this.props.user).length) {
+                this.props.me();
+                this.props.fetchCart();
+                this.props.fetchCartApples();
+            } else {
+                this.props.fetchApples();
+                this.props.fetchUnauthorizedCart();
+            }
         }
     }, {
         key: 'render',
@@ -8195,46 +8213,65 @@ var Cart = function (_Component) {
             var _this2 = this;
 
             var order = this.props.order;
+            var keys = Object.keys(order);
             var date = order.createdAt;
-            var apples = this.props.apples;
+            var apples = void 0;
+            if (Object.keys(this.props.user).length) {
+                apples = this.props.apples;
+            } else {
+                apples = [];
+                keys.forEach(function (id) {
+                    var appleObj = _this2.props.apples.find(function (apple) {
+                        return +id === apple.id;
+                    });
+                    apples.push(appleObj);
+                });
+            }
+            console.log('APPLES', apples);
+
             var totalAmount = 0;
             var totalQuantity = 0;
-            if (date) {
-                date = order.createdAt.split('T')[0];
-            }
-            if (apples) {
+            if (Object.keys(this.props.user).length && apples) {
                 apples.forEach(function (apple) {
-                    totalAmount += apple.price;
+                    totalAmount += apple.price * apple.lineItem.quantity;
                     if (apple.lineItem) {
                         totalQuantity += apple.lineItem.quantity;
                     }
+                });
+            } else if (apples[0]) {
+                for (var key in order) {
+                    totalQuantity += order[key];
+                }
+                apples.forEach(function (apple) {
+                    return totalAmount += apple.price * order[apple.id];
                 });
             }
 
             return _react2.default.createElement(
                 'div',
-                null,
+                { className: 'center' },
                 _react2.default.createElement(
                     'h1',
-                    null,
+                    { className: 'text-info' },
                     'Your Cart'
                 ),
                 _react2.default.createElement(
                     'h4',
-                    null,
-                    'Order Date: ' + date
-                ),
-                _react2.default.createElement(
-                    'h4',
-                    null,
+                    { className: 'text-info' },
                     'Number of Items: ' + totalQuantity
                 ),
                 _react2.default.createElement(
                     'h4',
-                    null,
+                    { className: 'text-info' },
                     'Total Price: $' + totalAmount
                 ),
-                apples && apples.map(function (apple, i, arr) {
+                apples[0] && apples.map(function (apple, i, arr) {
+                    var quantity = void 0;
+                    if (Object.keys(_this2.props.user).length && apple.lineItem) {
+                        quantity = apple.lineItem.quantity;
+                    } else {
+                        quantity = order[apple.id];
+                    }
                     return _react2.default.createElement(
                         'ul',
                         { key: apple.id },
@@ -8243,16 +8280,16 @@ var Cart = function (_Component) {
                             null,
                             _react2.default.createElement(_appleitem2.default, { apple: apple, isCart: _this2.state.isCart })
                         ),
-                        apple.lineItem && _react2.default.createElement(
+                        _react2.default.createElement(
                             'li',
                             null,
-                            'Quantity: ' + apple.lineItem.quantity
+                            'Quantity: ' + quantity
                         )
                     );
                 }),
                 _react2.default.createElement(
                     'button',
-                    null,
+                    { className: 'btn btn-warning' },
                     _react2.default.createElement(
                         _reactRouterDom.NavLink,
                         { to: '/checkout' },
@@ -8274,7 +8311,7 @@ var mapState = function mapState(state) {
     };
 };
 
-var mapDispatch = { fetchCart: _store.fetchCart, me: _store.me, editOrder: _store.editOrder, fetchCartApples: _store.fetchCartApples };
+var mapDispatch = { fetchCart: _store.fetchCart, me: _store.me, editOrder: _store.editOrder, fetchCartApples: _store.fetchCartApples, fetchApples: _store.fetchApples, fetchUnauthorizedCart: _store.fetchUnauthorizedCart };
 
 exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(Cart);
 
@@ -8737,40 +8774,61 @@ var Navbar = function Navbar(_ref) {
     'div',
     null,
     _react2.default.createElement(
-      _reactRouterDom.Link,
-      { to: '/' },
+      'div',
+      { className: 'navbar-dark bg-primary' },
       _react2.default.createElement(
-        'h1',
-        null,
-        _react2.default.createElement('img', { src: 'https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX26650293.jpg', height: '55', width: '45' }),
-        'THE APPLE STORE'
+        _reactRouterDom.Link,
+        { to: '/' },
+        _react2.default.createElement(
+          'h1',
+          null,
+          _react2.default.createElement('img', { src: 'https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX26650293.jpg', height: '55', width: '45' }),
+          'THE APPLE STORE'
+        )
       )
     ),
     _react2.default.createElement(
       'nav',
-      null,
+      { className: 'navbar-dark bg-dark' },
       isLoggedIn ? _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
           _reactRouterDom.Link,
           { to: '/' + user.id },
-          'Home'
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Home'
+          )
         ),
         _react2.default.createElement(
           _reactRouterDom.Link,
           { to: '/apples' },
-          ' Apples '
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Apples'
+          ),
+          ' '
         ),
         _react2.default.createElement(
           _reactRouterDom.Link,
           { to: '/cart' },
-          ' Cart '
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Cart'
+          )
         ),
         _react2.default.createElement(
           'a',
           { href: '#', onClick: handleClick },
-          'Logout'
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Logout'
+          )
         ),
         user.isAdmin ? _react2.default.createElement(
           'div',
@@ -8778,12 +8836,22 @@ var Navbar = function Navbar(_ref) {
           _react2.default.createElement(
             _reactRouterDom.Link,
             { to: '/users' },
-            ' Users '
+            _react2.default.createElement(
+              'h3',
+              null,
+              'Users'
+            ),
+            ' '
           ),
           _react2.default.createElement(
             _reactRouterDom.Link,
             { to: '/orders' },
-            ' Orders '
+            _react2.default.createElement(
+              'h3',
+              null,
+              'Orders'
+            ),
+            ' '
           )
         ) : null
       ) : _react2.default.createElement(
@@ -8792,27 +8860,47 @@ var Navbar = function Navbar(_ref) {
         _react2.default.createElement(
           _reactRouterDom.Link,
           { to: '/' },
-          ' Home '
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Home'
+          )
         ),
         _react2.default.createElement(
           _reactRouterDom.Link,
           { to: '/apples' },
-          ' Apples '
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Apples'
+          )
         ),
         _react2.default.createElement(
           _reactRouterDom.Link,
           { to: '/login' },
-          'Login'
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Login'
+          )
         ),
         _react2.default.createElement(
           _reactRouterDom.Link,
           { to: '/signup' },
-          'Sign Up'
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Sign Up'
+          )
         ),
         _react2.default.createElement(
           _reactRouterDom.Link,
           { to: '/cart' },
-          ' Cart '
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Cart'
+          )
         )
       )
     ),
@@ -9401,7 +9489,6 @@ var Routes = function (_Component) {
           userId = _props.userId,
           user = _props.user;
 
-      console.log("isADMIN", isAdmin, "isLOGGED", isLoggedIn);
 
       return _react2.default.createElement(
         _reactRouterDom.Switch,
@@ -9446,7 +9533,6 @@ var Routes = function (_Component) {
 
 
 var mapState = function mapState(state) {
-  console.log("routes isAdmin State", state);
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
@@ -9492,7 +9578,10 @@ Object.defineProperty(exports, "__esModule", {
 exports.fetchOrder = undefined;
 exports.editOrder = editOrder;
 exports.postNewOrder = postNewOrder;
+exports.addUnauthorizedCart = addUnauthorizedCart;
 exports.fetchCart = fetchCart;
+exports.fetchUnauthorizedCart = fetchUnauthorizedCart;
+exports.deletefromUnauthorized = deletefromUnauthorized;
 
 exports.default = function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : order;
@@ -9580,11 +9669,25 @@ function postNewOrder(order) {
     return _axios2.default.post('/api/orders/new', order).then(function (res) {
       return res.data;
     }).then(function (newOrder) {
+      console.log('HELLO!', newOrder);
       return _axios2.default.post('/api/cart', Object.assign({}, order, { orderId: newOrder.id })).then(function (res) {
         return res.data;
       }).then(function (lineItem) {
         return dispatch(addOrder(newOrder));
       });
+    }).catch(function (err) {
+      return console.log(err);
+    });
+  };
+}
+
+function addUnauthorizedCart(order) {
+  return function thunk(dispatch) {
+    return _axios2.default.post('/api/orders/new', order).then(function (res) {
+      return res.data;
+    }).then(function (sessionCart) {
+      console.log(sessionCart);
+      dispatch(addOrder(sessionCart));
     }).catch(function (err) {
       return console.log(err);
     });
@@ -9605,6 +9708,30 @@ function fetchCart() {
       }).then(function (foundOrder) {
         return dispatch(findOrder(foundOrder));
       });
+    }).catch(function (err) {
+      return console.log(err);
+    });
+  };
+}
+
+function fetchUnauthorizedCart() {
+  return function thunk(dispatch) {
+    _axios2.default.get('/api/cart/session').then(function (res) {
+      return res.data;
+    }).then(function (sessionCart) {
+      return dispatch(findOrder(sessionCart));
+    }).catch(function (err) {
+      return console.log(err);
+    });
+  };
+}
+
+function deletefromUnauthorized(appleId) {
+  return function thunk(dispatch) {
+    return _axios2.default.delete('/api/cart/session/' + appleId).then(function (res) {
+      return res.data;
+    }).then(function (sessionCart) {
+      return dispatch(updateOrder(sessionCart));
     }).catch(function (err) {
       return console.log(err);
     });
