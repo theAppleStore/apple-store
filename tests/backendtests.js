@@ -36,11 +36,9 @@ afterEach(function(){
 
 describe('it decrements stock', function (){
     it("decrements stock", function(){
-        return apple.save(){
+        return apple.save()
         .then(function (apple){
             expect(apple.stock).to.equal(19)
         });
-    }});
+    });
 });
-
-
