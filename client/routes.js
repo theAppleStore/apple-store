@@ -41,6 +41,7 @@ the "exact" prop. The following will match '/roster', but not '/roster/2'.
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/apples/edit" component={AddApple} />
+        <Route exact path="/apples/type/:category" component={AllApples} />
         <Route exact path="/apples/:id" component={SingleApple} />
         <Route exact path="/apples/:id/review" component={NewReviewForm}/>
         <Route path="/apples/:id/edit" component={EditApple} />
