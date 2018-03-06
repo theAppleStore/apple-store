@@ -7,12 +7,12 @@ import AppleItem from './appleitem'
 import store, {fetchCart, me, editOrder, fetchCartApples, fetchApples, fetchUnauthorizedCart} from '../store'
 
 class Cart extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            isCart: true
-        }
+  constructor(props){
+    super(props);
+    this.state = {
+      isCart: true
     }
+  }
 
     componentDidMount(){
         this.props.me()
