@@ -8847,7 +8847,7 @@ var Navbar = function Navbar(_ref) {
         _react2.default.createElement(
           'h1',
           null,
-          _react2.default.createElement('img', { src: 'https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX26650293.jpg', height: '55', width: '45' }),
+          _react2.default.createElement('img', { src: '/images/logo.png', height: '55', width: '45' }),
           'THE APPLE STORE'
         )
       )
